@@ -1,5 +1,5 @@
 ```
-  Riscduino Dual Risc Core SOC
+  Riscduino Quad Risc Core SOC
 
 
 Permission to use, copy, modify, and/or distribute this soc for any
@@ -32,7 +32,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOC.
 
 # Overview
 
-Riscduino is a Dual 32 bit RISC V based SOC design pin compatible to arudino platform and this soc targetted for efabless Shuttle program.  This project uses only open source tool set for simulation,synthesis and backend tools.  The SOC flow follow the openlane methodology and SOC environment is compatible with efabless/carvel methodology.
+Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arudino platform and this soc targetted for efabless Shuttle program.  This project uses only open source tool set for simulation,synthesis and backend tools.  The SOC flow follow the openlane methodology and SOC environment is compatible with efabless/carvel methodology.
 
 # Riscduino Block Diagram
 
@@ -47,7 +47,7 @@ Riscduino is a Dual 32 bit RISC V based SOC design pin compatible to arudino pla
 # Key features
 ```
     * Open sourced under Apache-2.0 License (see LICENSE file) - unrestricted commercial use allowed.
-    * Dual Core  32 Bit RISC-V core
+    * Quad Core  32 Bit RISC-V core
     * 2KB SRAM for instruction cache 
     * 2KB SRAM for data cache
     * 2KB SRAM for Tightly coupled memory - For Data Memory
@@ -128,7 +128,7 @@ Carvel SOC provides 38 GPIO pins for user functionality. Riscduino SOC GPIO Pin 
 
 ## RISC V Core
 
-Riscduino SOC Integrated Dual 32 Bits RISC V core. Initial version of Single core RISC-V core is picked from 
+Riscduino SOC Integrated Quad 32 Bits RISC V core. Initial version of Single core RISC-V core is picked from 
 Syntacore SCR1 (https://github.com/syntacore/scr1)
 ### RISC V core customization for Riscduino SOC
 Following Design changes are done on the basic version of syntacore RISC core
@@ -142,7 +142,7 @@ Following Design changes are done on the basic version of syntacore RISC core
    * 2KB data cache
    * Additional router are added towards instruction cache
    * Additional router are added towards data cache
-   * Dual core related changes
+   * Quad core related changes
    * Modified AXI/AHB interface to wishbone interface for instruction and data memory interface
 ```
 ### Block Diagram
