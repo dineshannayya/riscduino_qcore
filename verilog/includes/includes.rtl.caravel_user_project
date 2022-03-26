@@ -1,9 +1,12 @@
 # Caravel user project includes
++incdir+$(USER_PROJECT_VERILOG)/rtl/
 +incdir+$(USER_PROJECT_VERILOG)/rtl/i2cm/src/includes
 +incdir+$(USER_PROJECT_VERILOG)/rtl/usb1_host/src/includes
-+incdir+$(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/includes
++incdir+$(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/includes
++incdir+$(USER_PROJECT_VERILOG)/dv/bfm
 +incdir+$(USER_PROJECT_VERILOG)/dv/model
 +incdir+$(USER_PROJECT_VERILOG)/dv/agents
+$(USER_PROJECT_VERILOG)/rtl/user_reg_map.v
 -v $(USER_PROJECT_VERILOG)/rtl/pinmux/src/pinmux.sv
 -v $(USER_PROJECT_VERILOG)/rtl/pinmux/src/pinmux_reg.sv
 -v $(USER_PROJECT_VERILOG)/rtl/pinmux/src/gpio_intr.sv
@@ -57,49 +60,50 @@
 -v $(USER_PROJECT_VERILOG)/rtl/wb_interconnect/src/wb_slave_port.sv
 -v $(USER_PROJECT_VERILOG)/rtl/wb_interconnect/src/wb_interconnect.sv
 
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_hdu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_tdu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_ipic.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_csr.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_exu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_ialu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_idu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_ifu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_lsu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_mprf.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_mul.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_div.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/pipeline/ycr_pipe_top.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/primitives/ycr_reset_cells.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/primitives/ycr_cg.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_clk_ctrl.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_tapc_shift_reg.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_tapc.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_tapc_synchronizer.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_core_top.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_dm.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_dmi.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/core/ycr_scu.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_imem_router.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_dmem_router.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_dp_memory.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_tcm.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_timer.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_dmem_wb.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_imem_wb.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr2_mcore_router.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr2_intf.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr2_mintf.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr2_top_wb.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_icache_router.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/top/ycr_dcache_router.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/cache/src/core/icache_top.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/cache/src/core/icache_app_fsm.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/cache/src/core/icache_tag_fifo.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/cache/src/core/dcache_tag_fifo.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/cache/src/core/dcache_top.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/lib/ycr_async_wbb.sv
--v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr2c/src/lib/ycr_arb.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_hdu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_tdu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_ipic.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_csr.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_exu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_ialu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_idu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_ifu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_lsu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_mprf.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_mul.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_div.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_top.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/primitives/ycr_reset_cells.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/primitives/ycr_cg.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_clk_ctrl.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_tapc_shift_reg.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_tapc.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_tapc_synchronizer.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_core_top.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_dm.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_dmi.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/core/ycr_scu.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_imem_router.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_dmem_router.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_dp_memory.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_tcm.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_timer.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_dmem_wb.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_imem_wb.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_intf.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr4_router.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr4_iconnect.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr4_cross_bar.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr4_top_wb.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_icache_router.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_dcache_router.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/cache/src/core/icache_top.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/cache/src/core/icache_app_fsm.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/cache/src/core/icache_tag_fifo.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/cache/src/core/dcache_tag_fifo.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/cache/src/core/dcache_top.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/lib/ycr_async_wbb.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/lib/ycr_arb.sv
 
 -v $(USER_PROJECT_VERILOG)/rtl/lib/sync_fifo.sv
 -v $(USER_PROJECT_VERILOG)/rtl/uart2wb/src/uart2wb.sv 
@@ -109,3 +113,4 @@
 -v $(USER_PROJECT_VERILOG)/rtl/user_project_wrapper.v
 -v $(USER_PROJECT_VERILOG)/rtl/lib/clk_skew_adjust.gv
 -v $(USER_PROJECT_VERILOG)/rtl/lib/ctech_cells.sv
+

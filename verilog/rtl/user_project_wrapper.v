@@ -196,6 +196,8 @@
 ////         3. Risc fuse_mhartid is removed and internal tied    ////
 ////            inside risc core                                  ////
 ////         4. caravel wb addressing issue restrict to 0x300FFFFF////
+////    4.0  Mar 26 2022, Dinesh A                                ////
+////         1. Four core risc v integration                      ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -661,7 +663,7 @@ wb_host u_wb_host(
 //------------------------------------------------------------------------------
 // RISC V Core instance
 //------------------------------------------------------------------------------
-ycr2_top_wb u_riscv_top (
+ycr4_top_wb u_riscv_top (
 `ifdef USE_POWER_PINS
           .vccd1                   (vccd1                   ),// User area 1 1.8V supply
           .vssd1                   (vssd1                   ),// User area 1 digital ground
