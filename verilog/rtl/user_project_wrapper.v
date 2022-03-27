@@ -424,7 +424,7 @@ wire                           wbd_uart_err_i                         ;  // erro
 //  CPU Configuration
 //----------------------------------------------------
 wire                           cpu_intf_rst_n                         ;
-wire  [1:0]                    cpu_core_rst_n                         ;
+wire  [3:0]                    cpu_core_rst_n                         ;
 wire                           qspim_rst_n                            ;
 wire                           sspim_rst_n                            ;
 wire                           uart_rst_n                             ; // uart reset

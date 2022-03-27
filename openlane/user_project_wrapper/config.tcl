@@ -44,7 +44,7 @@ set ::env(FP_PDN_CORE_RING) 1
 
 ## Source Verilog Files
 set ::env(VERILOG_FILES) "\
-	$proj_dir/../../verilog/rtl//yifive/ycr2c/src/top/ycr2_top_wb.sv \
+	$proj_dir/../../verilog/rtl//yifive/ycr4c/src/top/ycr4_top_wb.sv \
 	$proj_dir/../../verilog/rtl/user_project_wrapper.v"
 
 
@@ -73,8 +73,9 @@ set ::env(VERILOG_FILES_BLACKBOX) "\
         $proj_dir/../../verilog/gl/pinmux.v     \
         $proj_dir/../../verilog/gl/uart_i2c_usb_spi_top.v     \
 	$proj_dir/../../verilog/gl/wb_host.v \
-	$proj_dir/../../verilog/gl/ycr2_mintf.v \
+	$proj_dir/../../verilog/gl/ycr_intf.v \
 	$proj_dir/../../verilog/gl/ycr_core_top.v \
+	$proj_dir/../../verilog/gl/ycr4_iconnect.v \
 	$::env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/verilog/sky130_sram_2kbyte_1rw1r_32x512_8.v \
 	"
 
@@ -84,8 +85,9 @@ set ::env(EXTRA_LEFS) "\
 	$lef_root/wb_interconnect.lef \
 	$lef_root/uart_i2c_usb_spi_top.lef \
 	$lef_root/wb_host.lef \
-	$lef_root/ycr2_mintf.lef \
+	$lef_root/ycr_intf.lef \
 	$lef_root/ycr_core_top.lef \
+	$lef_root/ycr4_iconnect.lef \
 	$::env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef \
 	"
 
@@ -95,14 +97,15 @@ set ::env(EXTRA_GDS_FILES) "\
 	$gds_root/wb_interconnect.gds \
 	$gds_root/uart_i2c_usb_spi_top.gds \
 	$gds_root/wb_host.gds \
-	$gds_root/ycr2_mintf.gds \
+	$gds_root/ycr_intf.gds \
 	$gds_root/ycr_core_top.gds \
+	$gds_root/ycr4_iconnect.gds \
 	$::env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds \
 	"
 
 set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 
-set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/yifive/ycr2c/src/includes ]
+set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/yifive/ycr4c/src/includes ]
 
 set ::env(GLB_RT_MAXLAYER) 6
 set ::env(RT_MAX_LAYER) {met5}
@@ -127,15 +130,15 @@ set ::env(GLB_RT_OBS) "                              \
 	                met2  150 150  833.1  566.54,\
                         met3  150 150  833.1  566.54,\
 
-	                li1   900 150  1583.1 566.54,\
-	                met1  900 150  1583.1 566.54,\
-	                met2  900 150  1583.1 566.54,\
-                        met3  900 150  1583.1 566.54,\
+	                li1   950 150  1633.1 566.54,\
+	                met1  950 150  1633.1 566.54,\
+	                met2  950 150  1633.1 566.54,\
+                        met3  950 150  1633.1 566.54,\
 
-                        li1   150  800 833.1  1216.54,\
-                        met1  150  800 833.1  1216.54,\
-                        met2  150  800 833.1  1216.54,\
-                        met3  150  800 833.1  1216.54,\
+                        li1   150  650 833.1  1066.54,\
+                        met1  150  650 833.1  1066.54,\
+                        met2  150  650 833.1  1066.54,\
+                        met3  150  650 833.1  1066.54,\
 	                met5  0 0 2920 3520"
 
 set ::env(FP_PDN_POWER_STRAPS) "vccd1 vssd1 1, vccd2 vssd2 0, vdda1 vssa1 0, vdda2 vssa2 0"

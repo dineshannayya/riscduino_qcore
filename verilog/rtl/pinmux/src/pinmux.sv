@@ -51,7 +51,7 @@ module pinmux (
                        input logic             h_reset_n,
 
                        // Global Reset control
-                       output logic  [1:0]     cpu_core_rst_n   ,
+                       output logic  [3:0]     cpu_core_rst_n   ,
                        output logic            cpu_intf_rst_n   ,
                        output logic            qspim_rst_n      ,
                        output logic            sspim_rst_n      ,

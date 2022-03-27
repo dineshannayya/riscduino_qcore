@@ -43,7 +43,7 @@ module pinmux_reg (
                        input logic             h_reset_n,
 
                        // Global Reset control
-                       output logic  [1:0]     cpu_core_rst_n   ,
+                       output logic  [3:0]     cpu_core_rst_n   ,
                        output logic            cpu_intf_rst_n   ,
                        output logic            qspim_rst_n      ,
                        output logic            sspim_rst_n      ,
@@ -287,6 +287,8 @@ ctech_buf u_buf_usb_rst       (.A(cfg_glb_ctrl[5]),.X(usb_rst_n));
 
 ctech_buf u_buf_cpu0_rst      (.A(cfg_glb_ctrl[8]),.X(cpu_core_rst_n[0]));
 ctech_buf u_buf_cpu1_rst      (.A(cfg_glb_ctrl[9]),.X(cpu_core_rst_n[1]));
+ctech_buf u_buf_cpu2_rst      (.A(cfg_glb_ctrl[10]),.X(cpu_core_rst_n[2]));
+ctech_buf u_buf_cpu3_rst      (.A(cfg_glb_ctrl[11]),.X(cpu_core_rst_n[3]));
 
 gen_32b_reg  #(32'h0) u_reg_1	(
 	      //List of Inputs

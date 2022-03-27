@@ -56,12 +56,12 @@ set ::env(LEC_ENABLE) 0
 ## Floorplan
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 400 2200"
+set ::env(DIE_AREA) "0 0 390 1900"
 
 #set ::env(PDN_CFG) $script_dir/pdn_cfg.tcl
 #set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_placement.cfg
 set ::env(PL_TARGET_DENSITY) 0.20
-set ::env(CELL_PAD) "10"
+set ::env(CELL_PAD) "12"
 
 #set ::env(PL_ROUTABILITY_DRIVEN) "1"
 set ::env(PL_TIME_DRIVEN) "1"
