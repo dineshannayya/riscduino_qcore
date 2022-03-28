@@ -18,8 +18,8 @@ set script_dir [file dirname [file normalize [info script]]]
 set ::env(ROUTING_CORES) "6"
 
 set ::env(DESIGN_NAME) ycr4_iconnect
-set ::env(DESIGN_IS_CORE) "1"
-set ::env(FP_PDN_CORE_RING) "1"
+set ::env(DESIGN_IS_CORE) "0"
+set ::env(FP_PDN_CORE_RING) "0"
 
 # Timing configuration
 set ::env(CLOCK_PERIOD) "10"
@@ -56,12 +56,12 @@ set ::env(LEC_ENABLE) 0
 ## Floorplan
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 390 1900"
+set ::env(DIE_AREA) "0 0 380 1900"
 
 #set ::env(PDN_CFG) $script_dir/pdn_cfg.tcl
 #set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_placement.cfg
 set ::env(PL_TARGET_DENSITY) 0.20
-set ::env(CELL_PAD) "12"
+set ::env(CELL_PAD) "14"
 
 #set ::env(PL_ROUTABILITY_DRIVEN) "1"
 set ::env(PL_TIME_DRIVEN) "1"

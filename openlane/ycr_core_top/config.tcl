@@ -71,7 +71,7 @@ set ::env(GND_PIN) [list {vssd1}]
 ## Floorplan
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 590 930 "
+set ::env(DIE_AREA) "0 0 580 930 "
 
 set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_placement.cfg
 set ::env(PL_TARGET_DENSITY) 0.38
