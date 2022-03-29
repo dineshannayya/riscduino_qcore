@@ -600,6 +600,8 @@ Report an issue: <https://github.com/dineshannayya/riscduino/issues>
 # Documentation
 * **Syntacore Link** - https://github.com/syntacore/scr1
 
-
+News on Riscduino
+===============
+- `Riscduino aim < https://www.youtube.com/watch?v=lFVnicPhTI0>`__
 
 
