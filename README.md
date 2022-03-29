@@ -612,8 +612,8 @@ Riscduino Soc flow uses Openlane tool sets.
     <td  align="center"> 18-June-2021  </td>
     <td  align="center"> YiFive</td>
     <td  align="center"> Single 32bit RISCV core without cache + SDRAM Controller + WB Interconnect</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/yifive">Github</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/152">Efabless</a></td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/yifive">Github</td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/152">Efabless</td>
   </tr>
   <tr>
     <td  align="center"> MPW-3 </td> 
