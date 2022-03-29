@@ -602,6 +602,6 @@ Report an issue: <https://github.com/dineshannayya/riscduino/issues>
 
 News on Riscduino
 ===============
-- `Riscduino aim < https://www.youtube.com/watch?v=lFVnicPhTI0>`__
+* **Riscduino Aim** - https://www.youtube.com/watch?v=lFVnicPhTI0
 
 
