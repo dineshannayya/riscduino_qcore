@@ -613,48 +613,48 @@ Riscduino Soc flow uses Openlane tool sets.
     <td  align="center"> 18-June-2021  </td>
     <td  align="center"> YiFive</td>
     <td  align="center"> Single 32bit RISCV core without cache + SDRAM Controller + WB Interconnect</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/yifive">Github</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/152">Efabless</a></td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/yifive">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/152">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-3 </td> 
     <td  align="center"> 15-Nov-2021  </td>
     <td  align="center"> Riscduino</td>
     <td  align="center"> Single 32bit RISCV core without cache + Onchip SRAM + WB Interconnect</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Github</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/385">Efabless</a></td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/385">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-4 </td> 
     <td  align="center"> 31-Dec-2021  </td>
     <td  align="center"> Riscduino-R1</td>
     <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM + WB Inter Connect</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Github</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/575">Efabless</a></td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/575">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
     <td  align="center"> 21-Mar-2022  </td>
     <td  align="center"> Riscduino-SCORE</td>
     <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Github</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/670">Efabless</a></td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/670">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
     <td  align="center"> 21-Mar-2022  </td>
     <td  align="center"> Riscduino-DCORE</td>
     <td  align="center"> Dual 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Github</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/718">Efabless</a></td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/718">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
     <td  align="center"> 21-Mar-2022  </td>
     <td  align="center"> Riscduino-QCORE</td>
     <td  align="center"> Quad 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Github</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/782">Efabless</a></td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/782">Link</a></td>
   </tr>
 </table>
 
