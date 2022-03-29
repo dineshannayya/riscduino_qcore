@@ -621,7 +621,7 @@ Riscduino Soc flow uses Openlane tool sets.
     <td  align="center"> Riscduino</td>
     <td  align="center"> Single 32bit RISCV core without cache + Onchip SRAM + WB Interconnect</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Github</a></td>
-    <td  align="center"> <a https://platform.efabless.com/projects/385">Efabless</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/385">Efabless</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-4 </td> 
@@ -629,7 +629,7 @@ Riscduino Soc flow uses Openlane tool sets.
     <td  align="center"> Riscduino-R1</td>
     <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM + WB Inter Connect</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Github</a></td>
-    <td  align="center"> <a https://platform.efabless.com/projects/575">Efabless</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/575">Efabless</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
@@ -637,7 +637,7 @@ Riscduino Soc flow uses Openlane tool sets.
     <td  align="center"> Riscduino-SCORE</td>
     <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Github</a></td>
-    <td  align="center"> <a https://platform.efabless.com/projects/670">Efabless</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/670">Efabless</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
@@ -645,7 +645,7 @@ Riscduino Soc flow uses Openlane tool sets.
     <td  align="center"> Riscduino-DCORE</td>
     <td  align="center"> Dual 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Github</a></td>
-    <td  align="center"> <a https://platform.efabless.com/projects/718">Efabless</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/718">Efabless</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
@@ -653,7 +653,7 @@ Riscduino Soc flow uses Openlane tool sets.
     <td  align="center"> Riscduino-QCORE</td>
     <td  align="center"> Quad 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Github</a></td>
-    <td  align="center"> <a https://platform.efabless.com/projects/782">Efabless</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/782">Efabless</a></td>
   </tr>
 </table>
 
