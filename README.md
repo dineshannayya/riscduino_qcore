@@ -660,7 +660,7 @@ Riscduino Soc flow uses Openlane tool sets.
 
 # Contacts
 
-Report an issue: <https://github.com/dineshannayya/riscduino/issues>
+Report an issue: <https://github.com/dineshannayya/riscduino_qcore/issues>
 
 # Documentation
 * **Syntacore Link** - https://github.com/syntacore/scr1
