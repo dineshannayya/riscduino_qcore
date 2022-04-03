@@ -38,6 +38,7 @@ set ::env(VERILOG_FILES) "\
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_cross_bar.sv                 \
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_router.sv                    \
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr_dmem_router.sv                \
+	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr_sram_mux.sv                   \
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr_tcm.sv                        \
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr_timer.sv                      \
         $script_dir/../../verilog/rtl/yifive/ycr4c/src/lib/ycr_arb.sv                        \

@@ -44,6 +44,7 @@ set ::env(VERILOG_FILES) "\
         $script_dir/../../verilog/rtl/yifive/ycr4c/src/lib/ycr_async_wbb.sv                    \
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr_dmem_wb.sv                      \
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr_intf.sv                        \
+	$script_dir/../../verilog/rtl/yifive/ycr4c/src/top/ycr_sram_mux.sv                   \
         $script_dir/../../verilog/rtl/yifive/ycr4c/src/lib/async_fifo.sv                       \
 	$script_dir/../../verilog/rtl/yifive/ycr4c/src/core/primitives/ycr_reset_cells.sv     \
 	"
@@ -63,16 +64,17 @@ set ::env(GND_PIN) [list {vssd1}]
 ## Floorplan
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 800 640 "
+set ::env(DIE_AREA) "0 0 810 640 "
+set ::env(CELL_PAD) "6"
 
 set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_placement.cfg
-set ::env(PL_TARGET_DENSITY) 0.38
+set ::env(PL_TARGET_DENSITY) 0.37
 
 
 set ::env(RT_MAX_LAYER) {met4}
 set ::env(GLB_RT_MAXLAYER) "5"
 set ::env(GLB_RT_MAX_DIODE_INS_ITERS) 10
-set ::env(DIODE_INSERTION_STRATEGY) 4
+set ::env(DIODE_INSERTION_STRATEGY) 3
 
 
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"

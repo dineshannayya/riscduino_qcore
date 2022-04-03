@@ -91,6 +91,7 @@ $(USER_PROJECT_VERILOG)/rtl/user_reg_map.v
 -v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_dmem_wb.sv
 -v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_imem_wb.sv
 -v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_intf.sv
+-v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr_sram_mux.sv
 -v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr4_router.sv
 -v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr4_iconnect.sv
 -v $(USER_PROJECT_VERILOG)/rtl/yifive/ycr4c/src/top/ycr4_cross_bar.sv
