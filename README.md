@@ -19,7 +19,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOC.
 - [Overview](#overview)
 - [Riscduino Block Diagram](#Riscduino-block-diagram)
 - [Key Feature](#key-features)
-- [Riscduino derivatives] (#riscduino-derivatives)
+- [Riscduino derivatives](#riscduino-derivatives)
 - [MPW Shuttle on Riscduino](#mpw-shuttle-on-riscduino)
 - [Sub IP Feature](#sub-ip-features)
 - [SOC Memory Map](#soc-memory-map)
@@ -56,7 +56,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arudino pla
     * 2KB SRAM for instruction cache 
     * 2KB SRAM for data cache
     * 2KB SRAM for Tightly coupled memory - For Data Memory
-    * Quad SPI Master with 4 Chip select, support both SPI flash and SRAM interface
+    * Quad SPI Master with 4 Chip select, supports both SPI flash and SRAM interface
     * 2 x UART with 16Byte FIFO
     * USB 1.1 Host
     * I2C Master
@@ -699,3 +699,9 @@ Report an issue: <https://github.com/dineshannayya/riscduino_qcore/issues>
 
 # Documentation
 * **Syntacore Link** - https://github.com/syntacore/scr1
+
+News on Riscduino
+===============
+* **Riscduino Aim** - https://www.youtube.com/watch?v=lFVnicPhTI0
+
+
