@@ -47,10 +47,12 @@ module wb_port_tb;
 	initial begin
 		$dumpfile("simx.vcd");
 		$dumpvars(1, wb_port_tb);
-		//$dumpvars(0, wb_port_tb.uut.soc);
-		//$dumpvars(1, wb_port_tb.uut.mprj);
+		$dumpvars(1, wb_port_tb.uut);
+		$dumpvars(1, wb_port_tb.uut.mgmt_buffers);
+		$dumpvars(1, wb_port_tb.uut.soc);
+		$dumpvars(1, wb_port_tb.uut.mprj);
 		$dumpvars(1, wb_port_tb.uut.mprj.u_wb_host);
-		$dumpvars(2, wb_port_tb.uut.mprj.u_pinmux);
+		//$dumpvars(2, wb_port_tb.uut.mprj.u_pinmux);
 	end
        `endif
 
