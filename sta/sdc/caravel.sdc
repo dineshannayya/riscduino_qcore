@@ -14,13 +14,13 @@ create_clock [get_pins clocking/user_clk ] -name "user_clk2"  -period 25
 #create_clock [get_pins  clocking/pll_clk90 ] -name "pll_clk90"  -period 25
 
 create_generated_clock -name wb_clk -add -source [get_ports {clock}] -master_clock [get_clocks clock] -divide_by 1 -comment {Wishbone User Clock} [get_pins mprj/wb_clk_i]
-create_clock -name wbs_clk_i   -period 15.0000  [get_pins {mprj/u_wb_host/wbs_clk_out}]
+create_clock -name wbs_clk_i   -period 10.0000  [get_pins {mprj/u_wb_host/wbs_clk_out}]
 create_clock -name cpu_ref_clk -period 10.0000  [get_pins {mprj/u_wb_host/u_cpu_ref_sel.u_mux/X}]
-create_clock -name cpu_clk     -period 20.0000  [get_pins {mprj/u_wb_host/cpu_clk}]
+create_clock -name cpu_clk     -period 10.0000  [get_pins {mprj/u_wb_host/cpu_clk}]
 create_clock -name rtc_clk     -period 50.0000  [get_pins {mprj/u_wb_host/rtc_clk}]
 create_clock -name usb_clk     -period 20.0000  [get_pins {mprj/u_wb_host/usb_clk}]
 create_clock -name uarts0_clk  -period 100.0000 [get_pins {mprj/u_uart_i2c_usb_spi/u_uart0_core.u_lineclk_buf.u_mux/X}]
-create_clock -name uarts1_clk  -period 100.0000 [get_pins {mprj/u_uart_i2c_usb_spi/u_uart0_core.u_lineclk_buf.u_mux/X}]
+create_clock -name uarts1_clk  -period 100.0000 [get_pins {mprj/u_uart_i2c_usb_spi/u_uart1_core.u_lineclk_buf.u_mux/X}]
 create_clock -name uartm_clk   -period 100.0000 [get_pins {mprj/u_wb_host/u_uart2wb.u_core.u_uart_clk.u_mux/X}]
 
 
@@ -62,6 +62,12 @@ set_case_analysis 1 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[2]}]
 set_case_analysis 0 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[3]}]
 
 
+#Keept the SRAM clock driving edge at pos edge
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_sram_lphase[0]}]
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_sram_lphase[1]}]
+
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_sram_lphase[0]}]
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_sram_lphase[1]}]
 
 #disable clock gating check at static clock select pins
 set_false_path -through [get_pins mprj/u_wb_host/u_wbs_clk_sel.u_mux/S]
@@ -69,7 +75,7 @@ set_false_path -through [get_pins mprj/u_wb_host/u_wbs_clk_sel.u_mux/S]
 set_propagated_clock [all_clocks]
 
 set_clock_groups -name async_clock -asynchronous \
- -group [get_clocks {clock wb_clk mem_clk0 mem_clk1 mem_clk2 mem_clk3}]\
+ -group [get_clocks {clock wb_clk }]\
  -group [get_clocks {user_clk2}]\
  -group [get_clocks {wbs_clk_i}]\
  -group [get_clocks {cpu_clk}]\

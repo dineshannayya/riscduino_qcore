@@ -107,7 +107,7 @@ set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 
 set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/yifive/ycr4c/src/includes ]
 
-set ::env(GLB_RT_MAXLAYER) 6
+#set ::env(GLB_RT_MAXLAYER) 6
 set ::env(RT_MAX_LAYER) {met5}
 
 set ::env(FP_PDN_CHECK_NODES) 0
@@ -118,11 +118,11 @@ set ::env(FP_PDN_CHECK_NODES) 0
 set ::env(FP_PDN_ENABLE_MACROS_GRID) "1"
 set ::env(FP_PDN_ENABLE_GLOBAL_CONNECTIONS) "1"
 
-set ::env(VDD_NETS) "vccd1 vccd2 vdda1 vdda2"
-set ::env(GND_NETS) "vssd1 vssd2 vssa1 vssa2"
+set ::env(VDD_NETS) {vccd1 vccd2 vdda1 vdda2}
+set ::env(GND_NETS) {vssd1 vssd2 vssa1 vssa2}
 #
-set ::env(VDD_PIN) "vccd1"
-set ::env(GND_PIN) "vssd1"
+set ::env(VDD_PIN) {vccd1}
+set ::env(GND_PIN) {vssd1}
 
 set ::env(GLB_RT_OBS) "                              \
 	                li1   150 130  833.1  546.54,\
@@ -143,20 +143,24 @@ set ::env(GLB_RT_OBS) "                              \
 
 set ::env(FP_PDN_POWER_STRAPS) "vccd1 vssd1 1, vccd2 vssd2 0, vdda1 vssa1 0, vdda2 vssa2 0"
 
-#set ::env(FP_PDN_MACRO_HOOKS) " \
-#	u_intercon vccd1 vssd1 \
-#	u_pinmux vccd1 vssd1 \
-#	u_qspi_master vccd1 vssd1 \
-#	u_riscv_top vccd1 vssd1 \
-#	u_tsram0_2kb vccd1 vssd1 \
-#	u_icache_2kb vccd1 vssd1 \
-#	u_dcache_2kb vccd1 vssd1 \
-#	u_sram0_2kb vccd1 vssd1 \
-#	u_sram1_2kb vccd1 vssd1 \
-#	u_sram2_2kb vccd1 vssd1 \
-#	u_sram3_2kb vccd1 vssd1 \
-#	u_uart_i2c_usb_spi vccd1 vssd1 \
-#	u_wb_host vccd1 vssd1 "
+set ::env(FP_PDN_MACRO_HOOKS) " \
+	u_intercon vccd1 vssd1,\
+	u_pinmux vccd1 vssd1,\
+	u_qspi_master vccd1 vssd1,\
+	u_riscv_top vccd1 vssd1,\
+	u_tsram0_2kb vccd1 vssd1,\
+	u_icache_2kb vccd1 vssd1,\
+	u_dcache_2kb vccd1 vssd1,\
+	u_sram0_2kb vccd1 vssd1,\
+	u_sram1_2kb vccd1 vssd1,\
+	u_sram2_2kb vccd1 vssd1,\
+	u_sram3_2kb vccd1 vssd1,\
+	u_uart_i2c_usb_spi vccd1 vssd1,\
+	u_wb_host vccd1 vssd1,\
+	u_riscv_top.i_core_top_0 vccd1 vssd1, \
+        u_riscv_top.i_core_top_1 vccd1 vssd1, \
+	u_riscv_top.u_intf vccd1 vssd1 \
+       	"
 
 
 # The following is because there are no std cells in the example wrapper project.
@@ -184,6 +188,17 @@ set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(FP_PDN_IRDROP) "0"
 set ::env(FP_PDN_HORIZONTAL_HALO) "10"
 set ::env(FP_PDN_VERTICAL_HALO) "10"
+
+#
+
+set ::env(FP_PDN_CORE_RING_HOFFSET) {12.45}
+set ::env(FP_PDN_CORE_RING_HSPACING) {1.7}
+set ::env(FP_PDN_CORE_RING_HWIDTH) {3.1}
+
+set ::env(FP_PDN_CORE_RING_VOFFSET) {12.45}
+set ::env(FP_PDN_CORE_RING_VSPACING) {1.7}
+set ::env(FP_PDN_CORE_RING_VWIDTH) {3.1}
+
 
 set ::env(FP_PDN_VOFFSET) "5"
 set ::env(FP_PDN_VPITCH) "80"

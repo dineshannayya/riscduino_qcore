@@ -35,10 +35,13 @@ set_max_delay 5 -to   [get_ports {wbd_clk_uart}]
 set_max_delay 5 -from wbd_clk_int -to wbd_clk_uart
 
 
+set_input_delay -max 6.0000 -clock [get_clocks {app_clk}] -add_delay [get_ports {i2c_rstn}]
+set_input_delay -max 6.0000 -clock [get_clocks {app_clk}] -add_delay [get_ports {uart_rstn}]
+set_input_delay -max 6.0000 -clock [get_clocks {app_clk}] -add_delay [get_ports {usb_rstn}]
 
-set_input_delay 3.0000 -clock [get_clocks {app_clk}] -add_delay [get_ports {i2c_rstn}]
-set_input_delay 3.0000 -clock [get_clocks {app_clk}] -add_delay [get_ports {uart_rstn}]
-set_input_delay 3.0000 -clock [get_clocks {app_clk}] -add_delay [get_ports {usb_rstn}]
+set_input_delay -min 1.5000 -clock [get_clocks {app_clk}] -add_delay [get_ports {i2c_rstn}]
+set_input_delay -min 1.5000 -clock [get_clocks {app_clk}] -add_delay [get_ports {uart_rstn}]
+set_input_delay -min 1.5000 -clock [get_clocks {app_clk}] -add_delay [get_ports {usb_rstn}]
 
 
 set_input_delay  -max 6.0000 -clock [get_clocks {app_clk}] -add_delay [get_ports {reg_addr[*]}]

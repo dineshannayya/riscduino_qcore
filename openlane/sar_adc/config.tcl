@@ -53,7 +53,8 @@ set ::env(DIE_AREA) "0 0 500 300"
 set ::env(CLOCK_TREE_SYNTH) 0
 
 set ::env(PL_TARGET_DENSITY) "0.01"
-set ::env(GLB_RT_MAXLAYER) 5
+#set ::env(GLB_RT_MAXLAYER) 5
+set ::env(RT_MAX_LAYER) {met4}
 set ::env(GLB_RT_ADJUSTMENT) 0.15
 
 set ::env(FP_PDN_CHECK_NODES) 0
