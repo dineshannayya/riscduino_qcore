@@ -191,7 +191,7 @@ begin
 	$display("STATUS: Working with Risc core 2");
 	wb_user_core_write(`ADDR_SPACE_PINMUX+`PINMUX_GBL_CFG0,'h41F);
    end else if(d_risc_id == 3) begin
-	$display("STATUS: Working with Risc core 2");
+	$display("STATUS: Working with Risc core 3");
 	wb_user_core_write(`ADDR_SPACE_PINMUX+`PINMUX_GBL_CFG0,'h81F);
    end
 
