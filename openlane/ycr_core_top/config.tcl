@@ -78,7 +78,7 @@ set ::env(DIE_AREA) "0 0 540 950 "
 
 set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_placement.cfg
 set ::env(PL_TARGET_DENSITY) 0.43
-set ::env(CELL_PAD) "2"
+set ::env(CELL_PAD) "4"
 
 #set ::env(GLB_RT_MAXLAYER) 5
 set ::env(RT_MAX_LAYER) {met4}
@@ -92,5 +92,5 @@ set ::env(QUIT_ON_LVS_ERROR) "0"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
 
 #Need to cross-check why global timing opimization creating setup vio with hugh hold fix
-set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) "1"
+set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) "0"
 

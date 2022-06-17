@@ -70,7 +70,7 @@ else
             VECT_IRQ  ?= 0
             IPIC      ?= 0
             TCM       ?= 0
-            SIM_CFG_DEF  = YCR1_CFG_$(CFG)
+            SIM_CFG_DEF  = YCR_CFG_$(CFG)
         endif
     endif
 endif

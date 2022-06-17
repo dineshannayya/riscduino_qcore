@@ -167,6 +167,10 @@ integer i,j;
 	end
 
 
+// Hook to pll clock
+wire pll_clock = u_top.u_wb_host.u_clkbuf_pll.X;
+
+
 initial
 begin
 
@@ -278,8 +282,8 @@ begin
          wb_user_core_write(`ADDR_SPACE_WBHOST+`WBHOST_GLBL_CFG,'h1);
 
 	 wb_user_core_read_check(`ADDR_SPACE_PINMUX+`PINMUX_SOFT_REG_1,read_data,32'h8273_8343);
-	 wb_user_core_read_check(`ADDR_SPACE_PINMUX+`PINMUX_SOFT_REG_2,read_data,32'h2905_2022);
-	 wb_user_core_read_check(`ADDR_SPACE_PINMUX+`PINMUX_SOFT_REG_3,read_data,32'h0004_4000);
+	 wb_user_core_read_check(`ADDR_SPACE_PINMUX+`PINMUX_SOFT_REG_2,read_data,32'h1306_2022);
+	 wb_user_core_read_check(`ADDR_SPACE_PINMUX+`PINMUX_SOFT_REG_3,read_data,32'h0004_6000);
 
       end
    
@@ -387,7 +391,7 @@ endtask
 task pll_clock_monitor;
 input [15:0] exp_period;
 begin
-   force clock_mon = u_top.u_wb_host.pll_clk_out[0];
+   force clock_mon = u_top.u_wb_host.u_clkbuf_pll.X;
    check_clock_period("PLL CLock",exp_period);
    release clock_mon;
 end
