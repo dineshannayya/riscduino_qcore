@@ -204,12 +204,14 @@ zip:
 	gzip -f gds/*
 	gzip -f spef/*
 	gzip -f spi/lvs/*
+	gzip -f verilog/gl/*
 
 unzip:
 	gzip -d lef/*
 	gzip -d gds/*
 	gzip -d spef/*
 	gzip -d spi/lvs/*
+	gzip -d verilog/gl/*
 
 .PHONY: help
 help:
