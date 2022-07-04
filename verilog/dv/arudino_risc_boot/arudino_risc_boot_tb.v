@@ -18,11 +18,21 @@
 ////                                                              ////
 ////  Standalone User validation Test bench                       ////
 ////                                                              ////
-////  This file is part of the Riscduino cores project            ////
+////  This file is part of the YIFive cores project               ////
+////  https://github.com/dineshannayya/yifive_r0.git              ////
+////  http://www.opencores.org/cores/yifive/                      ////
 ////                                                              ////
 ////  Description                                                 ////
 ////   This is a standalone test bench to validate the            ////
-////   Digital core with Risc core executing code from TCM/SRAM.  ////
+////   Digital core.                                              ////
+////   1. User Risc core is booted using  compiled code of        ////
+////      user_risc_boot.c                                        ////
+////   2. User Risc core uses Serial Flash and SDRAM to boot      ////
+////   3. After successful boot, Risc core will  write signature  ////
+////      in to  user register from 0x1003_0058 to 0x1003_006C    ////
+////   4. Through the External Wishbone Interface we read back    ////
+////       from 0x3003_0058 to 0x3003_006C                        ////
+////       and validate the user register to declared pass fail   ////
 ////                                                              ////
 ////  To Do:                                                      ////
 ////    nothing                                                   ////
@@ -65,7 +75,7 @@
 `timescale 1 ns / 1 ns
 
 `include "sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v"
-module user_sram_exec_tb;
+module arudino_risc_boot_tb;
 	reg clock;
 	reg wb_rst_i;
 	reg power1, power2;
@@ -115,9 +125,7 @@ module user_sram_exec_tb;
 	`ifdef WFDUMP
 	   initial begin
 	   	$dumpfile("simx.vcd");
-	   	$dumpvars(1, user_sram_exec_tb);
-	   	$dumpvars(1, user_sram_exec_tb.u_top);
-	   	$dumpvars(0, user_sram_exec_tb.u_top.u_riscv_top);
+	   	$dumpvars(3, arudino_risc_boot_tb);
 	   end
        `endif
 
@@ -268,7 +276,7 @@ user_project_wrapper u_top(
    assign io_in[32] = flash_io3;
 
    // Quard flash
-     s25fl256s #(.mem_file_name("user_sram_exec.hex"),
+     s25fl256s #(.mem_file_name("arudino_risc_boot.ino.hex"),
 	         .otp_file_name("none"),
                  .TimingModel("S25FL512SAGMFI010_F_30pF")) 
 		 u_spi_flash_256mb (
