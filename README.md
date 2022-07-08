@@ -38,7 +38,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOC.
 # Overview
 
 Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arudino platform and this soc targetted for efabless Shuttle program.  This project uses only open source tool set for simulation,synthesis and backend tools.  The SOC flow follow the openlane methodology and SOC environment is compatible with efabless/carvel methodology.
+<table>
+  <tr>
+    <td  align="center"><img src="./docs/source/_static/Riscduino_Integration.png" ></td>
+  </tr>
 
+</table>
 # Riscduino Block Diagram
 
 <table>
@@ -679,7 +684,8 @@ Examples:
     make verify-user_uart_master               - standalone user uart master test
     make verify-user_sram_exec                 - standalone riscv core-0 test with executing code from data memory
     make verify-riscv_regress                  - standalone riscv compliance test suite
-    make verify-arudino_risc_boot              - standalone riscv core-0 boot using arduino tool set
+    make verify-arduino_risc_boot              - standalone riscv core-0 boot using arduino tool set
+    make verify-arduino_hello_world            - standalone riscv core-0 hello world test using arduino tool set
     make verify-user_mcore                     - standalone riscv multi-core test
     make verify-user_sram_exec RISC_CORE=1     - standalone riscv core-1 test with executing code from data memory
     make verify-user_sram_exec RISC_CORE=2     - standalone riscv core-2 test with executing code from data memory
@@ -699,9 +705,9 @@ Examples:
     make verify-user_cache_bypass RISC_CORE=1  - standalone icache and dcache bypass test with risc core-1
     make verify-user_cache_bypass RISC_CORE=2  - standalone icache and dcache bypass test with risc core-2
     make verify-user_cache_bypass RISC_CORE=3  - standalone icache and dcache bypass test with risc core-3
-    make verify-arudino_risc_boot RISC_CORE=1  - standalone riscv core-1 boot using arduino tool set
-    make verify-arudino_risc_boot RISC_CORE=2  - standalone riscv core-1 boot using arduino tool set
-    make verify-arudino_risc_boot RISC_CORE=3  - standalone riscv core-1 boot using arduino tool set
+    make verify-arduino_risc_boot RISC_CORE=1  - standalone riscv core-1 boot using arduino tool set
+    make verify-arduino_risc_boot RISC_CORE=2  - standalone riscv core-1 boot using arduino tool set
+    make verify-arduino_risc_boot RISC_CORE=3  - standalone riscv core-1 boot using arduino tool set
     
     make verify-user_uart SIM=RTL DUMP=OFF     - Standalone user uart-0 test using user risc core with waveform dump off
     make verify-user_uart SIM=RTL DUMP=ON      - Standalone user uart-0 test using user risc core with waveform dump on
