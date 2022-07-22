@@ -65,7 +65,7 @@ set ::env(DIE_AREA) "0 0 390 1900"
 #set ::env(PDN_CFG) $script_dir/pdn_cfg.tcl
 #set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_placement.cfg
 set ::env(PL_TARGET_DENSITY) 0.20
-#set ::env(CELL_PAD) "2"
+set ::env(CELL_PAD) "2"
 
 set ::env(GLB_RT_ADJUSTMENT) {0.2}
 
