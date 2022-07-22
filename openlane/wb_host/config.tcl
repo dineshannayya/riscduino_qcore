@@ -56,6 +56,9 @@ set ::env(VERILOG_FILES) "\
      $script_dir/../../verilog/rtl/uart2wb/src/uart2wb.sv \
      $script_dir/../../verilog/rtl/uart2wb/src/uart2_core.sv \
      $script_dir/../../verilog/rtl/uart2wb/src/uart_msg_handler.v \
+     $script_dir/../../verilog/rtl/sspis/src/sspis_top.sv \
+     $script_dir/../../verilog/rtl/sspis/src/sspis_if.sv \
+     $script_dir/../../verilog/rtl/sspis/src/spi2wb.sv \
      "
 
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
@@ -75,7 +78,7 @@ set ::env(GND_PIN) [list {vssd1}]
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 350 425"
+set ::env(DIE_AREA) "0 0 450 425"
 
 
 # If you're going to use multiple power domains, then keep this disabled.
@@ -85,7 +88,7 @@ set ::env(RUN_CVC) 1
 
 
 set ::env(PL_TIME_DRIVEN) 1
-set ::env(PL_TARGET_DENSITY) "0.40"
+set ::env(PL_TARGET_DENSITY) "0.45"
 
 
 
@@ -109,5 +112,5 @@ set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) "1"
 set ::env(PL_RESIZER_DESIGN_OPTIMIZATIONS) "1"
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(QUIT_ON_MAGIC_DRC) "1"
-set ::env(QUIT_ON_LVS_ERROR) "0"
+set ::env(QUIT_ON_LVS_ERROR) "1"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"

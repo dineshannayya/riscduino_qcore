@@ -65,12 +65,19 @@ set ::env(DIE_AREA) "0 0 390 1900"
 #set ::env(PDN_CFG) $script_dir/pdn_cfg.tcl
 #set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_placement.cfg
 set ::env(PL_TARGET_DENSITY) 0.20
-set ::env(CELL_PAD) "2"
+#set ::env(CELL_PAD) "2"
 
 set ::env(GLB_RT_ADJUSTMENT) {0.2}
 
 #set ::env(PL_ROUTABILITY_DRIVEN) "1"
 set ::env(PL_TIME_DRIVEN) "1"
+
+set ::env(PL_RESIZER_BUFFER_INPUT_PORTS) {1}
+set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) {1}
+set ::env(PL_RESIZER_DESIGN_OPTIMIZATIONS) {1}
+set ::env(PL_RESIZER_TIMING_OPTIMIZATIONS) {1}
+set ::env(GLB_OPTIMIZE_MIRRORING) {1}
+set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) {1}
 
 ### PDN
 #set ::env(FP_PDN_CHECK_NODES) "0"
@@ -96,7 +103,7 @@ set ::env(DIODE_INSERTION_STRATEGY) 3
 
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(QUIT_ON_MAGIC_DRC) "1"
-set ::env(QUIT_ON_LVS_ERROR) "0"
+set ::env(QUIT_ON_LVS_ERROR) "1"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
 
 
