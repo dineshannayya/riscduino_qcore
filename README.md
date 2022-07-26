@@ -37,7 +37,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOC.
 
 # Overview
 
-Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino platform and this soc targetted for efabless Shuttle program.  This project uses only open source tool set for simulation,synthesis and backend tools.  The SOC flow follow the openlane methodology and SOC environment is compatible with efabless/carvel methodology.
+Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino platform and this soc targeted for efabless Shuttle program.  This project uses only open source tool set for simulation,synthesis and backend tools.  The SOC flow follow the openlane methodology and SOC environment is compatible with efabless/carvel methodology.
 <table>
   <tr>
     <td  align="center"><img src="./docs/source/_static/Riscduino_Integration.png" ></td>
@@ -205,6 +205,15 @@ Carvel SOC provides 38 GPIO pins for user functionality. Riscduino SOC GPIO Pin 
   <tr align="center"> <td> usb1.1          </td> <td> usb_dp                 </td> <td>                 </td> <td> digital_io[36]                       </td></tr>
   <tr align="center"> <td> usb1.1          </td> <td> usb_dn                 </td> <td>                 </td> <td> digital_io[37]                       </td></tr>
 </table>
+
+
+# Riscduino documentation
+*  Riscduino documentation available at : <https://riscduino.readthedocs.io/en/latest/>
+
+# Arduino ide integration
+*  We are in initial phase of Riscduino board integration into arduino and integration details are available at : <https://github.com/dineshannayya/riscduino_board/>
+
+
 # Sub IP features
 
 ## RISC V Core
@@ -302,34 +311,16 @@ Following Design changes are done on the basic version of syntacore RISC core
     <td  align="center"> SSPI</td>
   </tr>
   <tr>
+    <td  align="center"> 0x1001_01C0 to 0x1001_013F</td> 
+    <td  align="center"> 0x1001_01C0 to 0x1001_013F</td>
+    <td  align="center"> 0x1001_01C0 to 0x1001_013F</td>
+    <td  align="center"> SSPI</td>
+  </tr>
+  <tr>
     <td  align="center"> 0x1002_0080 to 0x1002_00FF</td> 
     <td  align="center"> 0x1002_0080 to 0x1002_00FF</td>
     <td  align="center"> 0x1002_0080 to 0x1002_00FF</td>
     <td  align="center"> PINMUX</td>
-  </tr>
-  <tr>
-    <td  align="center"> 0x1003_0080 to 0x1003_07FF</td> 
-    <td  align="center"> 0x1003_0080 to 0x1003_07FF</td>
-    <td  align="center"> 0x1003_0080 to 0x1003_07FF</td>
-    <td  align="center"> SRAM-0 (2KB)</td>
-  </tr>
-  <tr>
-    <td  align="center"> 0x1003_0800 to 0x1003_0FFF</td> 
-    <td  align="center"> 0x1003_0800 to 0x1003_0FFF</td>
-    <td  align="center"> 0x1003_0800 to 0x1003_0FFF</td>
-    <td  align="center"> SRAM-1 (2KB)</td>
-  </tr>
-  <tr>
-    <td  align="center"> 0x1003_1000 to 0x1003_17FF</td> 
-    <td  align="center"> 0x1003_1000 to 0x1003_17FF</td>
-    <td  align="center"> 0x1003_1000 to 0x1003_17FF</td>
-    <td  align="center"> SRAM-2 (2KB)</td>
-  </tr>
-  <tr>
-    <td  align="center"> 0x1003_1800 to 0x1003_1FFF</td> 
-    <td  align="center"> 0x1003_1800 to 0x1003_1FFF</td>
-    <td  align="center"> 0x1003_1800 to 0x1003_1FFF</td>
-    <td  align="center"> SRAM-3 (2KB)</td>
   </tr>
   <tr>
     <td  align="center"> -</td> 
@@ -341,18 +332,16 @@ Following Design changes are done on the basic version of syntacore RISC core
 
 # SOC Size
 
-| Block             | Total Cell | Seq      | Combo   |
-| ------            | ---------  | -------- | -----   |
-| RISC              | 20982      | 3164     | 17818   |
-| PINMUX            | 5693       | 1022     |  4671   |
-| SPI               | 7120       | 1281     |  5839   |
-| UART_I2C_USB_SPI  | 11196      | 2448     |  8748   |
-| WB_HOST           | 2796       | 588      |  2208   |
-| WB_INTC           | 1878       | 108      |  1770   |
-| SAR_ADC           | 118        |  18      |   100   |
-| MBIST             | 3125       | 543      |  2582   |
-|                   |            |          |         |
-| TOTAL             | 52908      | 9172     | 43736   |
+| Block             | Total Cell | Combo   | Seq      |
+| ------            | ---------  | -----   | -------- |
+| RISC              | 100849     | 89740   | 5877     |
+| QSPI              | 8654       |  7149   | 1505     |
+| UART_I2C_USB_SPI  | 15965      | 13100   | 2865     |
+| WB_HOST           | 5800       |  4701   | 1099     |
+| WB_INTC           | 11477      | 10081   | 1396     |
+| PINMUX            | 6729       |  5557   | 1172     |
+|                   |            |         |          |
+| TOTAL             | 168564     | 146569  | 21995    |
 
 
 
@@ -536,36 +525,129 @@ Following Design changes are done on the basic version of syntacore RISC core
 
 ```
 |verilog
-|   ├─  rtl
-|   |     |-  syntacore
-|   |     |     |─  scr1
-|   |     |     |    ├─ **docs**                           | **SCR1 documentation**
-|   |     |     |    |      ├─ scr1_eas.pdf                | SCR1 External Architecture Specification
-|   |     |     |    |      └─ scr1_um.pdf                 | SCR1 User Manual
-|   |     |     |    |─  **src**                           | **SCR1 RTL source and testbench files**
-|   |     |     |    |   ├─ includes                       | Header files
-|   |     |     |    |   ├─ core                           | Core top source files
-|   |     |     |    |   ├─ top                            | Cluster source files
-|   |     |     |    |─  **synth**                         | **SCR1 RTL Synthesis files **
-|   |     |- Qspi_master
-|   |     |     |- src                                     | Qard SPI Master Source files
-|   |     |-wb_interconnect
-|   |     |     |- src                                     | 3x4 Wishbone Interconnect
-|   |     |- digital_core
-|   |     |     |- src                                     | Digital core Source files
-|   |     |- lib                                           | common library source files
-|   |- dv
-|   |   |- la_test1                                        | carevel LA test
-|   |   |- risc_boot                                       | user core risc boot test
-|   |   |- wb_port                                         | user wishbone test
-|   |   |- user_risc_boot                                  | user standalone test without carevel soc
-|   |- gl                                                  | ** GLS Source files **
-|
-|- openlane
-    |- spi_master                                          | spi_master openlane scripts   
-    |- syntacore                                           | Risc Core openlane scripts   
-    |- user_project_wrapper                                | carvel user project wrapper 
-
+|   |─  rtl.
+|   |    ├── clk_skew_adjust
+|   |    │   ├── src
+|   |    │   │   ├── clk_skew_adjust.gv
+|   |    │   │   └── clk_skew_adjust.v
+|   |    ├── digital_pll
+|   |    │   └── src
+|   |    │       ├── digital_pll_controller.v
+|   |    │       ├── digital_pll.v
+|   |    │       └── ring_osc2x13.v
+|   |    ├── i2cm
+|   |    │   └── src
+|   |    │       ├── core
+|   |    │       │   ├── i2cm_bit_ctrl.v
+|   |    │       │   ├── i2cm_byte_ctrl.v
+|   |    │       │   └── i2cm_top.v
+|   |    │       └── includes
+|   |    │           └── i2cm_defines.v
+|   |    ├── lib
+|   |    │   ├── async_fifo.sv
+|   |    │   ├── async_fifo_th.sv
+|   |    │   ├── async_reg_bus.sv
+|   |    │   ├── async_wb.sv
+|   |    │   ├── clk_buf.v
+|   |    │   ├── clk_ctl.v
+|   |    │   ├── clk_skew_adjust.gv
+|   |    │   ├── ctech_cells.sv
+|   |    │   ├── double_sync_high.v
+|   |    │   ├── double_sync_low.v
+|   |    │   ├── pulse_gen_type1.sv
+|   |    │   ├── pulse_gen_type2.sv
+|   |    │   ├── registers.v
+|   |    │   ├── reset_sync.sv
+|   |    │   ├── ser_inf_32b.sv
+|   |    │   ├── ser_shift.sv
+|   |    │   ├── sync_fifo2.sv
+|   |    │   ├── sync_fifo.sv
+|   |    │   ├── sync_wbb.sv
+|   |    │   ├── wb_interface.v
+|   |    │   └── wb_stagging.sv
+|   |    ├── pinmux
+|   |    │   └── src
+|   |    │       ├── gpio_control.sv
+|   |    │       ├── gpio_intr.sv
+|   |    │       ├── pinmux_reg.sv
+|   |    │       ├── pinmux.sv
+|   |    │       ├── pwm.sv
+|   |    │       └── timer.sv
+|   |    ├── qspim
+|   |    │   ├── lib
+|   |    │   │   ├── clk_skew_adjust.gv
+|   |    │   │   ├── ctech_cells.sv
+|   |    │   │   └── reset_sync.sv
+|   |    │   ├── src
+|   |    │   │   ├── filelist.f
+|   |    │   │   ├── qspim_clkgen.sv
+|   |    │   │   ├── qspim_ctrl.sv
+|   |    │   │   ├── qspim_fifo.sv
+|   |    │   │   ├── qspim_if.sv
+|   |    │   │   ├── qspim_regs.sv
+|   |    │   │   ├── qspim_rx.sv
+|   |    │   │   ├── qspim_top.sv
+|   |    │   │   └── qspim_tx.sv
+|   |    ├── sram_macros
+|   |    │   └── sky130_sram_2kbyte_1rw1r_32x512_8.v
+|   |    ├── sspim
+|   |    │   └── src
+|   |    │       ├── sspim_cfg.sv
+|   |    │       ├── sspim_ctl.sv
+|   |    │       ├── sspim_if.sv
+|   |    │       └── sspim_top.sv
+|   |    ├── sspis
+|   |    │   └── src
+|   |    │       ├── spi2wb.sv
+|   |    │       ├── sspis_if.sv
+|   |    │       └── sspis_top.sv
+|   |    ├── uart
+|   |    │   └── src
+|   |    │       ├── uart_cfg.sv
+|   |    │       ├── uart_core.sv
+|   |    │       ├── uart_rxfsm.sv
+|   |    │       └── uart_txfsm.sv
+|   |    ├── uart2wb
+|   |    │   └── src
+|   |    │       ├── run_verilog
+|   |    │       ├── uart2_core.sv
+|   |    │       ├── uart2wb.sv
+|   |    │       └── uart_msg_handler.v
+|   |    ├── uart_i2c
+|   |    │   └── src
+|   |    │       └── uart_i2c_top.sv
+|   |    ├── uart_i2c_usb
+|   |    │   └── src
+|   |    │       └── uart_i2c_usb.sv
+|   |    ├── uart_i2c_usb_spi
+|   |    │   └── src
+|   |    │       └── uart_i2c_usb_spi.sv
+|   |    ├── usb1_host
+|   |    │   └── src
+|   |    │       ├── core
+|   |    │       │   ├── usbh_core.sv
+|   |    │       │   ├── usbh_crc16.sv
+|   |    │       │   ├── usbh_crc5.sv
+|   |    │       │   ├── usbh_fifo.sv
+|   |    │       │   └── usbh_sie.sv
+|   |    │       ├── filelist.f
+|   |    │       ├── includes
+|   |    │       │   └── usbh_host_defs.v
+|   |    │       ├── phy
+|   |    │       │   ├── usb_fs_phy.v
+|   |    │       │   └── usb_transceiver.v
+|   |    │       └── top
+|   |    │           └── usb1_host.sv
+|   |    ├── user_project_wrapper.v
+|   |    ├── user_reg_map.v
+|   |    ├── wb_host
+|   |    │   └── src
+|   |    │       └── wb_host.sv
+|   |    ├── wb_interconnect
+|   |    │   └── src
+|   |    │       ├── wb_arb.sv
+|   |    │       ├── wb_interconnect.sv
+|   |    │       └── wb_slave_port.sv
 ```
 
 
@@ -765,14 +847,9 @@ Riscduino Soc flow uses Openlane tool sets.
     3. `Netgen` - Performs LVS Checks
     4. `CVC` - Performs Circuit Validity Checks
 
-# Riscduino documentation
-    Riscduino documentation available at <https://riscduino.readthedocs.io/en/latest/>
-
-# Arduino ide integration
-    We are in initial phase of Riscduino board integration into arduino and integration details are available at <https://github.com/dineshannayya/riscduino_board/>
 
 # News
-* **Riscduino Aim** - https://www.youtube.com/watch?v=lFVnicPhTI0
+* **Riscduino Aim** - <https://www.youtube.com/watch?v=lFVnicPhTI0>
 
 # How To Contribute
 
