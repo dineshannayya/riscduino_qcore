@@ -300,8 +300,8 @@ clk_skew_adjust u_skew_wi
 // 0x1001_0040 to 0x1001_007F  - I2C
 // 0x1001_0080 to 0x1001_00BF  - USB
 // 0x1001_00C0 to 0x1001_00FF  - SSPIM
-// 0x1002_0000 to 0x1002_00FF  - PINMUX
 // 0x1001_0100 to 0x1001_013F  - UART1
+// 0x1002_0000 to 0x1002_00FF  - PINMUX
 // 0x3080_0000 to 0x3080_00FF  - WB HOST (This decoding happens at wb_host block)
 // ---------------------------------------------------------------------------
 //

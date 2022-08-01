@@ -36,10 +36,10 @@ create_clock -name uartm_clk   -period 100.0000 [get_pins {mprj/u_wb_host/u_uart
 
 ## Case analysis
 
-set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[0]}]
+set_case_analysis 1 [get_pins {mprj/u_intercon/cfg_cska_wi[0]}]
 set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[1]}]
-set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[2]}]
-set_case_analysis 1 [get_pins {mprj/u_intercon/cfg_cska_wi[3]}]
+set_case_analysis 1 [get_pins {mprj/u_intercon/cfg_cska_wi[2]}]
+set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[3]}]
 
 set_case_analysis 0 [get_pins {mprj/u_pinmux/cfg_cska_pinmux[0]}]
 set_case_analysis 0 [get_pins {mprj/u_pinmux/cfg_cska_pinmux[1]}]
@@ -51,15 +51,15 @@ set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_sp_co[1]}]
 set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_sp_co[2]}]
 set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_sp_co[3]}]
 
-set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_spi[0]}]
-set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_spi[1]}]
+set_case_analysis 1 [get_pins {mprj/u_qspi_master/cfg_cska_spi[0]}]
+set_case_analysis 1 [get_pins {mprj/u_qspi_master/cfg_cska_spi[1]}]
 set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_spi[2]}]
 set_case_analysis 1 [get_pins {mprj/u_qspi_master/cfg_cska_spi[3]}]
 
-set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_cska_riscv[0]}]
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_cska_riscv[0]}]
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_cska_riscv[1]}]
-set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_cska_riscv[2]}]
-set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_cska_riscv[3]}]
+set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_cska_riscv[2]}]
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_cska_riscv[3]}]
 
 set_case_analysis 1 [get_pins {mprj/u_wb_host/cfg_cska_wh[0]}]
 set_case_analysis 0 [get_pins {mprj/u_wb_host/cfg_cska_wh[1]}]

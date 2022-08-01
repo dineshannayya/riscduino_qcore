@@ -31,9 +31,9 @@ set script_dir [file dirname [file normalize [info script]]]
 set proj_dir [file dirname [file normalize [info script]]]
 
 set ::env(DESIGN_NAME) user_project_wrapper
-set verilog_root $::env(DESIGN_DIR)/../../verilog/
-set lef_root $::env(DESIGN_DIR)/../../lef/
-set gds_root $::env(DESIGN_DIR)/../../gds/
+set verilog_root $proj_dir/../../verilog/
+set lef_root $proj_dir/../../lef/
+set gds_root $proj_dir/../../gds/
 #section end
 
 # User Configurations
@@ -44,8 +44,8 @@ set ::env(FP_PDN_CORE_RING) 1
 
 ## Source Verilog Files
 set ::env(VERILOG_FILES) "\
-	$::env(DESIGN_DIR)/../../verilog/rtl//yifive/ycr4c/src/top/ycr4_top_wb.sv \
-	$::env(DESIGN_DIR)/../../verilog/rtl/user_project_wrapper.v"
+	$proj_dir/../../verilog/rtl//yifive/ycr4c/src/top/ycr4_top_wb.sv \
+	$proj_dir/../../verilog/rtl/user_project_wrapper.v"
 
 
 ## Clock configurations
@@ -57,27 +57,27 @@ set ::env(CLOCK_PERIOD) "10"
 ## Internal Macros
 ### Macro Placement
 set ::env(FP_SIZING) "absolute"
-set ::env(MACRO_PLACEMENT_CFG) $::env(DESIGN_DIR)/macro.cfg
+set ::env(MACRO_PLACEMENT_CFG) $proj_dir/macro.cfg
 
 set ::env(PDN_CFG) $proj_dir/pdn_cfg.tcl
 
-set ::env(SDC_FILE) $::env(DESIGN_DIR)/base.sdc
-set ::env(BASE_SDC_FILE) $::env(DESIGN_DIR)/base.sdc
+set ::env(SDC_FILE) "$proj_dir/base.sdc"
+set ::env(BASE_SDC_FILE) "$proj_dir/base.sdc"
 
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
 
 ### Black-box verilog and views
 set ::env(VERILOG_FILES_BLACKBOX) "\
-        $::env(DESIGN_DIR)/../../verilog/gl/qspim_top.v \
-        $::env(DESIGN_DIR)/../../verilog/gl/wb_interconnect.v \
-        $::env(DESIGN_DIR)/../../verilog/gl/pinmux.v     \
-        $::env(DESIGN_DIR)/../../verilog/gl/uart_i2c_usb_spi_top.v     \
-	    $::env(DESIGN_DIR)/../../verilog/gl/wb_host.v \
-	    $::env(DESIGN_DIR)/../../verilog/gl/ycr_intf.v \
-	    $::env(DESIGN_DIR)/../../verilog/gl/ycr_core_top.v \
-	    $::env(DESIGN_DIR)/../../verilog/gl/ycr4_iconnect.v \
-	    $::env(DESIGN_DIR)/../../verilog/gl/digital_pll.v \
-	    $::env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/verilog/sky130_sram_2kbyte_1rw1r_32x512_8.v \
+        $proj_dir/../../verilog/gl/qspim_top.v \
+        $proj_dir/../../verilog/gl/wb_interconnect.v \
+        $proj_dir/../../verilog/gl/pinmux.v     \
+        $proj_dir/../../verilog/gl/uart_i2c_usb_spi_top.v     \
+	$proj_dir/../../verilog/gl/wb_host.v \
+	$proj_dir/../../verilog/gl/ycr_intf.v \
+	$proj_dir/../../verilog/gl/ycr_core_top.v \
+	$proj_dir/../../verilog/gl/ycr4_iconnect.v \
+	$proj_dir/../../verilog/gl/digital_pll.v \
+	$::env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/verilog/sky130_sram_2kbyte_1rw1r_32x512_8.v \
 	"
 
 set ::env(EXTRA_LEFS) "\
@@ -108,7 +108,7 @@ set ::env(EXTRA_GDS_FILES) "\
 
 set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 
-set ::env(VERILOG_INCLUDE_DIRS) [glob $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/includes ]
+set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/yifive/ycr4c/src/includes ]
 
 #set ::env(GLB_RT_MAXLAYER) 6
 set ::env(RT_MAX_LAYER) {met5}
@@ -131,15 +131,22 @@ set ::env(GLB_RT_OBS) "                              \
 	                li1   150 130  833.1  546.54,\
 	                met1  150 130  833.1  546.54,\
 	                met2  150 130  833.1  546.54,\
-                    met3  150 130  833.1  546.54,\
+                        met3  150 130  833.1  546.54,\
 	                li1   950 130  1633.1 546.54,\
 	                met1  950 130  1633.1 546.54,\
 	                met2  950 130  1633.1 546.54,\
-                    met3  950 130  1633.1 546.54,\
-                    li1   150  750 833.1  1166.54,\
-                    met1  150  750 833.1  1166.54,\
-                    met2  150  750 833.1  1166.54,\
-                    met3  150  750 833.1  1166.54,\
+                        met3  950 130  1633.1 546.54,\
+                        li1   150  750 833.1  1166.54,\
+                        met1  150  750 833.1  1166.54,\
+                        met2  150  750 833.1  1166.54,\
+                        met3  150  750 833.1  1166.54,\
+                        met1  2250 2150 2800  2600,\
+                        met2  2250 2150 2800  2600,\
+                        met3  2250 2150 2800  2600,\
+			met1  950  650  1760  1290,\
+			met2  950  650  1760  1290,\
+			met3  950  650  1760  1290,\
+
 	                met5  0 0 2920 3520"
 
 set ::env(FP_PDN_POWER_STRAPS) "vccd1 vssd1 1, vccd2 vssd2 0, vdda1 vssa1 0, vdda2 vssa2 0"
@@ -164,7 +171,6 @@ set ::env(FP_PDN_POWER_STRAPS) "vccd1 vssd1 1, vccd2 vssd2 0, vdda1 vssa1 0, vdd
 
 
 # The following is because there are no std cells in the example wrapper project.
-set ::env(CELL_PAD) "4"
 set ::env(SYNTH_TOP_LEVEL) 0
 set ::env(PL_RANDOM_GLB_PLACEMENT) 1
 set ::env(PL_RESIZER_DESIGN_OPTIMIZATIONS) 0
