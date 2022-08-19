@@ -166,4 +166,8 @@
      // standard cell + power pin
      `include "lib/clk_skew_adjust.gv"
      `include "lib/ctech_cells.sv"
+
+     `include "digital_pll/src/digital_pll_controller.v"
+     `include "digital_pll/src/digital_pll.v"
+     `include "digital_pll/src/ring_osc2x13.v"
 `endif

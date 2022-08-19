@@ -79,6 +79,9 @@ set ::env(DIE_AREA) "0 0 540 950 "
 set ::env(PL_TARGET_DENSITY) 0.43
 set ::env(CELL_PAD) "4"
 
+## Routing
+set ::env(GRT_ADJUSTMENT) 0.2
+
 #set ::env(GLB_RT_MAXLAYER) 5
 set ::env(RT_MAX_LAYER) {met4}
 #set ::env(GLB_RT_MAX_DIODE_INS_ITERS) 10

@@ -47,7 +47,7 @@
 ////         in to SPIS slave mode to support boot                ////
 //////////////////////////////////////////////////////////////////////
 
-module pinmux (
+module pinmux_top (
                     `ifdef USE_POWER_PINS
                        input logic         vccd1,// User area 1 1.8V supply
                        input logic         vssd1,// User area 1 digital ground
@@ -75,7 +75,7 @@ module pinmux (
 		       // Reg Bus Interface Signal
                        input logic             reg_cs,
                        input logic             reg_wr,
-                       input logic [7:0]       reg_addr,
+                       input logic [8:0]       reg_addr,
                        input logic [31:0]      reg_wdata,
                        input logic [3:0]       reg_be,
 
@@ -157,19 +157,13 @@ logic sreset_n;  // Sync Reset
    
 /* clock pulse */
 //********************************************************
-logic           pulse_1us               ; // 1 UsSecond Pulse for waveform Generator
-logic           pulse_1ms               ; // 1 UsSecond Pulse for waveform Generator
-logic           pulse_1s                ; // 1Second Pulse for waveform Generator
-logic [9:0]     cfg_pulse_1us           ; // 1us pulse generation config
+logic           pulse_1ms               ; // 1 Milli Second Pulse for waveform Generator
+logic [5:0]     cfg_pwm_enb             ;
 
 
 //---------------------------------------------------------
 // Timer Register                          
 // -------------------------------------------------------
-logic [2:0]    cfg_timer_update        ; // CPU write to timer register
-logic [31:0]   cfg_timer0              ; // Timer-0 register
-logic [31:0]   cfg_timer1              ; // Timer-1 register
-logic [31:0]   cfg_timer2              ; // Timer-2 register
 logic [2:0]    timer_intr              ;
 
 //---------------------------------------------------
@@ -177,29 +171,11 @@ logic [2:0]    timer_intr              ;
 //---------------------------------------------------
 
 logic [5:0]     pwm_wfm                 ;
-logic [5:0]     cfg_pwm_enb             ;
-logic [15:0]    cfg_pwm0_high           ;
-logic [15:0]    cfg_pwm0_low            ;
-logic [15:0]    cfg_pwm1_high           ;
-logic [15:0]    cfg_pwm1_low            ;
-logic [15:0]    cfg_pwm2_high           ;
-logic [15:0]    cfg_pwm2_low            ;
-logic [15:0]    cfg_pwm3_high           ;
-logic [15:0]    cfg_pwm3_low            ;
-logic [15:0]    cfg_pwm4_high           ;
-logic [15:0]    cfg_pwm4_low            ;
-logic [15:0]    cfg_pwm5_high           ;
-logic [15:0]    cfg_pwm5_low            ;
 
 
-wire  [31:0]  gpio_prev_indata         ;// previously captured GPIO I/P pins data
-wire  [31:0]  cfg_gpio_out_data        ;// GPIO statuc O/P data from config reg
 wire  [31:0]  cfg_gpio_dir_sel         ;// decides on GPIO pin is I/P or O/P at pad level, 0 -> Input, 1 -> Output
 wire  [31:0]  cfg_gpio_out_type        ;// GPIO Type, Unused
 wire  [31:0]  cfg_multi_func_sel       ;// GPIO Multi function type
-wire  [31:0]  cfg_gpio_posedge_int_sel ;// select posedge interrupt
-wire  [31:0]  cfg_gpio_negedge_int_sel ;// select negedge interrupt
-wire  [31:00] cfg_gpio_data_in         ;
 
 
 reg [7:0]     port_a_in;      // PORT A Data In
@@ -216,18 +192,57 @@ wire [31:0]   pad_gpio_out;   // GPIO Data out towards PAD
 wire [31:0]   gpio_int_event; // GPIO Interrupt indication
 reg [1:0]     ext_intr_in;    // External PAD level interrupt
 
-// GPIO to PORT Mapping
-assign      pad_gpio_in[7:0]     = port_a_in;
-assign      pad_gpio_in[15:8]    = port_b_in;
-assign      pad_gpio_in[23:16]   = port_c_in;
-assign      pad_gpio_in[31:24]   = port_d_in;
-
-assign      port_a_out           = pad_gpio_out[7:0];
-assign      port_b_out           = pad_gpio_out[15:8];
-assign      port_c_out           = pad_gpio_out[23:16];
-assign      port_d_out           = pad_gpio_out[31:24];
 
 assign      pinmux_debug = '0; // Todo: Need to fix
+
+//------------------------------------------------------
+// Register Map Decoding
+
+`define SEL_GLBL  3'b000   // GLOBAL REGISTER
+`define SEL_GPIO  3'b001   // GPIO REGISTER
+`define SEL_PWM   3'b010   // PWM REGISTER
+`define SEL_TIMER 3'b011   // TIMER REGISTER
+`define SEL_SEMA  3'b100   // SEMAPHORE REGISTER
+
+
+//----------------------------------------
+//  Register Response Path Mux
+//  --------------------------------------
+logic [31:0]  reg_glbl_rdata;
+logic         reg_glbl_ack;
+
+logic [31:0]  reg_gpio_rdata;
+logic         reg_gpio_ack;
+
+logic [31:0]  reg_pwm_rdata;
+logic         reg_pwm_ack;
+
+logic [31:0]  reg_timer_rdata;
+logic         reg_timer_ack;
+
+logic [15:0]  reg_sema_rdata;
+logic         reg_sema_ack;
+
+
+assign reg_rdata = (reg_addr[8:6] == `SEL_GLBL)  ? {reg_glbl_rdata} : 
+	               (reg_addr[8:6] == `SEL_GPIO)  ? {reg_gpio_rdata} :
+	               (reg_addr[8:6] == `SEL_PWM)   ? {reg_pwm_rdata}  :
+	               (reg_addr[8:6] == `SEL_TIMER) ? reg_timer_rdata  : 
+	               (reg_addr[8:6] == `SEL_SEMA)  ? {16'h0,reg_sema_rdata} : 'h0;
+
+assign reg_ack   = (reg_addr[8:6] == `SEL_GLBL)  ? reg_glbl_ack   : 
+	               (reg_addr[8:6] == `SEL_GPIO)  ? reg_gpio_ack   : 
+	               (reg_addr[8:6] == `SEL_PWM)   ? reg_pwm_ack    : 
+	               (reg_addr[8:6] == `SEL_TIMER) ? reg_timer_ack  : 
+	               (reg_addr[8:6] == `SEL_SEMA)  ? reg_sema_ack   : 1'b0;
+
+wire reg_glbl_cs  = (reg_addr[8:6] == `SEL_GLBL) ? reg_cs : 1'b0;
+wire reg_gpio_cs  = (reg_addr[8:6] == `SEL_GPIO) ? reg_cs : 1'b0;
+wire reg_pwm_cs   = (reg_addr[8:6] == `SEL_PWM)  ? reg_cs : 1'b0;
+wire reg_timer_cs = (reg_addr[8:6] == `SEL_TIMER)? reg_cs : 1'b0;
+wire reg_sema_cs  = (reg_addr[8:6] == `SEL_SEMA) ? reg_cs : 1'b0;
+
+//---------------------------------------------------------------------
 
 // SSRAM I/F - Temp masked
 //input  logic            ssram_sck,
@@ -255,122 +270,10 @@ reset_sync  u_rst_sync (
               .srst_n     (sreset_n    )
           );
 
-gpio_intr_gen u_gpio_intr (
-   // System Signals
-   // Inputs
-          .mclk                    (mclk                    ),
-          .h_reset_n               (sreset_n                ),
-
-   // GPIO cfg input pins
-          .gpio_prev_indata        (gpio_prev_indata        ),
-          .cfg_gpio_data_in        (cfg_gpio_data_in        ),
-          .cfg_gpio_dir_sel        (cfg_gpio_dir_sel        ),
-          .cfg_gpio_out_data       (cfg_gpio_out_data       ),
-          .cfg_gpio_posedge_int_sel(cfg_gpio_posedge_int_sel),
-          .cfg_gpio_negedge_int_sel(cfg_gpio_negedge_int_sel),
-
-
-   // GPIO output pins
-          .pad_gpio_out            (pad_gpio_out            ),
-          .gpio_int_event          (gpio_int_event          )  
-  );
-
-
-// 1us pulse
-pulse_gen_type2  #(.WD(10)) u_pulse_1us (
-
-	.clk_pulse_o               (pulse_1us        ),
-	.clk                       (mclk             ),
-        .reset_n                   (sreset_n         ),
-	.cfg_max_cnt               (cfg_pulse_1us    )
-
-     );
-
-// 1millisecond pulse
-pulse_gen_type1 u_pulse_1ms (
-
-	.clk_pulse_o               (pulse_1ms       ),
-	.clk                       (mclk            ),
-        .reset_n                   (sreset_n        ),
-	.trigger                   (pulse_1us       )
-
-      );
-
-// 1 second pulse
-pulse_gen_type1 u_pulse_1s (
-
-	.clk_pulse_o               (pulse_1s    ),
-	.clk                       (mclk        ),
-        .reset_n                   (sreset_n    ),
-	.trigger                   (pulse_1ms   )
-
-       );
-
-
-// Timer
-
-wire       cfg_timer0_enb    = cfg_timer0[16];
-wire [1:0] cfg_timer0_clksel = cfg_timer0[18:17];
-wire [15:0] cfg_timer0_compare = cfg_timer0[15:0];
-
-timer  u_timer_0
-  (
-     .reset_n                      (sreset_n             ),// system syn reset
-     .mclk                         (mclk                 ),// master clock
-     .pulse_1us                    (pulse_1us            ),
-     .pulse_1ms                    (pulse_1ms            ),
-     .pulse_1s                     (pulse_1s             ),
-
-     .cfg_timer_update             (cfg_timer_update[0]  ), 
-     .cfg_timer_enb                (cfg_timer0_enb       ),     
-     .cfg_timer_compare            (cfg_timer0_compare   ),
-     .cfg_timer_clksel             (cfg_timer0_clksel    ),// to select the timer 1us/1ms reference clock
-
-     .timer_intr                   (timer_intr[0]         )
-   );
-
-// Timer
-wire       cfg_timer1_enb      = cfg_timer1[16];
-wire [1:0] cfg_timer1_clksel   = cfg_timer1[18:17];
-wire [15:0] cfg_timer1_compare = cfg_timer1[15:0];
-timer  u_timer_1
-  (
-     .reset_n                      (sreset_n             ),// system syn reset
-     .mclk                         (mclk                 ),// master clock
-     .pulse_1us                    (pulse_1us            ),
-     .pulse_1ms                    (pulse_1ms            ),
-     .pulse_1s                     (pulse_1s             ),
-
-     .cfg_timer_update             (cfg_timer_update[1]  ), 
-     .cfg_timer_enb                (cfg_timer1_enb       ),     
-     .cfg_timer_compare            (cfg_timer1_compare   ),
-     .cfg_timer_clksel             (cfg_timer1_clksel    ),// to select the timer 1us/1ms reference clock
-
-     .timer_intr                   (timer_intr[1]         )
-   );
-
-// Timer
-wire       cfg_timer2_enb    = cfg_timer2[16];
-wire [1:0] cfg_timer2_clksel = cfg_timer2[18:17];
-wire [15:0] cfg_timer2_compare = cfg_timer2[15:0];
-timer  u_timer_2
-  (
-     .reset_n                      (sreset_n             ),// system syn reset
-     .mclk                         (mclk                 ),// master clock
-     .pulse_1us                    (pulse_1us            ),
-     .pulse_1ms                    (pulse_1ms            ),
-     .pulse_1s                     (pulse_1s             ),
-
-     .cfg_timer_update             (cfg_timer_update[2]  ), 
-     .cfg_timer_enb                (cfg_timer2_enb       ),     
-     .cfg_timer_compare            (cfg_timer2_compare   ),
-     .cfg_timer_clksel             (cfg_timer2_clksel    ),// to select the timer 1us/1ms reference clock
-
-     .timer_intr                   (timer_intr[2]        )
-   );
-
-
-pinmux_reg u_pinmux_reg(
+//------------------------------------------------------------------
+// Global Register
+//------------------------------------------------------------------
+glbl_reg u_glbl_reg(
       // System Signals
       // Inputs
           .mclk                         (mclk                    ),
@@ -384,539 +287,198 @@ pinmux_reg u_pinmux_reg(
           .i2cm_rst_n                   (i2cm_rst_n              ),
           .usb_rst_n                    (usb_rst_n               ),
 
-	  .cfg_riscv_ctrl               (cfg_riscv_ctrl          ),
+	      .cfg_riscv_ctrl               (cfg_riscv_ctrl          ),
+          .cfg_multi_func_sel           (cfg_multi_func_sel      ),
 
 
       // Reg read/write Interface Inputs
-          .reg_cs                       (reg_cs                  ),
+          .reg_cs                       (reg_glbl_cs             ),
           .reg_wr                       (reg_wr                  ),
-          .reg_addr                     (reg_addr                ),
+          .reg_addr                     (reg_addr[5:2]           ),
           .reg_wdata                    (reg_wdata               ),
           .reg_be                       (reg_be                  ),
 
-          .reg_rdata                    (reg_rdata               ),
-          .reg_ack                      (reg_ack                 ),
+          .reg_rdata                    (reg_glbl_rdata          ),
+          .reg_ack                      (reg_glbl_ack            ),
 
-	  .ext_intr_in                  (ext_intr_in             ),
+	      .ext_intr_in                  (ext_intr_in             ),
 
-	  .irq_lines                    (irq_lines               ),
-	  .soft_irq                     (soft_irq                ),
-	  .user_irq                     (user_irq                ),
+	      .irq_lines                    (irq_lines               ),
+	      .soft_irq                     (soft_irq                ),
+	      .user_irq                     (user_irq                ),
           .usb_intr                     (usb_intr                ),
           .i2cm_intr                    (i2cm_intr               ),
 
-	  .cfg_pulse_1us                (cfg_pulse_1us           ),
-
-
-          .cfg_pwm0_high                (cfg_pwm0_high           ),
-          .cfg_pwm0_low                 (cfg_pwm0_low            ),
-          .cfg_pwm1_high                (cfg_pwm1_high           ),
-          .cfg_pwm1_low                 (cfg_pwm1_low            ),
-          .cfg_pwm2_high                (cfg_pwm2_high           ),
-          .cfg_pwm2_low                 (cfg_pwm2_low            ),
-          .cfg_pwm3_high                (cfg_pwm3_high           ),
-          .cfg_pwm3_low                 (cfg_pwm3_low            ),
-          .cfg_pwm4_high                (cfg_pwm4_high           ),
-          .cfg_pwm4_low                 (cfg_pwm4_low            ),
-          .cfg_pwm5_high                (cfg_pwm5_high           ),
-          .cfg_pwm5_low                 (cfg_pwm5_low            ),
-
-      // GPIO input pins
-          .gpio_in_data                 (pad_gpio_in             ),
-          .gpio_int_event               (gpio_int_event          ),
-
-      // GPIO config pins
-          .cfg_gpio_out_data            (cfg_gpio_out_data       ),
-          .cfg_gpio_dir_sel             (cfg_gpio_dir_sel        ),
-          .cfg_gpio_out_type            (cfg_gpio_out_type       ),
-          .cfg_gpio_posedge_int_sel     (cfg_gpio_posedge_int_sel),
-          .cfg_gpio_negedge_int_sel     (cfg_gpio_negedge_int_sel),
-          .cfg_multi_func_sel           (cfg_multi_func_sel      ),
-	  .cfg_gpio_data_in             (cfg_gpio_data_in        ),
-
-
-       // Outputs
-          .gpio_prev_indata             (gpio_prev_indata        ) ,
 
 
           .timer_intr                   (timer_intr             ),
-          .cfg_timer_update             (cfg_timer_update       ),
-          .cfg_timer0                   (cfg_timer0             ),
-          .cfg_timer1                   (cfg_timer1             ),
-          .cfg_timer2                   (cfg_timer2             )
+          .gpio_intr                    (gpio_intr              )
 
 
    ); 
 
-
-// 6 PWM Waveform Generator
-pwm  u_pwm_0 (
-	  .waveform                    (pwm_wfm[0]         ), 
-	  .h_reset_n                   (sreset_n           ),
-	  .mclk                        (mclk               ),
-	  .pulse1m_mclk                (pulse_1ms          ),
-	  .cfg_pwm_enb                 (cfg_pwm_enb[0]     ),
-	  .cfg_pwm_high                (cfg_pwm0_high      ),
-	  .cfg_pwm_low                 (cfg_pwm0_low       )
-     );
-
-pwm  u_pwm_1 (
-	  .waveform                    (pwm_wfm[1]         ), 
-	  .h_reset_n                   (sreset_n           ),
-	  .mclk                        (mclk               ),
-	  .pulse1m_mclk                (pulse_1ms          ),
-	  .cfg_pwm_enb                 (cfg_pwm_enb[1]     ),
-	  .cfg_pwm_high                (cfg_pwm1_high      ),
-	  .cfg_pwm_low                 (cfg_pwm1_low       )
-     );
-   
-pwm  u_pwm_2 (
-	  .waveform                    (pwm_wfm[2]         ), 
-	  .h_reset_n                   (sreset_n           ),
-	  .mclk                        (mclk               ),
-	  .pulse1m_mclk                (pulse_1ms          ),
-	  .cfg_pwm_enb                 (cfg_pwm_enb[2]     ),
-	  .cfg_pwm_high                (cfg_pwm2_high      ),
-	  .cfg_pwm_low                 (cfg_pwm2_low       )
-     );
-
-pwm  u_pwm_3 (
-	  .waveform                    (pwm_wfm[3]         ), 
-	  .h_reset_n                   (sreset_n           ),
-	  .mclk                        (mclk               ),
-	  .pulse1m_mclk                (pulse_1ms          ),
-	  .cfg_pwm_enb                 (cfg_pwm_enb[3]     ),
-	  .cfg_pwm_high                (cfg_pwm3_high      ),
-	  .cfg_pwm_low                 (cfg_pwm3_low       )
-     );
-pwm  u_pwm_4 (
-	  .waveform                    (pwm_wfm[4]         ), 
-	  .h_reset_n                   (sreset_n           ),
-	  .mclk                        (mclk               ),
-	  .pulse1m_mclk                (pulse_1ms          ),
-	  .cfg_pwm_enb                 (cfg_pwm_enb[4]     ),
-	  .cfg_pwm_high                (cfg_pwm4_high      ),
-	  .cfg_pwm_low                 (cfg_pwm4_low       )
-     );
-pwm  u_pwm_5 (
-	  .waveform                    (pwm_wfm[5]         ), 
-	  .h_reset_n                   (sreset_n           ),
-	  .mclk                        (mclk               ),
-	  .pulse1m_mclk                (pulse_1ms          ),
-	  .cfg_pwm_enb                 (cfg_pwm_enb[5]     ),
-	  .cfg_pwm_high                (cfg_pwm5_high      ),
-	  .cfg_pwm_low                 (cfg_pwm5_low       )
-     );
-
-/************************************************
-* Pin Mapping    ATMGE CONFIG
-*   ATMEGA328                        caravel Pin Mapping
-*   Pin-1        PC6/RESET*          digital_io[0]
-*   Pin-2        PD0/RXD[0]          digital_io[1]
-*   Pin-3        PD1/TXD[0]          digital_io[2]
-*   Pin-4        PD2/RXD[1]/INT0     digital_io[3]
-*   Pin-5        PD3/INT1/OC2B(PWM0) digital_io[4]
-*   Pin-6        PD4/TXD[1]          digital_io[5]
-*   Pin-7        VCC                  -
-*   Pin-8        GND                  -
-*   Pin-9        PB6/XTAL1/TOSC1           digital_io[6]
-*   Pin-10       PB7/XTAL2/TOSC2           digital_io[7]
-*   Pin-11       PD5/SS[3]/OC0B(PWM1)/T1   digital_io[8]
-*   Pin-12       PD6/SS[2]/OC0A(PWM2)/AIN0 digital_io[9]/analog_io[2]
-*   Pin-13       PD7/A1N1                  digital_io[10]/analog_io[3]
-*   Pin-14       PB0/CLKO/ICP1             digital_io[11]
-*   Pin-15       PB1/SS[1]OC1A(PWM3)       digital_io[12]
-*   Pin-16       PB2/SS[0]/OC1B(PWM4)      digital_io[13]
-*   Pin-17       PB3/MOSI/OC2A(PWM5)       digital_io[14]
-*   Pin-18       PB4/MISO                  digital_io[15]
-*   Pin-19       PB5/SCK                   digital_io[16]
-*   Pin-20       AVCC                -
-*   Pin-21       AREF                      analog_io[10]
-*   Pin-22       GND                 -
-*   Pin-23       PC0/ADC0            digital_io[18]/analog_io[11]
-*   Pin-24       PC1/ADC1            digital_io[19]/analog_io[12]
-*   Pin-25       PC2/ADC2            digital_io[20]/analog_io[13]
-*   Pin-26       PC3/ADC3            digital_io[21]/analog_io[14]
-*   Pin-27       PC4/ADC4/SDA        digital_io[22]/analog_io[15]
-*   Pin-28       PC5/ADC5/SCL        digital_io[23]/analog_io[16]
-*
-*  Additional Pad used for Externam ROM/RAM
-*                sflash_sck          digital_io[24]
-*                sflash_ss[0]        digital_io[25]
-*                sflash_ss[1]        digital_io[26]
-*                sflash_ss[2]        digital_io[27]
-*                sflash_ss[3]        digital_io[28]
-*                sflash_io0          digital_io[29]
-*                sflash_io1          digital_io[30]
-*                sflash_io2          digital_io[31]
-*                sflash_io3          digital_io[32]
-*                dbg_clk_mon         digital_io[33]
-*                uartm_rxd           digital_io[34]
-*                uartm_txd           digital_io[35]
-*                usb_dp              digital_io[36]
-*                usb_dn              digital_io[37]
-****************************************************************
-* Pin-1 RESET is not supported as there is no suppport for fuse config
-**************/
-
-assign      cfg_pwm_enb          = cfg_multi_func_sel[5:0];
-wire [1:0]  cfg_int_enb          = cfg_multi_func_sel[7:6];
-wire [1:0]  cfg_uart_enb         = cfg_multi_func_sel[9:8];
-wire        cfg_spim_enb         = cfg_multi_func_sel[10];
-wire [3:0]  cfg_spim_cs_enb      = cfg_multi_func_sel[14:11];
-wire        cfg_i2cm_enb         = cfg_multi_func_sel[15];
-
-wire [7:0]  cfg_port_a_dir_sel   = cfg_gpio_dir_sel[7:0];
-wire [7:0]  cfg_port_b_dir_sel   = cfg_gpio_dir_sel[15:8];
-wire [7:0]  cfg_port_c_dir_sel   = cfg_gpio_dir_sel[23:16];
-wire [7:0]  cfg_port_d_dir_sel   = cfg_gpio_dir_sel[31:24];
-
-
-// This logic to create spi slave interface
-logic        pin_resetn,spis_boot;
-
-// On Reset internal SPI Master is disabled, If pin_reset = 0, then we are in
-// SPIS Boot Mode
-assign      spis_boot = (cfg_spim_enb ) ? 1'b0: !pin_resetn; 
-assign      spis_ssn  = (spis_boot    ) ? pin_resetn : 1'b1;
-
-// datain selection
-always_comb begin
-     port_a_in = 'h0;
-     port_b_in = 'h0;
-     port_c_in = 'h0;
-     port_d_in = 'h0;
-     uart_rxd   = 'h0;
-     ext_intr_in= 'h0;
-     spim_mosi  = 'h0;
-     i2cm_data_i= 'h0;
-     i2cm_clk_i = 'h0;
-
-     //Pin-1        PC6/RESET*          digital_io[0]
-     port_c_in[6] = digital_io_in[0];
-     pin_resetn   = digital_io_in[0];
-
-     //Pin-2        PD0/RXD[0]             digital_io[1]
-     port_d_in[0] = digital_io_in[1];
-     if(cfg_uart_enb[0])  uart_rxd[0]   = digital_io_in[1];
-  
-     //Pin-3        PD1/TXD[0]             digital_io[2]
-     port_d_in[1] = digital_io_in[2];
-
-
-     //Pin-4        PD2/RXD[1]/INT0       digital_io[3]
-     port_d_in[2] = digital_io_in[3];
-     if(cfg_uart_enb[1])     uart_rxd[1]    = digital_io_in[3];
-     else if(cfg_int_enb[0]) ext_intr_in[0] = digital_io_in[3];
-
-     //Pin-5        PD3/INT1/OC2B(PWM0)  digital_io[4]
-     port_d_in[3] = digital_io_in[4];
-     if(cfg_int_enb[1]) ext_intr_in[1] = digital_io_in[4];
-
-     //Pin-6        PD4/TXD[1]          digital_io[5]
-     port_d_in[4] = digital_io_in[5];
-
-     //Pin-9        PB6/XTAL1/TOSC1     digital_io[6]
-     port_b_in[6] = digital_io_in[6];
-
-     // Pin-10       PB7/XTAL2/TOSC2     digital_io[7]
-     port_b_in[7] = digital_io_in[7];
-
-     //Pin-11       PD5/OC0B(PWM1)/T1   digital_io[8]
-     port_d_in[5] = digital_io_in[8];
-
-     //Pin-12       PD6/OC0A(PWM2)/AIN0 digital_io[9] /analog_io[2]
-     port_d_in[6] = digital_io_in[9];
-
-     //Pin-13       PD7/A1N1            digital_io[10]/analog_io[3]
-     port_d_in[7] = digital_io_in[10];
-     
-     //Pin-14       PB0/CLKO/ICP1       digital_io[11]
-     port_b_in[0] =  digital_io_in[11];
-
-     //Pin-15       PB1/OC1A(PWM3)      digital_io[12]
-     port_b_in[1] = digital_io_in[12];
-
-     //Pin-16       PB2/SS/OC1B(PWM4)   digital_io[13]
-     port_b_in[2] = digital_io_in[13];
-
-     //Pin-17       PB3/MOSI/OC2A(PWM5) digital_io[14]
-     port_b_in[3] = digital_io_in[14];
-     if(cfg_spim_enb) spim_mosi = digital_io_in[14];        // SPIM MOSI (Input) = SPIS MISO (Output)
-
-     //Pin-18       PB4/MISO            digital_io[15]
-     port_b_in[4] = digital_io_in[15];
-     spis_mosi    = (spis_boot) ? digital_io_in[15] : 1'b0;  // SPIM MISO (Output) = SPIS MOSI (Input)
-
-     //Pin-19       PB5/SCK             digital_io[16]
-     port_b_in[5]= digital_io_in[16];
-     spis_sck    = (spis_boot) ? digital_io_in[16] : 1'b1;   // SPIM SCK (Output) = SPIS SCK (Input)
-     
-     //Pin-23       PC0/ADC0            digital_io[18]/analog_io[11]
-     port_c_in[0] = digital_io_in[18];
-
-     //Pin-24       PC1/ADC1            digital_io[19]/analog_io[12]
-     port_c_in[1] = digital_io_in[19];
-
-     //Pin-25       PC2/ADC2            digital_io[20]/analog_io[13]
-     port_c_in[2] = digital_io_in[20];
-
-     //Pin-26       PC3/ADC3            digital_io[21]/analog_io[14]
-     port_c_in[3] = digital_io_in[21];
-
-     //Pin-27       PC4/ADC4/SDA        digital_io[22]/analog_io[15]
-     port_c_in[4] = digital_io_in[22];
-     if(cfg_i2cm_enb)  i2cm_data_i = digital_io_in[22];
-
-     //Pin-28       PC5/ADC5/SCL        digital_io[23]/analog_io[16]
-     port_c_in[5] = digital_io_in[23];
-     if(cfg_i2cm_enb)  i2cm_clk_i = digital_io_in[23];
-
-     sflash_di[0] = digital_io_in[29];
-     sflash_di[1] = digital_io_in[30];
-     sflash_di[2] = digital_io_in[31];
-     sflash_di[3] = digital_io_in[32];
-
-     // UAR MASTER I/F
-     uartm_rxd    = digital_io_in[34];
-
-     usb_dp_i    = digital_io_in[36];
-     usb_dn_i    = digital_io_in[37];
-end
-
-// dataout selection
-always_comb begin
-     digital_io_out = 'h0;
-     //Pin-1        PC6/RESET*          digital_io[0]
-     if(cfg_port_c_dir_sel[6])       digital_io_out[0]   = port_c_out[6];
-
-     //Pin-2        PD0/RXD[0]       digital_io[1]
-     if(cfg_port_d_dir_sel[0])       digital_io_out[1]   = port_d_out[0];
-  
-     //Pin-3        PD1/TXD[0]             digital_io[2]
-     if     (cfg_uart_enb[0])        digital_io_out[2]   = uart_txd[0];
-     else if(cfg_port_d_dir_sel[1])  digital_io_out[2]   = port_d_out[1];
-
-
-     //Pin-4        PD2/RXD[1]/INT0  digital_io[3]
-     if(cfg_port_d_dir_sel[2])       digital_io_out[3]   = port_d_out[2];
-
-     //Pin-5        PD3/INT1/OC2B(PWM0)  digital_io[4]
-     if(cfg_pwm_enb[0])              digital_io_out[4]   = pwm_wfm[0];
-     else if(cfg_port_d_dir_sel[3])  digital_io_out[4]   = port_d_out[3];
-
-     //Pin-6        PD4/TXD[1]                 digital_io[5]
-     if   (cfg_uart_enb[1])               digital_io_out[5]   = uart_txd[1];
-     else if(cfg_port_d_dir_sel[4])       digital_io_out[5]   = port_d_out[4];
-
-     //Pin-9        PB6/XTAL1/TOSC1     digital_io[6]
-     if(cfg_port_b_dir_sel[6])       digital_io_out[6]   = port_b_out[6];
-
-
-     // Pin-10       PB7/XTAL2/TOSC2     digital_io[7]
-     if(cfg_port_b_dir_sel[7])       digital_io_out[7]   = port_b_out[7];
-
-     //Pin-11       PD5/SS[3]/OC0B(PWM1)/T1   digital_io[8]
-     if(cfg_pwm_enb[1])              digital_io_out[8]   = pwm_wfm[1];
-     else if(cfg_spim_cs_enb[3])     digital_io_out[8]  = spim_ssn[3];
-     else if(cfg_port_d_dir_sel[5])  digital_io_out[8]   = port_d_out[5];
-
-     //Pin-12       PD6/SS[2]/OC0A(PWM2)/AIN0 digital_io[9] /analog_io[2]
-     if(cfg_pwm_enb[2])              digital_io_out[9]   = pwm_wfm[2];
-     else if(cfg_spim_cs_enb[2])     digital_io_out[9]   = spim_ssn[2];
-     else if(cfg_port_d_dir_sel[6])  digital_io_out[9]   = port_d_out[6];
-
-
-     //Pin-13       PD7/A1N1            digital_io[10]/analog_io[3]
-     if(cfg_port_d_dir_sel[7])       digital_io_out[10]  = port_d_out[7];
-     
-     //Pin-14       PB0/CLKO/ICP1       digital_io[11]
-     if(cfg_port_b_dir_sel[0])       digital_io_out[11]  = port_b_out[0];
-
-     //Pin-15       PB1/SS[1]/OC1A(PWM3)      digital_io[12]
-     if(cfg_pwm_enb[3])              digital_io_out[12]  = pwm_wfm[3];
-     else if(cfg_spim_cs_enb[1])     digital_io_out[12]  = spim_ssn[1];
-     else if(cfg_port_b_dir_sel[1])  digital_io_out[12]  = port_b_out[1];
-
-     //Pin-16       PB2/SS[0]/OC1B(PWM4)   digital_io[13]
-     if(cfg_pwm_enb[4])              digital_io_out[13]  = pwm_wfm[4];
-     else if(cfg_spim_cs_enb[0])     digital_io_out[13]  = spim_ssn[0];
-     else if(cfg_port_b_dir_sel[2])  digital_io_out[13]  = port_b_out[2];
-
-     //Pin-17       PB3/MOSI/OC2A(PWM5) digital_io[14]
-     if(cfg_pwm_enb[5])              digital_io_out[14]  = pwm_wfm[5];
-     else if(cfg_port_b_dir_sel[3])  digital_io_out[14]  = port_b_out[3];
-     else if(spis_boot)              digital_io_out[14]  = spis_miso;   // SPIM MOSI (Input) = SPIS MISO (Output)
-
-     //Pin-18       PB4/MISO            digital_io[15]
-     if(cfg_spim_enb)                digital_io_out[15]  = spim_miso;   // SPIM MISO (Output) = SPIS MOSI (Input)
-     else if(cfg_port_b_dir_sel[4])  digital_io_out[15]  = port_b_out[4];
-
-     //Pin-19       PB5/SCK             digital_io[16]
-     if(cfg_spim_enb)             digital_io_out[16]  = spim_sck;      // SPIM SCK (Output) = SPIS SCK (Input)
-     else if(cfg_port_b_dir_sel[5])  digital_io_out[16]  = port_b_out[5];
-     
-     //Pin-23       PC0/ADC0            digital_io[18]/analog_io[11]
-     if(cfg_port_c_dir_sel[0])       digital_io_out[18]  = port_c_out[0];
-
-     //Pin-24       PC1/ADC1            digital_io[19]/analog_io[12]
-     if(cfg_port_c_dir_sel[1])       digital_io_out[19]  = port_c_out[1];
-
-     //Pin-25       PC2/ADC2            digital_io[20]/analog_io[13]
-     if(cfg_port_c_dir_sel[2])       digital_io_out[20]  = port_c_out[2];
-
-     //Pin-26       PC3/ADC3            digital_io[21]/analog_io[14]
-     if(cfg_port_c_dir_sel[3])       digital_io_out[21]  = port_c_out[3];
-
-     //Pin-27       PC4/ADC4/SDA        digital_io[22]/analog_io[15]
-     if(cfg_i2cm_enb)                digital_io_out[22]  = i2cm_data_o;
-     else if(cfg_port_c_dir_sel[4])  digital_io_out[22]  = port_c_out[4];
-
-     //Pin-28       PC5/ADC5/SCL        digital_io[23]/analog_io[16]
-     if(cfg_i2cm_enb)                digital_io_out[23]  = i2cm_clk_o;
-     else if(cfg_port_c_dir_sel[5])  digital_io_out[23]  = port_c_out[5];
-
-     // Serial Flash
-     digital_io_out[24] = sflash_sck   ;
-     digital_io_out[25] = sflash_ss[0] ;
-     digital_io_out[26] = sflash_ss[1] ;
-     digital_io_out[27] = sflash_ss[2] ;
-     digital_io_out[28] = sflash_ss[3] ;
-     digital_io_out[29] = sflash_do[0] ;
-     digital_io_out[30] = sflash_do[1] ;
-     digital_io_out[31] = sflash_do[2] ;
-     digital_io_out[32] = sflash_do[3] ;
-                       
-     // dbg_clk_mon - Pll clock output monitor
-     digital_io_out[33] = dbg_clk_mon;
-
-     // UART MASTER I/f
-     digital_io_out[34] = 1'b0         ; // RXD
-     digital_io_out[35] = uartm_txd    ; // TXD
-                  
-     // USB 1.1     
-     digital_io_out[36] = usb_dp_o     ;
-     digital_io_out[37] = usb_dn_o     ;
-end
-
-// dataoen selection
-always_comb begin
-     digital_io_oen = 38'h3F_FFFF_FFFF;
-     //Pin-1        PC6/RESET*          digital_io[0]
-     if(cfg_port_c_dir_sel[6])       digital_io_oen[0]   = 1'b0;
-
-     //Pin-2        PD0/RXD[0]          digital_io[1]
-     if     (cfg_uart_enb[0])        digital_io_oen[1]   = 1'b1;
-     else if(cfg_port_d_dir_sel[0])  digital_io_oen[1]   = 1'b0;
-
-     //Pin-3        PD1/TXD[0]          digital_io[2]
-     if     (cfg_uart_enb[0])        digital_io_oen[2]   = 1'b0;
-     else if(cfg_port_d_dir_sel[1])  digital_io_oen[2]   = 1'b0;
-
-    //Pin-4        PD2/RXD[1]/INT0      digital_io[3]
-     if   (cfg_uart_enb[1])          digital_io_oen[3]   = 1'b1;
-     else if(cfg_int_enb[0])         digital_io_oen[3]   = 1'b1;
-     else if(cfg_port_d_dir_sel[2])  digital_io_oen[3]   = 1'b0;
-
-     //Pin-5        PD3/INT1/OC2B(PWM0)  digital_io[4]
-     if(cfg_pwm_enb[0])              digital_io_oen[4]   = 1'b0;
-     else if(cfg_int_enb[1])         digital_io_oen[4]   = 1'b1;
-     else if(cfg_port_d_dir_sel[3])  digital_io_oen[4]   = 1'b0;
-
-     //Pin-6        PD4/TXD[1]       digital_io[5]
-     if   (cfg_uart_enb[1])          digital_io_oen[5]   = 1'b0;
-     else if(cfg_port_d_dir_sel[4])  digital_io_oen[5]   = 1'b0;
-
-     //Pin-9        PB6/XTAL1/TOSC1     digital_io[6]
-     if(cfg_port_b_dir_sel[6])       digital_io_oen[6]   = 1'b0;
-
-     // Pin-10       PB7/XTAL2/TOSC2     digital_io[7]
-     if(cfg_port_b_dir_sel[7])       digital_io_oen[7]   = 1'b0;
-
-     //Pin-11       PD5/SS[3]/OC0B(PWM1)/T1   digital_io[8]
-     if(cfg_pwm_enb[1])              digital_io_oen[8]   = 1'b0;
-     else if(cfg_spim_cs_enb[3])     digital_io_oen[8]   = 1'b0;
-     else if(cfg_port_d_dir_sel[5])  digital_io_oen[8]   = 1'b0;
-
-     //Pin-12       PD6/SS[2]/OC0A(PWM2)/AIN0 digital_io[9] /analog_io[2]
-     if(cfg_pwm_enb[2])              digital_io_oen[9]   = 1'b0;
-     else if(cfg_spim_cs_enb[2])     digital_io_oen[9]   = 1'b0;
-     else if(cfg_port_d_dir_sel[6])  digital_io_oen[9]   = 1'b0;
-
-     //Pin-13       PD7/A1N1            digital_io[10]/analog_io[3]
-     if(cfg_port_d_dir_sel[7])       digital_io_oen[10]  = 1'b0;
-     
-     //Pin-14       PB0/CLKO/ICP1       digital_io[11]
-     if(cfg_port_b_dir_sel[0])       digital_io_oen[11]  = 1'b0;
-
-     //Pin-15       PB1/SS[1]/OC1A(PWM3)      digital_io[12]
-     if(cfg_pwm_enb[3])              digital_io_oen[12]  = 1'b0;
-     else if(cfg_spim_cs_enb[1])     digital_io_oen[12]  = 1'b0;
-     else if(cfg_port_b_dir_sel[1])  digital_io_oen[12]  = 1'b0;
-
-     //Pin-16       PB2/SS[0]/OC1B(PWM4)   digital_io[13]
-     if(cfg_pwm_enb[4])              digital_io_oen[13]  = 1'b0;
-     else if(cfg_spim_cs_enb[0])     digital_io_oen[13]  = 1'b0;
-     else if(cfg_port_b_dir_sel[2])  digital_io_oen[13]  = 1'b0;
-
-     //Pin-17       PB3/MOSI/OC2A(PWM5) digital_io[14]
-     if(cfg_spim_enb)                digital_io_oen[14]  = 1'b1; // SPIM MOSI (Input)
-     else if(cfg_pwm_enb[5])         digital_io_oen[14]  = 1'b0;
-     else if(cfg_port_b_dir_sel[3])  digital_io_oen[14]  = 1'b0;
-     else if(spis_boot)              digital_io_oen[14]  = 1'b0; // SPIS MISO (Output)
-
-     //Pin-18       PB4/MISO         digital_io[15]
-     if(cfg_spim_enb)                digital_io_oen[15]  = 1'b0; // SPIM MISO (Output) 
-     else if(cfg_port_b_dir_sel[4])  digital_io_oen[15]  = 1'b0;
-     else if(spis_boot)              digital_io_oen[15]  = 1'b1; // SPIS MOSI (Input)
-
-     //Pin-19       PB5/SCK             digital_io[16]
-     if(cfg_spim_enb)                digital_io_oen[16]  = 1'b0; // SPIM SCK (Output)
-     else if(cfg_port_b_dir_sel[5])  digital_io_oen[16]  = 1'b0;
-     else if(spis_boot)              digital_io_oen[16]  = 1'b1; // SPIS SCK (Input)
-     
-     //Pin-23       PC0/ADC0            digital_io[18]/analog_io[11]
-     if(cfg_port_c_dir_sel[0])       digital_io_oen[18]  = 1'b0;
-
-     //Pin-24       PC1/ADC1            digital_io[19]/analog_io[12]
-     if(cfg_port_c_dir_sel[1])       digital_io_oen[19]  = 1'b0;
-
-     //Pin-25       PC2/ADC2            digital_io[20]/analog_io[13]
-     if(cfg_port_c_dir_sel[2])       digital_io_oen[20]  = 1'b0;
-
-     //Pin-26       PC3/ADC3            digital_io[21]/analog_io[14]
-     if(cfg_port_c_dir_sel[3])       digital_io_oen[21]  = 1'b0;
-
-     //Pin-27       PC4/ADC4/SDA        digital_io[22]/analog_io[15]
-     if(cfg_i2cm_enb)                digital_io_oen[22]  = i2cm_data_oen;
-     else if(cfg_port_c_dir_sel[4])  digital_io_oen[22]  = 1'b0;
-
-     //Pin-28       PC5/ADC5/SCL        digital_io[23]/analog_io[16]
-     if(cfg_i2cm_enb)                digital_io_oen[23]  = i2cm_clk_oen;
-     else if(cfg_port_c_dir_sel[5])  digital_io_oen[23]  = 1'b0;
-
-     // Serial Flash
-     digital_io_oen[24] = 1'b0   ;
-     digital_io_oen[25] = 1'b0   ;
-     digital_io_oen[26] = 1'b0   ;
-     digital_io_oen[27] = 1'b0   ;
-     digital_io_oen[28] = 1'b0   ;
-     digital_io_oen[29] = sflash_oen[0];
-     digital_io_oen[30] = sflash_oen[1];
-     digital_io_oen[31] = sflash_oen[2];
-     digital_io_oen[32] = sflash_oen[3];
-                       
-     // dbg_clk_mon
-     digital_io_oen[33] = 1'b0  ;
-     // UART MASTER
-     digital_io_oen[34] = 1'b1; // RXD
-     digital_io_oen[35] = 1'b0; // TXD
-                  
-     // USB 1.1     
-     digital_io_oen[36] = usb_oen;
-     digital_io_oen[37] = usb_oen;
-end
-
+//-----------------------------------------------------------------------
+// GPIO Top
+//-----------------------------------------------------------------------
+gpio_top  u_gpio(
+              // System Signals
+              // Inputs
+		      .mclk                     ( mclk                      ),
+              .h_reset_n                (h_reset_n                  ),
+
+		      // Reg Bus Interface Signal
+              .reg_cs                   (reg_gpio_cs                ),
+              .reg_wr                   (reg_wr                     ),
+              .reg_addr                 (reg_addr[5:2]             ),
+              .reg_wdata                (reg_wdata                  ),
+              .reg_be                   (reg_be                     ),
+
+              // Outputs
+              .reg_rdata                (reg_gpio_rdata             ),
+              .reg_ack                  (reg_gpio_ack               ),
+
+
+              .cfg_gpio_dir_sel         (cfg_gpio_dir_sel           ),
+              .pad_gpio_in              (pad_gpio_in                ),
+              .pad_gpio_out             (pad_gpio_out               ),
+
+              .gpio_intr                (gpio_intr                  )          
+
+
+                ); 
+
+//-----------------------------------------------------------------------
+// PWM Top
+//-----------------------------------------------------------------------
+pwm_top  u_pwm(
+              // System Signals
+              // Inputs
+		      .mclk                     ( mclk                      ),
+              .h_reset_n                (h_reset_n                  ),
+
+		      // Reg Bus Interface Signal
+              .reg_cs                   (reg_pwm_cs                 ),
+              .reg_wr                   (reg_wr                     ),
+              .reg_addr                 (reg_addr[4:2]              ),
+              .reg_wdata                (reg_wdata                  ),
+              .reg_be                   (reg_be                     ),
+
+              // Outputs
+              .reg_rdata                (reg_pwm_rdata              ),
+              .reg_ack                  (reg_pwm_ack                ),
+
+              .pulse_1ms                (pulse_1ms                  ), 
+              .cfg_pwm_enb              (cfg_pwm_enb                ),
+              .pwm_wfm                  (pwm_wfm                    ) 
+           );
+
+//-----------------------------------------------------------------------
+// Timer Top
+//-----------------------------------------------------------------------
+timer_top  u_timer(
+              // System Signals
+              // Inputs
+		      .mclk                     ( mclk                      ),
+              .h_reset_n                (h_reset_n                  ),
+
+		      // Reg Bus Interface Signal
+              .reg_cs                   (reg_timer_cs               ),
+              .reg_wr                   (reg_wr                     ),
+              .reg_addr                 (reg_addr[3:2]              ),
+              .reg_wdata                (reg_wdata                  ),
+              .reg_be                   (reg_be                     ),
+
+              // Outputs
+              .reg_rdata                (reg_timer_rdata            ),
+              .reg_ack                  (reg_timer_ack              ),
+
+              .pulse_1ms                (pulse_1ms                  ), 
+              .timer_intr               (timer_intr                 ) 
+           );
+
+//-----------------------------------------------------------------------
+// Semaphore Register
+//-----------------------------------------------------------------------
+semaphore_reg  u_semaphore(
+              // System Signals
+              // Inputs
+		      .mclk                     ( mclk                      ),
+              .h_reset_n                (h_reset_n                  ),
+
+		      // Reg Bus Interface Signal
+              .reg_cs                   (reg_sema_cs                ),
+              .reg_wr                   (reg_wr                     ),
+              .reg_addr                 (reg_addr[5:2]              ),
+              .reg_wdata                (reg_wdata[15:0]            ),
+              .reg_be                   (reg_be[1:0]                ),
+
+              // Outputs
+              .reg_rdata                (reg_sema_rdata             ),
+              .reg_ack                  (reg_sema_ack               )
+         );
+
+
+pinmux u_pinmux (
+               // Digital IO
+               .digital_io_out          (digital_io_out      ),
+               .digital_io_oen          (digital_io_oen      ),
+               .digital_io_in           (digital_io_in       ),
+
+               // Config
+               .cfg_gpio_dir_sel        (cfg_gpio_dir_sel    ),
+               .cfg_multi_func_sel      (cfg_multi_func_sel  ),
+
+               .cfg_pwm_enb             (cfg_pwm_enb         ),                                                          
+               .pwm_wfm                 (pwm_wfm             ),
+               .ext_intr_in             (ext_intr_in         ),  // External PAD level interrupt
+               .pad_gpio_in             (pad_gpio_in         ),  // GPIO data input from PAD
+               .pad_gpio_out            (pad_gpio_out        ),  // GPIO Data out towards PAD
+
+		       // SFLASH I/F
+		       .sflash_sck              (sflash_sck          ),
+		       .sflash_ss               (sflash_ss           ),
+		       .sflash_oen              (sflash_oen          ),
+		       .sflash_do               (sflash_do           ),
+		       .sflash_di               (sflash_di           ),
+
+		       // USB I/F
+		       .usb_dp_o                (usb_dp_o            ),
+		       .usb_dn_o                (usb_dn_o            ),
+		       .usb_oen                 (usb_oen             ),
+		       .usb_dp_i                (usb_dp_i            ),
+		       .usb_dn_i                (usb_dn_i            ),
+
+		       // UART I/F
+		       .uart_txd                (uart_txd            ),
+		       .uart_rxd                (uart_rxd            ),
+
+		       // I2CM I/F
+		       .i2cm_clk_o              (i2cm_clk_o          ),
+		       .i2cm_clk_i              (i2cm_clk_i          ),
+		       .i2cm_clk_oen            (i2cm_clk_oen        ),
+		       .i2cm_data_oen           (i2cm_data_oen       ),
+		       .i2cm_data_o             (i2cm_data_o         ),
+		       .i2cm_data_i             (i2cm_data_i         ),
+
+		       // SPI MASTER
+		       .spim_sck                (spim_sck            ),
+		       .spim_ssn                (spim_ssn            ),
+		       .spim_miso               (spim_miso           ),
+		       .spim_mosi               (spim_mosi           ),
+		       
+		       // SPI SLAVE
+		       .spis_sck                (spis_sck            ),
+		       .spis_ssn                (spis_ssn            ),
+		       .spis_miso               (spis_miso           ),
+		       .spis_mosi               (spis_mosi           ),
+
+               // UART MASTER I/F
+               .uartm_rxd               (uartm_rxd           ),
+               .uartm_txd               (uartm_txd           ),       
+                                                   
+		       .dbg_clk_mon             (dbg_clk_mon         )
+
+   ); 
 
 endmodule 
 

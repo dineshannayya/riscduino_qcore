@@ -14,7 +14,7 @@ $(USER_PROJECT_VERILOG)/gl/qspim_top.v
 $(USER_PROJECT_VERILOG)/gl/wb_host.v
 $(USER_PROJECT_VERILOG)/gl/ycr4_iconnect.v
 $(USER_PROJECT_VERILOG)/gl/ycr_core_top.v
-$(USER_PROJECT_VERILOG)/gl/pinmux.v
+$(USER_PROJECT_VERILOG)/gl/pinmux_top.v
 $(USER_PROJECT_VERILOG)/gl/uart_i2c_usb_spi_top.v
 $(USER_PROJECT_VERILOG)/gl/wb_interconnect.v
 

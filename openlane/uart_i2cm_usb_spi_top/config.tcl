@@ -68,6 +68,7 @@ set ::env(VERILOG_FILES) "\
     $::env(DESIGN_DIR)/../../verilog/rtl/sspim/src/sspim_ctl.sv             \
     $::env(DESIGN_DIR)/../../verilog/rtl/sspim/src/sspim_if.sv              \
     $::env(DESIGN_DIR)/../../verilog/rtl/sspim/src/sspim_cfg.sv             \
+    $::env(DESIGN_DIR)/../../verilog/rtl/sspim/src/sspim_clkgen.sv             \
     $::env(DESIGN_DIR)/../../verilog/rtl/uart_i2c_usb_spi/src/uart_i2c_usb_spi.sv\
     $::env(DESIGN_DIR)/../../verilog/rtl/lib/ctech_cells.sv     \
     "

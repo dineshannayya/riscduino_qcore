@@ -63,7 +63,8 @@ set ::env(FP_SIZING) absolute
 set ::env(DIE_AREA) "0 0 390 1900"
 
 set ::env(PL_TARGET_DENSITY) 0.20
-set ::env(CELL_PAD) "2"
+set ::env(CELL_PAD) 2
+set ::env(GRT_ADJUSTMENT) {0.2}
 
 #set ::env(GLB_RT_ADJUSTMENT) {0.2}
 

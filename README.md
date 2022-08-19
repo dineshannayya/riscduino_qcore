@@ -86,6 +86,9 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
   <tr>
     <td  align="center"><img src="./docs/source/_static/Riscduino-derivatives.png" ></td>
   </tr>
+  <tr>
+    <td  align="center"><img src="./docs/source/_static/Riscduino_Series_placement.png" ></td>
+  </tr>
 
 </table>
 
@@ -127,7 +130,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
   <tr>
     <td  align="center"> MPW-5 </td> 
     <td  align="center"> 21-Mar-2022  </td>
-    <td  align="center"> Riscduino-SCORE</td>
+    <td  align="center"> Riscduino-SCORE (S0)</td>
     <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/670">Link</a></td>
@@ -135,7 +138,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
   <tr>
     <td  align="center"> MPW-5 </td> 
     <td  align="center"> 21-Mar-2022  </td>
-    <td  align="center"> Riscduino-DCORE</td>
+    <td  align="center"> Riscduino-DCORE (D0)</td>
     <td  align="center"> Dual 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/718">Link</a></td>
@@ -143,10 +146,34 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
   <tr>
     <td  align="center"> MPW-5 </td> 
     <td  align="center"> 21-Mar-2022  </td>
-    <td  align="center"> Riscduino-QCORE</td>
+    <td  align="center"> Riscduino-QCORE (Q0)</td>
     <td  align="center"> Quad 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/782">Link</a></td>
+  </tr>
+  <tr>
+    <td  align="center"> MPW-6 </td> 
+    <td  align="center"> 07-June-2022  </td>
+    <td  align="center"> Riscduino-SCORE (S3)</td>
+    <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/1047">Link</a></td>
+  </tr>
+  <tr>
+    <td  align="center"> MPW-6 </td> 
+    <td  align="center"> 07-June-2022  </td>
+    <td  align="center"> Riscduino-DCORE (D1)</td>
+    <td  align="center"> Dual 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/838">Link</a></td>
+  </tr>
+  <tr>
+    <td  align="center"> MPW-6 </td> 
+    <td  align="center"> 07-June-2022 </td>
+    <td  align="center"> Riscduino-QCORE (Q1)</td>
+    <td  align="center"> Quad 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/839">Link</a></td>
   </tr>
 </table>
 
@@ -639,6 +666,14 @@ Examples:
     make verify-riscv_regress                  - standalone riscv compliance test suite
     make verify-arduino_risc_boot              - standalone riscv core-0 boot using arduino tool set
     make verify-arduino_hello_world            - standalone riscv core-0 hello world test using arduino tool set
+    make verify-arduino_digital_port_control   - standalone riscv core-0 digital port control using arduino tool set
+    make verify-arduino_ascii_table            - standalone riscv core-0 ascii table using arduino tool set
+    make verify-arduino_character_analysis     - standalone riscv core-0 character analysis using arduino tool set
+    make verify-arduino_multi_serial           - standalone riscv core-0 multi uart test using arduino tool set
+    make verify-arduino_switchCase2            - standalone riscv core-0 switch case using arduino tool set
+    make verify-arduino_risc_boot              - standalone riscv core-0 boot test using arduino tool set
+    make verify-arduino_string                 - standalone riscv core-0 string usage test using arduino tool set
+    
     make verify-user_mcore                     - standalone riscv multi-core test
     make verify-user_sram_exec RISC_CORE=1     - standalone riscv core-1 test with executing code from data memory
     make verify-user_sram_exec RISC_CORE=2     - standalone riscv core-2 test with executing code from data memory

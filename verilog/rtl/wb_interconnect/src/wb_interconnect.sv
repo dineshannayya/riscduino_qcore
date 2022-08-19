@@ -203,8 +203,8 @@ module wb_interconnect #(
          input	logic 	        s2_wbd_ack_i,
          // input	logic 	s2_wbd_err_i, - unused
          output	logic [31:0]	s2_wbd_dat_o,
-         output	logic [7:0]	s2_wbd_adr_o, // glbl reg need only 8 bits
-         output	logic [3:0]	s2_wbd_sel_o,
+         output	logic [8:0]	    s2_wbd_adr_o, // glbl reg need only 9 bits
+         output	logic [3:0]	    s2_wbd_sel_o,
          output	logic 	        s2_wbd_we_o,
          output	logic 	        s2_wbd_cyc_o,
          output	logic 	        s2_wbd_stb_o
@@ -300,8 +300,8 @@ clk_skew_adjust u_skew_wi
 // 0x1001_0040 to 0x1001_007F  - I2C
 // 0x1001_0080 to 0x1001_00BF  - USB
 // 0x1001_00C0 to 0x1001_00FF  - SSPIM
-// 0x1001_0100 to 0x1001_013F  - UART1
 // 0x1002_0000 to 0x1002_00FF  - PINMUX
+// 0x1001_0100 to 0x1001_013F  - UART1
 // 0x3080_0000 to 0x3080_00FF  - WB HOST (This decoding happens at wb_host block)
 // ---------------------------------------------------------------------------
 //
@@ -677,7 +677,7 @@ end
  assign  s1_wbd_stb_o =  s1_wb_wr.wbd_stb ;
                       
  assign  s2_wbd_dat_o =  s2_wb_wr.wbd_dat ;
- assign  s2_wbd_adr_o =  s2_wb_wr.wbd_adr[7:0] ; // Global Reg Need 8 bit
+ assign  s2_wbd_adr_o =  s2_wb_wr.wbd_adr[8:0] ; // Global Reg Need 8 bit
  assign  s2_wbd_sel_o =  s2_wb_wr.wbd_sel ;
  assign  s2_wbd_we_o  =  s2_wb_wr.wbd_we  ;
  assign  s2_wbd_cyc_o =  s2_wb_wr.wbd_cyc ;
