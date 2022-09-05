@@ -43,7 +43,7 @@ endif
 	@sleep 1
 
 	@if [ -f ./$*/interactive.tcl ]; then\
-		docker run --rm  \
+		docker run --rm \
 		-v $(PDK_ROOT):$(PDK_ROOT) \
 		-v $(PWD)/..:$(PWD)/.. \
 		-v $(MCW_ROOT):$(MCW_ROOT) \
