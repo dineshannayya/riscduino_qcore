@@ -16,7 +16,7 @@
  */
 
 
-#include "../c_func/inc/int_reg_map.h"
+#include "int_reg_map.h"
 #include "common_misc.h"
 #include "common_bthread.h"
 
@@ -29,23 +29,23 @@
 // Multi-core test, Two Array is filled with below data, destination hold sum
 //      source           result            remark
 //   src0    src1        dest              
-//   0x0000    0x00000000      0x00000000            updated by core-0
-//   0x1111    0x11110000      0x11111111            updated by core-0
-//   0x2222    0x22220000      0x22222222            updated by core-0
-//   0x3333    0x33330000      0x33333333            updated by core-0
-//   0x4444    0x44440000      0x44444444            updated by core-1
-//   0x5555    0x55550000      0x55555555            updated by core-1
-//   0x6666    0x66660000      0x66666666            updated by core-1
-//   0x7777    0x77770000      0x77777777            updated by core-1
-//                                   
-//   0x8888    0x88880000      0x88888888            updated by core-2
-//   0x9999    0x99990000      0x99999999            updated by core-2
-//   0xAAAA    0xAAAA0000      0xAAAAAAAA            updated by core-2
-//   0xBBBB    0xBBBB0000      0xBBBBBBBB            updated by core-2
-//   0xCCCC    0xCCCC0000      0xCCCCCCCC            updated by core-3
-//   0xDDDD    0xDDDD0000      0xDDDDDDDD            updated by core-3
-//   0xEEEE    0xEEEE0000      0xEEEEEEEE            updated by core-3
-//   0xFFFF    0xFFFF0000      0xFFFFFFFF            updated by core-3
+//   0x00    0x0000      0x0000            updated by core-0
+//   0x11    0x1100      0x1111            updated by core-0
+//   0x22    0x2200      0x2222            updated by core-0
+//   0x33    0x3300      0x3333            updated by core-0
+//   0x44    0x4400      0x4444            updated by core-0
+//   0x55    0x5500      0x5555            updated by core-0
+//   0x66    0x6600      0x6666            updated by core-0
+//   0x77    0x7700      0x7777            updated by core-0
+//
+//   0x88    0x8800      0x8888            updated by core-1
+//   0x99    0x9900      0x9999            updated by core-1
+//   0xAA    0xAA00      0xAAAA            updated by core-1
+//   0xBB    0xBB00      0xBBBB            updated by core-1
+//   0xCC    0xCC00      0xCCCC            updated by core-1
+//   0xDD    0xDD00      0xDDDD            updated by core-1
+//   0xEE    0xEE00      0xEEEE            updated by core-1
+//   0xFF    0xFF00      0xFFFF            updated by core-1
 //
 // -------------------------------------------------------------------------
 
@@ -103,10 +103,8 @@ void vvadd_mt(void* arg_vptr )
 
        // Create two argument structures that include the array pointers and
        // what elements each core should process.
-       arg_t arg0 = { dest, src0, src1, 0, buf_size/4 };
-       arg_t arg1 = { dest, src0, src1, buf_size/4, buf_size/2 };
-       arg_t arg2 = { dest, src0, src1, buf_size/2, (3*buf_size)/4 };
-       arg_t arg3 = { dest, src0, src1, (3*buf_size)/4, buf_size };
+       arg_t arg0 = { dest, src0, src1, 0, buf_size/2 };
+       arg_t arg1 = { dest, src0, src1, buf_size/2, buf_size };
 
        reg_glbl_soft_reg_0  = 0x11223344;  // Sig-0
        // Initialize bare threads (bthread).
@@ -120,8 +118,6 @@ void vvadd_mt(void* arg_vptr )
 
        // Spawn work onto core 1
        bthread_spawn( 1, &vvadd_mt, &arg1 );
-       bthread_spawn( 2, &vvadd_mt, &arg2 );
-       bthread_spawn( 3, &vvadd_mt, &arg3 );
       
        reg_glbl_soft_reg_2  = 0x33445566;  // Sig-2
        // Have core 0 also do some work.
@@ -130,8 +126,6 @@ void vvadd_mt(void* arg_vptr )
        reg_glbl_soft_reg_3  = 0x44556677;  // Sig-3
        // Wait for core 1 to finish.
        bthread_join(1);
-       bthread_join(2);
-       bthread_join(3);
 
 
        // Stop counting stats

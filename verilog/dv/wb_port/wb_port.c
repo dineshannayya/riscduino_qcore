@@ -18,7 +18,7 @@
 // This include is relative to $CARAVEL_PATH (see Makefile)
 #include <defs.h>
 #include <stub.c>
-#include "../c_func/inc/ext_reg_map.h"
+#include "ext_reg_map.h"
 
 
 
@@ -97,7 +97,7 @@ void main()
     // Remove Reset
     reg_glbl_cfg0 = 0x01f;
 
-    if (reg_glbl_chip_id != 0x82681501) bFail = 1;
+    if (reg_glbl_chip_id != 0x82684501) bFail = 1;
     if (bFail == 1) reg_mprj_datal = 0xAB610000;
 
     // write software write & read Register
