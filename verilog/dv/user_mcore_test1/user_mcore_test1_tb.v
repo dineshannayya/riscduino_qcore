@@ -101,8 +101,8 @@ parameter real XTAL_PERIOD = 6;
 	        repeat (2) @(posedge clock);
 		#1;
 		// Remove all the reset
-		$display("STATUS: Working with Both core Risc core 0 & 1 ");
-        wb_user_core_write(`ADDR_SPACE_GLBL+`GLBL_CFG_CFG0,'h31F);
+		$display("STATUS: Working with Both core Risc core 0/1/2/3 ");
+        wb_user_core_write(`ADDR_SPACE_GLBL+`GLBL_CFG_CFG0,'hF1F);
 
 
         wait_riscv_boot();

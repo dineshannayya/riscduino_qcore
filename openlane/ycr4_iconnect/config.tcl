@@ -80,17 +80,25 @@ set ::env(DIODE_INSERTION_STRATEGY) 4
 #LVS Issue - DEF Base looks to having issue
 set ::env(MAGIC_EXT_USE_GDS) {1}
 
-set ::env(PL_RESIZER_BUFFER_INPUT_PORTS) "0"
-set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) "1"
-set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) "1"
-set ::env(PL_RESIZER_DESIGN_OPTIMIZATIONS) "1"
+set ::env(GLB_RESIZER_MAX_SLEW_MARGIN) {1.5}
+set ::env(PL_RESIZER_MAX_SLEW_MARGIN) {1.5}
+
+set ::env(GLB_RESIZER_MAX_CAP_MARGIN) {0.25}
+set ::env(PL_RESIZER_MAX_CAP_MARGIN) {0.25}
+
+set ::env(GLB_RESIZER_MAX_WIRE_LENGTH) {500}
+set ::env(PL_RESIZER_MAX_WIRE_LENGTH) {500}
+
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(QUIT_ON_MAGIC_DRC) "1"
 set ::env(QUIT_ON_LVS_ERROR) "1"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
 
-
 set ::env(FP_PDN_VPITCH) 100
 set ::env(FP_PDN_HPITCH) 100
 set ::env(FP_PDN_VWIDTH) 6.2
 set ::env(FP_PDN_HWIDTH) 6.2
+
+#As tool has issue in fixing hold violation, temp enabled this
+#set ::env(GLB_RESIZER_ALLOW_SETUP_VIOS) {1}
+#set ::env(ECO_ENABLE) {0}

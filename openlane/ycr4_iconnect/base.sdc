@@ -7,7 +7,7 @@ create_generated_clock -name sram0_clk1 -add -source [get_ports {core_clk}] -mas
 
 set_clock_transition 0.1500 [all_clocks]
 set_clock_uncertainty -setup 0.5000 [all_clocks]
-set_clock_uncertainty -hold 0.2500 [all_clocks]
+set_clock_uncertainty -hold 0.3000 [all_clocks]
 
 set ::env(SYNTH_TIMING_DERATE) 0.05
 puts "\[INFO\]: Setting timing derate to: [expr {$::env(SYNTH_TIMING_DERATE) * 10}] %"
@@ -172,7 +172,7 @@ set_output_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay [get_port
 
 
 #Towards ycr_intf - dmem
-set_input_delay  -min 3.0000 -clock [get_clocks {core_clk}] -add_delay [get_ports {core_dmem_req_ack}]
+set_input_delay  -min 2.0000 -clock [get_clocks {core_clk}] -add_delay [get_ports {core_dmem_req_ack}]
 set_input_delay  -min 3.0000 -clock [get_clocks {core_clk}] -add_delay [get_ports {core_dmem_rdata[*]}]
 set_input_delay  -min 3.0000 -clock [get_clocks {core_clk}] -add_delay [get_ports {core_dmem_resp[*]}]
 
@@ -272,6 +272,10 @@ set_driving_cell -lib_cell sky130_fd_sc_hd__inv_8 -pin {Y} [all_inputs]
 set cap_load 0.0334
 puts "\[INFO\]: Setting load to: $cap_load"
 set_load  $cap_load [all_outputs]
+
+set_max_transition 1.00 [current_design]
+set_max_capacitance 0.2 [current_design]
+set_max_fanout 10 [current_design]
 
 ###############################################################################
 # Design Rules
