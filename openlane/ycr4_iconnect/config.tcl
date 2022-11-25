@@ -34,6 +34,7 @@ set ::env(CLOCK_BUFFER_FANOUT) "8"
 set ::env(LEC_ENABLE) 0
 
 set ::env(VERILOG_FILES) "\
+    $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/clk_skew_adjust.gv                  \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_iconnect.sv                  \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_cross_bar.sv                 \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_router.sv                    \
@@ -60,11 +61,11 @@ set ::env(LEC_ENABLE) 0
 ## Floorplan
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 390 1900"
+set ::env(DIE_AREA) "0 0 400 2000"
 
 set ::env(PL_TARGET_DENSITY) 0.20
-#set ::env(CELL_PAD) 2
-#set ::env(GRT_ADJUSTMENT) {0.2}
+#set ::env(CELL_PAD) 8
+set ::env(GRT_ADJUSTMENT) {0.2}
 
 #set ::env(GLB_RT_ADJUSTMENT) {0.2}
 

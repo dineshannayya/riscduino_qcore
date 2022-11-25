@@ -233,6 +233,7 @@ parameter P_QDDR   = 2'b11;
 	   	$dumpvars(0, user_risc_regress_tb.u_top.u_riscv_top);
 	   	$dumpvars(0, user_risc_regress_tb.u_top.u_qspi_master);
 	   	$dumpvars(0, user_risc_regress_tb.u_top.u_intercon);
+	   	$dumpvars(0, user_risc_regress_tb.u_top.u_pinmux);
 	   end
        `endif
 

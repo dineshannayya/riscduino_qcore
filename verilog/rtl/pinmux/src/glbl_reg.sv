@@ -260,8 +260,8 @@ wire   sw_rd_en_31 = sw_rd_en  & (sw_addr == 5'h1F);
 //    7 -  Riscdunio (MPW-9)
 
 wire [15:0] manu_id      =  16'h8268; // Asci value of RD
-wire [3:0]  total_core   =  4'h04;
-wire [3:0]  chip_id      =  4'h05;
+wire [3:0]  total_core   =  4'h4;
+wire [3:0]  chip_id      =  4'h5;
 wire [7:0]  chip_rev     =  8'h01;
 
 assign reg_0 = {manu_id,total_core,chip_id,chip_rev};
@@ -367,7 +367,26 @@ gen_32b_reg  #(32'h0) u_reg_3	(
 assign  irq_lines     = reg_3[31:0] & reg_4[31:0]; 
 
 // In Arduino GPIO[7:0] is corresponds to PORT-A which is not available for user access
-wire [31:0] hware_intr_req = {gpio_intr[31:8], 2'b0,pwm_intr,usb_intr, i2cm_intr,timer_intr[2:0]};
+
+logic usb_intr_s,usb_intr_ss;   // Usb Interrupt Double Sync
+logic i2cm_intr_s,i2cm_intr_ss; // I2C Interrupt Double Sync
+
+always @ (posedge mclk or negedge s_reset_n)
+begin  
+   if (s_reset_n == 1'b0) begin
+     usb_intr_s   <= 'h0;
+     usb_intr_ss  <= 'h0;
+     i2cm_intr_s  <= 'h0;
+     i2cm_intr_ss <= 'h0;
+   end else begin
+     usb_intr_s   <= usb_intr;
+     usb_intr_ss  <= usb_intr_s;
+     i2cm_intr_s  <= i2cm_intr;
+     i2cm_intr_ss <= i2cm_intr_s;
+   end
+end
+
+wire [31:0] hware_intr_req = {gpio_intr[31:8], 2'b0,pwm_intr,usb_intr_ss, i2cm_intr_ss,timer_intr[2:0]};
 
 generic_intr_stat_reg #(.WD(32),
 	                .RESET_DEFAULT(0)) u_reg4 (
@@ -760,6 +779,9 @@ wire  dbg_clk_ref       = (cfg_mon_sel == 4'b000) ? user_clock1    :
 	                       (cfg_mon_sel == 4'b110) ? usb_clk      : 
 	                       (cfg_mon_sel == 4'b111) ? rtc_clk      : 1'b0;
 
+wire dbg_clk_ref_buf;
+ctech_clk_buf u_clkbuf_dbg_ref (.A (dbg_clk_ref), . X(dbg_clk_ref_buf));
+
 //  DIv16 to debug monitor purpose
 logic dbg_clk_div16;
 
@@ -767,7 +789,7 @@ clk_ctl #(3) u_dbgclk (
    // Outputs
        .clk_o         (dbg_clk_div16    ),
    // Inputs
-       .mclk          (dbg_clk_ref      ),
+       .mclk          (dbg_clk_ref_buf  ),
        .reset_n       (e_reset_n        ), 
        .clk_div_ratio (4'hE             )
    );

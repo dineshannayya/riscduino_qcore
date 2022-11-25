@@ -68,7 +68,7 @@
 `include "sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v"
 `include "i2c_slave_model.v"
 
-module tb_top;
+module user_i2cm_tb;
 parameter real CLK1_PERIOD  = 20; // 50Mhz
 parameter real CLK2_PERIOD = 2.5;
 parameter real IPLL_PERIOD = 5.008;
@@ -76,6 +76,7 @@ parameter real XTAL_PERIOD = 6;
 
 `include "user_tasks.sv"
 
+reg [15:0] prescale;
 
 //----------------------------------
 // Uart Configuration
@@ -87,7 +88,7 @@ integer i,j;
 	`ifdef WFDUMP
 	   initial begin
 	   	$dumpfile("simx.vcd");
-	   	$dumpvars(0, tb_top);
+	   	$dumpvars(0, user_i2cm_tb);
 	   end
        `endif
 
@@ -119,9 +120,12 @@ begin
     @(posedge  clock);
     $display("---------- Initialize I2C Master ----------"); 
 
+    // Sysclock: 50Mhz, I2C : 400Khz
+    tb_set_i2c_prescale(50000000,400000,prescale);
+    
     //Wrire Prescale registers
-     wb_user_core_write(`ADDR_SPACE_I2CM+(8'h0<<2),8'hC7);  
-     wb_user_core_write(`ADDR_SPACE_I2CM+(8'h1<<2),8'h00);  
+     wb_user_core_write(`ADDR_SPACE_I2CM+(8'h0<<2),prescale[7:0]);  
+     wb_user_core_write(`ADDR_SPACE_I2CM+(8'h1<<2),prescale[15:8]);  
     // Core Enable
      wb_user_core_write(`ADDR_SPACE_I2CM+(8'h2<<2),8'h80);  
     

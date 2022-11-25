@@ -18,4 +18,7 @@ $(USER_PROJECT_VERILOG)/gl/pinmux_top.v
 $(USER_PROJECT_VERILOG)/gl/uart_i2c_usb_spi_top.v
 $(USER_PROJECT_VERILOG)/gl/wb_interconnect.v
 
+-v $(USER_PROJECT_VERILOG)/rtl/dg_pll/src/dg_pll.v
+-v $(USER_PROJECT_VERILOG)/rtl/dac/src/dac_top.v
+
 

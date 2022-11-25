@@ -43,15 +43,17 @@
 	read_verilog $::env(CARAVEL_ROOT)/verilog/gl/caravel.v	
 
 	# User project netlist
-        read_verilog $::env(USER_ROOT)/verilog/gl/qspim_top.v
-        read_verilog $::env(USER_ROOT)/verilog/gl/ycr4_iconnect.v
-        read_verilog $::env(USER_ROOT)/verilog/gl/ycr_intf.v
-        read_verilog $::env(USER_ROOT)/verilog/gl/ycr_core_top.v
-        read_verilog $::env(USER_ROOT)/verilog/gl/uart_i2c_usb_spi_top.v
-        read_verilog $::env(USER_ROOT)/verilog/gl/wb_host.v  
-        read_verilog $::env(USER_ROOT)/verilog/gl/wb_interconnect.v
-        read_verilog $::env(USER_ROOT)/verilog/gl/pinmux_top.v
-        read_verilog $::env(USER_ROOT)/verilog/gl/user_project_wrapper.v  
+    read_verilog $::env(USER_ROOT)/verilog/gl/qspim_top.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/ycr4_iconnect.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/ycr_intf.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/ycr_core_top.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/uart_i2c_usb_spi_top.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/wb_host.v  
+    read_verilog $::env(USER_ROOT)/verilog/gl/wb_interconnect.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/pinmux_top.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/dg_pll.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/dac_top.v
+    read_verilog $::env(USER_ROOT)/verilog/gl/user_project_wrapper.v  
 
 
 	link_design caravel	
@@ -157,11 +159,13 @@
         read_spef -path mprj/u_uart_i2c_usb_spi               $::env(USER_ROOT)/spef/uart_i2c_usb_spi_top.spef
         read_spef -path mprj/u_wb_host                        $::env(USER_ROOT)/spef/wb_host.spef
         read_spef -path mprj/u_intercon                       $::env(USER_ROOT)/spef/wb_interconnect.spef
-	read_spef -path mprj/u_pll                            $::env(USER_ROOT)/spef/digital_pll.spef	
+	    read_spef -path mprj/u_pll                            $::env(USER_ROOT)/spef/dg_pll.spef	
+	    read_spef -path mprj/u_4x8bit_dac                     $::env(USER_ROOT)/spef/dac_top.spef	
         read_spef -path mprj                                  $::env(USER_ROOT)/spef/user_project_wrapper.spef  
 
 
 	read_sdc -echo ./sdc/caravel.sdc	
+	set_propagated_clock [all_clocks]
 	check_setup  -verbose >  unconstraints.rpt
 	report_checks -path_delay min -fields {slew cap input nets fanout} -format full_clock_expanded -group_count 50	
 	report_checks -path_delay max -fields {slew cap input nets fanout} -format full_clock_expanded -group_count 50	

@@ -73,8 +73,9 @@ set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(DESIGN_DIR)/../../verilog/gl/ycr_intf.v \
 	$::env(DESIGN_DIR)/../../verilog/gl/ycr_core_top.v \
 	$::env(DESIGN_DIR)/../../verilog/gl/ycr4_iconnect.v \
-	$::env(DESIGN_DIR)/../../verilog/gl/digital_pll.v \
-	$::env(PDK_ROOT)/sky130B/libs.ref/sky130_sram_macros/verilog/sky130_sram_2kbyte_1rw1r_32x512_8.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/dg_pll.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/dac_top.v \
+	$::env(PDK_ROOT)/$::env(PDK)/libs.ref/sky130_sram_macros/verilog/sky130_sram_2kbyte_1rw1r_32x512_8.v \
 	"
 
 set ::env(EXTRA_LEFS) "\
@@ -86,8 +87,9 @@ set ::env(EXTRA_LEFS) "\
 	$lef_root/ycr_intf.lef \
 	$lef_root/ycr_core_top.lef \
 	$lef_root/ycr4_iconnect.lef \
-	$lef_root/digital_pll.lef \
-	$::env(PDK_ROOT)/sky130B/libs.ref/sky130_sram_macros/lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef \
+	$lef_root/dg_pll.lef \
+	$::env(PDK_ROOT)/$::env(PDK)/libs.ref/sky130_sram_macros/lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef \
+	$lef_root/dac_top.lef \
 	"
 
 set ::env(EXTRA_GDS_FILES) "\
@@ -99,8 +101,9 @@ set ::env(EXTRA_GDS_FILES) "\
 	$gds_root/ycr_intf.gds \
 	$gds_root/ycr_core_top.gds \
 	$gds_root/ycr4_iconnect.gds \
-	$gds_root/digital_pll.gds \
-	$::env(PDK_ROOT)/sky130B/libs.ref/sky130_sram_macros/gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds \
+	$gds_root/dg_pll.gds \
+	$gds_root/dac_top.gds \
+	$::env(PDK_ROOT)/$::env(PDK)/libs.ref/sky130_sram_macros/gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds \
 	"
 
 set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
@@ -121,13 +124,13 @@ set ::env(FP_PDN_IRDROP) "1"
 set ::env(FP_PDN_HORIZONTAL_HALO) "10"
 set ::env(FP_PDN_VERTICAL_HALO) "10"
 set ::env(FP_PDN_VOFFSET) "5"
-set ::env(FP_PDN_VPITCH) "60"
+set ::env(FP_PDN_VPITCH) "80"
 set ::env(FP_PDN_HOFFSET) "5"
-set ::env(FP_PDN_HPITCH) "60"
+set ::env(FP_PDN_HPITCH) "80"
 set ::env(FP_PDN_HWIDTH) {6.2}
 set ::env(FP_PDN_VWIDTH) {6.2}
-set ::env(FP_PDN_HSPACING) {20}
-set ::env(FP_PDN_VSPACING) {20}
+set ::env(FP_PDN_HSPACING) {13.8}
+set ::env(FP_PDN_VSPACING) {13.8}
 
 set ::env(VDD_NETS) {vccd1 vccd2 vdda1 vdda2}
 set ::env(GND_NETS) {vssd1 vssd2 vssa1 vssa2}
@@ -136,6 +139,7 @@ set ::env(GND_NET) {vssd1}
 set ::env(VDD_PIN) {vccd1}
 set ::env(GND_PIN) {vssd1}
 
+set ::env(PDN_STRIPE) {vccd1 vdda1 vssd1 vssa1}
 set ::env(DRT_OPT_ITERS) {32}
 
 set ::env(GRT_OBS) "                              \
@@ -170,7 +174,8 @@ set ::env(FP_PDN_MACRO_HOOKS) " \
 	u_riscv_top.i_core_top_2    vccd1 vssd1 vccd1 vssd1, \
 	u_riscv_top.i_core_top_3    vccd1 vssd1 vccd1 vssd1, \
 	u_riscv_top.u_connect       vccd1 vssd1 VPWR  VGND, \
-	u_riscv_top.u_intf          vccd1 vssd1 vccd1 vssd1 \
+	u_riscv_top.u_intf          vccd1 vssd1 vccd1 vssd1, \
+	u_4x8bit_dac                vdda1 vssa1 vccd1 vssd1
       	"
 
 
@@ -183,8 +188,8 @@ set ::env(PL_RESIZER_TIMING_OPTIMIZATIONS) 0
 set ::env(PL_RESIZER_BUFFER_INPUT_PORTS) 0
 set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) 0
 set ::env(DIODE_INSERTION_STRATEGY) 0
-set ::env(FILL_INSERTION) 0
-set ::env(TAP_DECAP_INSERTION) 0
+set ::env(RUN_FILL_INSERTION) 0
+set ::env(RUN_TAP_DECAP_INSERTION) 0
 set ::env(CLOCK_TREE_SYNTH) 0
 set ::env(QUIT_ON_LVS_ERROR) "1"
 set ::env(QUIT_ON_MAGIC_DRC) "0"
