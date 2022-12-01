@@ -282,6 +282,11 @@
 ////         B. clock skew control added for core clock           ////
 ////    5.8  Nov 20, 2022, Dinesh A                               ////
 ////         A. Pinmux - Double Sync added for usb & i2c inter    ////
+////    5.9  Nov 25, 2022, Dinesh A                               ////
+////         cpu_clk will be feed through wb_interconnect for     ////
+////         buffering purpose                                    ////
+////    6.0  Nov 27, 2022, Dinesh A                               ////
+////         MPW-7 Timing clean setup
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -741,6 +746,36 @@ wire                           sspis_ssn                              ; // cs_n
 wire                           usb_intr_o                             ;
 wire                           i2cm_intr_o                            ;
 
+//------------------------------------------------------------
+// AES Integration local decleration
+//------------------------------------------------------------
+wire                           cpu_clk_aes                            ;
+wire [3:0]                     cfg_ccska_aes                          ;
+wire [3:0]                     cfg_ccska_aes_rp                       ;
+wire                           aes_dmem_req                           ;
+wire                           aes_dmem_cmd                           ;
+wire [1:0]                     aes_dmem_width                         ;
+wire [6:0]                     aes_dmem_addr                          ;
+wire [31:0]                    aes_dmem_wdata                         ;
+wire                           aes_dmem_req_ack                       ;
+wire [31:0]                    aes_dmem_rdata                         ;
+wire [1:0]                     aes_dmem_resp                          ;
+
+//------------------------------------------------------------
+// FPU Integration local decleration
+//------------------------------------------------------------
+wire                           cpu_clk_fpu                            ;
+wire [3:0]                     cfg_ccska_fpu                          ;
+wire [3:0]                     cfg_ccska_fpu_rp                       ;
+wire                           fpu_dmem_req                           ;
+wire                           fpu_dmem_cmd                           ;
+wire [1:0]                     fpu_dmem_width                         ;
+wire [4:0]                     fpu_dmem_addr                          ;
+wire [31:0]                    fpu_dmem_wdata                         ;
+wire                           fpu_dmem_req_ack                       ;
+wire [31:0]                    fpu_dmem_rdata                         ;
+wire [1:0]                     fpu_dmem_resp                          ;
+
 //----------------------------------------------------------------
 //  UART Master I/F
 //  -------------------------------------------------------------
@@ -825,17 +860,33 @@ wire [3:0] cfg_ccska_riscv_core1_rp ;
 wire [3:0] cfg_ccska_riscv_core2_rp ;
 wire [3:0] cfg_ccska_riscv_core3_rp ;
 
-wire [3:0] cfg_ccska_riscv_intf   = cfg_clk_skew_ctrl2[3:0];
-wire [3:0] cfg_ccska_riscv_icon   = cfg_clk_skew_ctrl2[7:4];
-wire [3:0] cfg_ccska_riscv_core0  = cfg_clk_skew_ctrl2[11:8];
-wire [3:0] cfg_ccska_riscv_core1  = cfg_clk_skew_ctrl2[15:12];
-wire [3:0] cfg_ccska_riscv_core2  = cfg_clk_skew_ctrl2[19:16];
-wire [3:0] cfg_ccska_riscv_core3  = cfg_clk_skew_ctrl2[23:20];
+wire [3:0]   cfg_ccska_riscv_intf   = cfg_clk_skew_ctrl2[3:0];
+wire [3:0]   cfg_ccska_riscv_icon   = cfg_clk_skew_ctrl2[7:4];
+wire [3:0]   cfg_ccska_riscv_core0  = cfg_clk_skew_ctrl2[11:8];
+wire [3:0]   cfg_ccska_riscv_core1  = cfg_clk_skew_ctrl2[15:12];
+wire [3:0]   cfg_ccska_riscv_core2  = cfg_clk_skew_ctrl2[19:16];
+wire [3:0]   cfg_ccska_riscv_core3  = cfg_clk_skew_ctrl2[23:20];
+assign       cfg_ccska_aes          = cfg_clk_skew_ctrl2[27:24];
+assign       cfg_ccska_fpu          = cfg_clk_skew_ctrl2[31:28];
 
 assign la_data_out[127:0]    = {pinmux_debug,spi_debug,riscv_debug};
 
 wire   int_pll_clock       = pll_clk_out[0];
 
+//-------------------------------------
+// cpu clock repeater mapping
+//-------------------------------------
+wire [2:0] cpu_clk_rp;
+
+wire [1:0] cpu_clk_rp_risc   = cpu_clk_rp[1:0];
+wire       cpu_clk_rp_pinmux = cpu_clk_rp[2];
+
+
+
+
+/***********************************************
+ Wishbone HOST
+*************************************************/
 
 wb_host u_wb_host(
 `ifdef USE_POWER_PINS
@@ -910,6 +961,9 @@ wb_host u_wb_host(
 
     );
 
+/****************************************************************
+  Digital PLL
+*****************************************************************/
 
 // This rtl/gds picked from efabless caravel project 
 dg_pll   u_pll(
@@ -953,7 +1007,7 @@ ycr4_top_wb u_riscv_top (
 	  .cfg_bypass_dcache       (cfg_bypass_dcache       ),
 
     // Clock
-          .core_clk_int            (cpu_clk                    ),
+          .core_clk_int            (cpu_clk_rp_risc            ),
           .cfg_ccska_riscv_intf    (cfg_ccska_riscv_intf_rp    ),
           .cfg_ccska_riscv_icon    (cfg_ccska_riscv_icon_rp    ),
           .cfg_ccska_riscv_core0   (cfg_ccska_riscv_core0_rp   ),
@@ -1220,8 +1274,8 @@ qspim_top
 
 wb_interconnect  #(
 	`ifndef SYNTHESIS
-          .CH_CLK_WD           (4                       ),
-	      .CH_DATA_WD          (146                     )
+          .CH_CLK_WD           (7                      ),
+	      .CH_DATA_WD          (154                     )
         `endif
 	) u_intercon (
 `ifdef USE_POWER_PINS
@@ -1229,16 +1283,22 @@ wb_interconnect  #(
           .vssd1                   (vssd1                   ),// User area 1 digital ground
 `endif
 	  .ch_clk_in               ({
+                                     cpu_clk,
+                                     cpu_clk,
+                                     cpu_clk,
                                      wbd_clk_int, 
                                      wbd_clk_int, 
                                      wbd_clk_int, 
                                      wbd_clk_int}                  ),
 	  .ch_clk_out              ({
+                                     cpu_clk_rp,
                                      wbd_clk_pinmux_rp, 
                                      wbd_clk_uart_rp, 
                                      wbd_clk_qspi_rp, 
                                      wbd_clk_risc_rp}              ),
 	  .ch_data_in              ({
+                                  cfg_ccska_fpu[3:0],
+                                  cfg_ccska_aes[3:0],
                                   strap_sticky[31:0],
                                   strap_uartm[1:0],
                                   system_strap[31:0],
@@ -1263,6 +1323,8 @@ wb_interconnect  #(
                                   cfg_wcska_riscv[3:0]
 			             }                             ),
 	  .ch_data_out             ({
+			                      cfg_ccska_fpu_rp[3:0],
+			                      cfg_ccska_aes_rp[3:0],
                                   strap_sticky_rp[31:0],
                                   strap_uartm_rp[1:0],
                                   system_strap_rp[31:0],
@@ -1471,7 +1533,7 @@ pinmux_top u_pinmux(
           .user_clock2             (user_clock2             ),
           .int_pll_clock           (int_pll_clock           ),
           .xtal_clk                (xtal_clk                ),
-          .cpu_clk                 (cpu_clk                 ),
+          .cpu_clk                 (cpu_clk_rp_pinmux       ),
 
 
           .rtc_clk                 (rtc_clk                 ),
@@ -1574,6 +1636,8 @@ pinmux_top u_pinmux(
    ); 
 
 
+
+
 dac_top  u_4x8bit_dac(
 `ifdef USE_POWER_PINS
     .vccd1                 (vdda1                  ),
@@ -1589,4 +1653,7 @@ dac_top  u_4x8bit_dac(
     .Vout2(analog_io[17]   ),
     .Vout3(analog_io[18]   )
    );
+
+
+
 endmodule : user_project_wrapper

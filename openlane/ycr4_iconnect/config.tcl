@@ -23,7 +23,7 @@ set ::env(FP_PDN_CORE_RING) "0"
 
 # Timing configuration
 set ::env(CLOCK_PERIOD) "10"
-set ::env(CLOCK_PORT) "core_clk rtc_clk"
+set ::env(CLOCK_PORT) "u_cclk_cts.genblk1.u_mux/X rtc_clk"
 
 set ::env(SYNTH_MAX_FANOUT) 4
 
@@ -34,7 +34,7 @@ set ::env(CLOCK_BUFFER_FANOUT) "8"
 set ::env(LEC_ENABLE) 0
 
 set ::env(VERILOG_FILES) "\
-    $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/clk_skew_adjust.gv                  \
+    $::env(DESIGN_DIR)/../../verilog/rtl/lib/clk_skew_adjust.gv                  \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_iconnect.sv                  \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_cross_bar.sv                 \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr4_router.sv                    \
@@ -44,7 +44,7 @@ set ::env(VERILOG_FILES) "\
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr_timer.sv                      \
     $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/top/ycr_req_retiming.sv               \
     $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/ycr_arb.sv                        \
-    $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/ctech_cells.sv                    \
+    $::env(DESIGN_DIR)/../../verilog/rtl/lib/ctech_cells.sv                                     \
     $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/sync_fifo2.sv                     \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/core/primitives/ycr_reset_cells.sv    \
 	"

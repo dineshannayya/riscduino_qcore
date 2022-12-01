@@ -24,15 +24,24 @@ set_clock_groups -name async_clock -asynchronous \
  -group [get_clocks {rtc_clk}]\
  -group [get_clocks {wb_clk}] -comment {Async Clock group}
 
+# Set case analysis
+set_case_analysis  0 [get_ports {cfg_ccska[3]}]
+set_case_analysis  0 [get_ports {cfg_ccska[2]}]
+set_case_analysis  0 [get_ports {cfg_ccska[1]}]
+set_case_analysis  0 [get_ports {cfg_ccska[0]}]
+
+set_case_analysis  0 [get_ports {cfg_wcska[3]}]
+set_case_analysis  0 [get_ports {cfg_wcska[2]}]
+set_case_analysis  0 [get_ports {cfg_wcska[1]}]
+set_case_analysis  0 [get_ports {cfg_wcska[0]}]
+
 #Assumed config are static
 set_false_path -from  [get_ports {cfg_dcache_force_flush}]
 set_false_path -from  [get_ports {cfg_dcache_pfet_dis}]
 set_false_path -from  [get_ports {cfg_icache_ntag_pfet_dis}]
 set_false_path -from  [get_ports {cfg_icache_pfet_dis}]
-set_false_path -from  [get_ports {cfg_cska_riscv[3]}]
-set_false_path -from  [get_ports {cfg_cska_riscv[2]}]
-set_false_path -from  [get_ports {cfg_cska_riscv[1]}]
-set_false_path -from  [get_ports {cfg_cska_riscv[0]}]
+
+
 set_false_path -from  [get_ports {cfg_sram_lphase[1]}]
 set_false_path -from  [get_ports {cfg_sram_lphase[0]}]
 
@@ -51,19 +60,19 @@ set_output_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_por
 set_output_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_resp[*]}]
 
 
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_cmd}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_addr[*]}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_bl[*]}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_width[*]}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_cmd}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_addr[*]}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_bl[*]}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_width[*]}]
 
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_cmd}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_addr[*]}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_bl[*]}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_width[*]}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_cmd}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_req}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_addr[*]}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_bl[*]}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_icache_width[*]}]
 
 #Wishbone ICACHE I/F
 set_output_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_icache_stb_o}]
@@ -102,17 +111,17 @@ set_output_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_por
 set_output_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_rdata[*]}]
 set_output_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_resp[*]}]
 
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_req}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_cmd}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_width[*]}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_addr[*]}]
-set_input_delay -min 2.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_wdata[*]}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_req}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_cmd}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_width[*]}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_addr[*]}]
+set_input_delay -min 4.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_wdata[*]}]
 
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_req}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_cmd}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_width[*]}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_addr[*]}]
-set_input_delay -max 6.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_wdata[*]}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_req}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_cmd}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_width[*]}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_addr[*]}]
+set_input_delay -max 8.0000 -clock [get_clocks {core_clk}] -add_delay  [get_ports {core_dcache_wdata[*]}]
 
 
 # Data memory interface from router to WB bridge
@@ -160,21 +169,21 @@ set_input_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports 
 
 
 ## ICACHE PORT-0 SRAM Memory I/F
-set_output_delay -min 2.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_csb0}]
-set_output_delay -min 2.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_web0}]
-set_output_delay -min 2.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_addr0[*]}]
-set_output_delay -min 2.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_wmask0[*]}]
-set_output_delay -min 2.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_din0[*]}]
+set_output_delay -min -1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_csb0}]
+set_output_delay -min -1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_web0}]
+set_output_delay -min -1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_addr0[*]}]
+set_output_delay -min -1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_wmask0[*]}]
+set_output_delay -min -1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_din0[*]}]
 
-set_output_delay -max 3.5000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_csb0}]
-set_output_delay -max 3.5000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_web0}]
-set_output_delay -max 3.5000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_addr0[*]}]
-set_output_delay -max 3.5000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_wmask0[*]}]
-set_output_delay -max 3.5000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_din0[*]}]
+set_output_delay -max 1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_csb0}]
+set_output_delay -max 1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_web0}]
+set_output_delay -max 1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_addr0[*]}]
+set_output_delay -max 1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_wmask0[*]}]
+set_output_delay -max 1.0000 -clock [get_clocks {icache_mem_clk0}] -add_delay  [get_ports {icache_mem_din0[*]}]
 
 ## ICACHE PORT-1 SRAM Memory I/F
-set_output_delay -min 2.0000 -clock [get_clocks {icache_mem_clk1}] -add_delay  [get_ports {icache_mem_csb1}]
-set_output_delay -min 2.0000 -clock [get_clocks {icache_mem_clk1}] -add_delay  [get_ports {icache_mem_addr1[*]}]
+set_output_delay -min -1.0000 -clock [get_clocks {icache_mem_clk1}] -add_delay  [get_ports {icache_mem_csb1}]
+set_output_delay -min -1.0000 -clock [get_clocks {icache_mem_clk1}] -add_delay  [get_ports {icache_mem_addr1[*]}]
 set_output_delay -max 3.5000 -clock [get_clocks {icache_mem_clk1}] -add_delay  [get_ports {icache_mem_csb1}]
 set_output_delay -max 3.5000 -clock [get_clocks {icache_mem_clk1}] -add_delay  [get_ports {icache_mem_addr1[*]}]
 
@@ -199,39 +208,39 @@ set_output_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports
 set_output_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_bl_o[*]}]
 set_output_delay -max 5.5000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_bry_o}]
 
-set_output_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_dat_i[*]}]
-set_output_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_ack_i}]
-set_output_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_lack_i}]
-set_output_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_err_i}]
+set_input_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_dat_i[*]}]
+set_input_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_ack_i}]
+set_input_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_lack_i}]
+set_input_delay -min 2.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_err_i}]
 
-set_output_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_dat_i[*]}]
-set_output_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_ack_i}]
-set_output_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_lack_i}]
-set_output_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_err_i}]
+set_input_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_dat_i[*]}]
+set_input_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_ack_i}]
+set_input_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_lack_i}]
+set_input_delay -max 6.0000 -clock [get_clocks {wb_clk}] -add_delay  [get_ports {wb_dcache_err_i}]
 
 ## DCACHE PORT-0 SRAM I/F
-set_output_delay -min 2.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_csb0}]
-set_output_delay -min 2.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_web0}]
-set_output_delay -min 2.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_addr0[*]}]
-set_output_delay -min 2.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_wmask0[*]}]
-set_output_delay -min 2.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_din0[*]}]
+set_output_delay -min -1.2500 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_csb0}]
+set_output_delay -min -1.2500  -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_web0}]
+set_output_delay -min -1.2500  -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_addr0[*]}]
+set_output_delay -min -1.2500  -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_wmask0[*]}]
+set_output_delay -min -1.2500  -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_din0[*]}]
 
-set_output_delay -max 3.5000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_csb0}]
-set_output_delay -max 3.5000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_web0}]
-set_output_delay -max 3.5000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_addr0[*]}]
-set_output_delay -max 3.5000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_wmask0[*]}]
-set_output_delay -max 3.5000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_din0[*]}]
+set_output_delay -max 1.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_csb0}]
+set_output_delay -max 1.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_web0}]
+set_output_delay -max 1.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_addr0[*]}]
+set_output_delay -max 1.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_wmask0[*]}]
+set_output_delay -max 1.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_din0[*]}]
 
 set_input_delay  -min 2.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_dout0[*]}]
 set_input_delay  -max 6.0000 -clock [get_clocks {dcache_mem_clk0}] -add_delay  [get_ports {dcache_mem_dout0[*]}]
 
 
 ## DCACHE PORT-1 SRAM I/F
-set_output_delay -min 2.0000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_csb1}]
-set_output_delay -min 2.0000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_addr1[*]}]
+set_output_delay -min -1.2500  -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_csb1}]
+set_output_delay -min -1.2500  -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_addr1[*]}]
 
-set_output_delay -max 3.5000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_csb1}]
-set_output_delay -max 3.5000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_addr1[*]}]
+set_output_delay -max 1.000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_csb1}]
+set_output_delay -max 1.000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_addr1[*]}]
 
 set_input_delay  -min 2.0000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_dout1[*]}]
 set_input_delay  -max 6.0000 -clock [get_clocks {dcache_mem_clk1}] -add_delay  [get_ports {dcache_mem_dout1[*]}]

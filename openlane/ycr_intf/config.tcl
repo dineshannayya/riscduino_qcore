@@ -34,8 +34,8 @@ set ::env(CLOCK_BUFFER_FANOUT) "8"
 set ::env(LEC_ENABLE) 0
 
 set ::env(VERILOG_FILES) "\
-        $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/clk_skew_adjust.gv                  \
-        $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/ctech_cells.sv                      \
+        $::env(DESIGN_DIR)/../../verilog/rtl/lib/clk_skew_adjust.gv                  \
+        $::env(DESIGN_DIR)/../../verilog/rtl/lib/ctech_cells.sv                      \
         $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/cache/src/core/dcache_top.sv            \
         $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/cache/src/core/dcache_tag_fifo.sv       \
         $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/cache/src/core/icache_tag_fifo.sv       \

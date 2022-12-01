@@ -25,6 +25,7 @@ set ::env(CLOCK_PERIOD) "10"
 set ::env(CLOCK_PORT) "clk"
 
 set ::env(SYNTH_MAX_FANOUT) 4
+set ::env(SYNTH_BUFFERING) {0}
 
 ## CTS BUFFER
 set ::env(CTS_CLK_BUFFER_LIST) "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"
@@ -33,8 +34,8 @@ set ::env(CLOCK_BUFFER_FANOUT) "8"
 set ::env(LEC_ENABLE) 0
 
 set ::env(VERILOG_FILES) "\
-    $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/clk_skew_adjust.gv                  \
-    $::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/lib/ctech_cells.sv                      \
+    $::env(DESIGN_DIR)/../../verilog/rtl/lib/clk_skew_adjust.gv                  \
+    $::env(DESIGN_DIR)/../../verilog/rtl/lib/ctech_cells.sv                      \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/core/pipeline/ycr_pipe_top.sv           \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/core/ycr_core_top.sv                    \
 	$::env(DESIGN_DIR)/../../verilog/rtl/yifive/ycr4c/src/core/ycr_dm.sv                          \
@@ -79,10 +80,10 @@ set ::env(FP_SIZING) absolute
 set ::env(DIE_AREA) "0 0 540 950 "
 
 set ::env(PL_TARGET_DENSITY) 0.45
-#set ::env(CELL_PAD) "8"
+set ::env(CELL_PAD) "8"
 
 ## Routing
-set ::env(GRT_ADJUSTMENT) 0.2
+#set ::env(GRT_ADJUSTMENT) 0.2
 
 set ::env(PL_TIME_DRIVEN) "1"
 
@@ -100,8 +101,8 @@ set ::env(PL_RESIZER_MAX_SLEW_MARGIN) {1.5}
 set ::env(GLB_RESIZER_MAX_CAP_MARGIN) {0.25}
 set ::env(PL_RESIZER_MAX_CAP_MARGIN) {0.25}
 
-set ::env(GLB_RESIZER_MAX_WIRE_LENGTH) {500}
-set ::env(PL_RESIZER_MAX_WIRE_LENGTH) {500}
+set ::env(GLB_RESIZER_MAX_WIRE_LENGTH) {1000}
+set ::env(PL_RESIZER_MAX_WIRE_LENGTH) {1000}
 
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(QUIT_ON_MAGIC_DRC) "1"
