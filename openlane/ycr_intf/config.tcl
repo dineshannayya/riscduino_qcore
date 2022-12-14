@@ -26,6 +26,7 @@ set ::env(CLOCK_PERIOD) "10"
 set ::env(CLOCK_PORT) "wb_clk core_clk"
 
 set ::env(SYNTH_MAX_FANOUT) 4
+set ::env(SYNTH_BUFFERING) {0}
 
 ## CTS BUFFER
 set ::env(CTS_CLK_BUFFER_LIST) "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"
@@ -64,8 +65,9 @@ set ::env(GND_PIN) [list {vssd1}]
 ## Floorplan
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 810 640 "
-set ::env(CELL_PAD) "6"
+set ::env(DIE_AREA) "0 0 775 630 "
+set ::env(CELL_PAD) "8"
+set ::env(GRT_ADJUSTMENT) {0.2}
 
 set ::env(PL_TARGET_DENSITY) 0.37
 

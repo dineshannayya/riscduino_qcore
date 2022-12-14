@@ -90,7 +90,11 @@ initial
 begin
    // Run in Fast Sim Mode
    `ifdef GL
-       force u_top.u_wb_host._10252_.Q= 1'b1; 
+       // Note During wb_host resynth this FF is changes,
+       // Keep cross-check during Gate Sim
+       force u_top.u_wb_host._10265_.Q= 1'b1; 
+       //force u_top.u_wb_host.u_reg.u_fastsim_buf.u_buf.X = 1'b1; 
+       //force u_top.u_wb_host.u_reg.cfg_fast_sim = 1'b1; 
    `else
        force u_top.u_wb_host.u_reg.u_fastsim_buf.X = 1'b1; 
     `endif

@@ -30,6 +30,7 @@ set ::env(CLOCK_PERIOD) "10"
 set ::env(CLOCK_PORT) "mclk"
 
 set ::env(SYNTH_MAX_FANOUT) 4
+set ::env(SYNTH_BUFFERING) {0}
 
 ## CTS BUFFER
 set ::env(CTS_CLK_BUFFER_LIST) "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"
@@ -45,6 +46,7 @@ set ::env(VERILOG_FILES) "\
      $::env(DESIGN_DIR)/../../verilog/rtl/pinmux/src/pinmux_top.sv     \
      $::env(DESIGN_DIR)/../../verilog/rtl/pinmux/src/pinmux.sv     \
      $::env(DESIGN_DIR)/../../verilog/rtl/pinmux/src/glbl_reg.sv  \
+     $::env(DESIGN_DIR)/../../verilog/rtl/pinmux/src/pseudorandom.sv \
      $::env(DESIGN_DIR)/../../verilog/rtl/gpio/src/gpio_top.sv  \
      $::env(DESIGN_DIR)/../../verilog/rtl/gpio/src/gpio_reg.sv  \
      $::env(DESIGN_DIR)/../../verilog/rtl/gpio/src/gpio_intr.sv \

@@ -17,7 +17,7 @@ create_generated_clock -name wb_clk -add -source [get_ports {clock}] -master_clo
 create_clock -name int_pll_clock -period 5.0000  [get_pins {mprj/u_pinmux/int_pll_clock}]
 
 create_clock -name wbs_ref_clk -period 5.0000   [get_pins {mprj/u_wb_host/u_reg.u_wbs_ref_clkbuf.u_buf/X}]
-create_clock -name wbs_clk_i   -period 26.0000  [get_pins {mprj/u_wb_host/wbs_clk_out}]
+create_clock -name wbs_clk_i   -period 30.0000  [get_pins {mprj/u_wb_host/wbs_clk_out}]
 
 create_clock -name cpu_ref_clk -period 5.0000   [get_pins {mprj/u_wb_host/u_reg.u_cpu_ref_clkbuf.u_buf/X}]
 create_clock -name cpu_clk     -period 40.0000  [get_pins {mprj/u_wb_host/cpu_clk}]
@@ -156,6 +156,10 @@ set_case_analysis 1 [get_pins padframe/clock_pad/DM[0]]
 #################################################################
 ## User Case analysis
 #################################################################
+set_case_analysis 0 [get_pins {mprj/u_peri/cfg_cska_peri[3]}]
+set_case_analysis 1 [get_pins {mprj/u_peri/cfg_cska_peri[2]}]
+set_case_analysis 1 [get_pins {mprj/u_peri/cfg_cska_peri[1]}]
+set_case_analysis 0 [get_pins {mprj/u_peri/cfg_cska_peri[0]}]
 
 set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_sp_co[3]}]
 set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_sp_co[2]}]
@@ -167,25 +171,25 @@ set_case_analysis 1 [get_pins {mprj/u_pinmux/cfg_cska_pinmux[2]}]
 set_case_analysis 0 [get_pins {mprj/u_pinmux/cfg_cska_pinmux[1]}]
 set_case_analysis 0 [get_pins {mprj/u_pinmux/cfg_cska_pinmux[0]}]
 
-set_case_analysis 1 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[3]}]
+set_case_analysis 0 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[3]}]
 set_case_analysis 1 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[2]}]
-set_case_analysis 0 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[1]}]
+set_case_analysis 1 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[1]}]
 set_case_analysis 1 [get_pins {mprj/u_uart_i2c_usb_spi/cfg_cska_uart[0]}]
 
 set_case_analysis 1 [get_pins {mprj/u_qspi_master/cfg_cska_spi[3]}]
 set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_spi[2]}]
-set_case_analysis 1 [get_pins {mprj/u_qspi_master/cfg_cska_spi[1]}]
-set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_spi[0]}]
+set_case_analysis 0 [get_pins {mprj/u_qspi_master/cfg_cska_spi[1]}]
+set_case_analysis 1 [get_pins {mprj/u_qspi_master/cfg_cska_spi[0]}]
 
 set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_wcska[3]}]
-set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_wcska[2]}]
+set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_wcska[2]}]
 set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_wcska[1]}]
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_wcska[0]}]
 
 set_case_analysis 1 [get_pins {mprj/u_wb_host/cfg_cska_wh[3]}]
 set_case_analysis 0 [get_pins {mprj/u_wb_host/cfg_cska_wh[2]}]
 set_case_analysis 0 [get_pins {mprj/u_wb_host/cfg_cska_wh[1]}]
-set_case_analysis 1 [get_pins {mprj/u_wb_host/cfg_cska_wh[0]}]
+set_case_analysis 0 [get_pins {mprj/u_wb_host/cfg_cska_wh[0]}]
 
 set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[3]}]
 set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[2]}]
@@ -214,15 +218,18 @@ set_case_analysis 1 [get_pins {mprj/u_riscv_top.i_core_top_0/cfg_ccska[2]}]
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.i_core_top_0/cfg_ccska[1]}]
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.i_core_top_0/cfg_ccska[0]}]
 
-set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_ccska[3]}]
+set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_connect/cfg_ccska[3]}]
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_ccska[2]}]
-set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_connect/cfg_ccska[1]}]
-set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_connect/cfg_ccska[0]}]
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_ccska[1]}]
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_ccska[0]}]
 
 set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_ccska[3]}]
 set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_ccska[2]}]
-set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_ccska[1]}]
-set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_ccska[0]}]
+set_case_analysis 1 [get_pins {mprj/u_riscv_top.u_intf/cfg_ccska[1]}]
+set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_ccska[0]}]
+
+
+
 
 #Keept the SRAM clock driving edge at pos edge
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_sram_lphase[0]}]
@@ -231,15 +238,6 @@ set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_intf/cfg_sram_lphase[1]}]
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_sram_lphase[0]}]
 set_case_analysis 0 [get_pins {mprj/u_riscv_top.u_connect/cfg_sram_lphase[1]}]
 
-set_case_analysis 1 [get_pins {mprj/u_aes/cfg_cska[3]}]
-set_case_analysis 0 [get_pins {mprj/u_aes/cfg_cska[2]}]
-set_case_analysis 0 [get_pins {mprj/u_aes/cfg_cska[1]}]
-set_case_analysis 0 [get_pins {mprj/u_aes/cfg_cska[0]}]
-
-set_case_analysis 1 [get_pins {mprj/u_fpu/cfg_cska[3]}]
-set_case_analysis 0 [get_pins {mprj/u_fpu/cfg_cska[2]}]
-set_case_analysis 0 [get_pins {mprj/u_fpu/cfg_cska[1]}]
-set_case_analysis 0 [get_pins {mprj/u_fpu/cfg_cska[0]}]
 
 ## FALSE PATHS (ASYNCHRONOUS INPUTS)
 set_false_path -from [get_ports {resetb}]
@@ -303,6 +301,17 @@ set_false_path -from [get_ports mprj_io[37]] -through [get_pins housekeeping/mgm
 set_false_path -from [get_ports mprj_io[*]] -through [get_pins housekeeping/mgmt_gpio_out[*]]
 set_false_path -from [get_ports mprj_io[*]] -through [get_pins housekeeping/mgmt_gpio_oeb[*]]
 set_false_path -from [get_ports gpio]
+
+#### LA Input to wb_host are false path
+set_false_path -through [get_pins mprj/u_wb_host/la_data_in[*] ]
+
+### These reset has reset synchronozation
+set_false_path -through [get_pins mprj/u_uart_i2c_usb_spi/i2c_rstn ]
+set_false_path -through [get_pins mprj/u_uart_i2c_usb_spi/spi_rstn ]
+set_false_path -through [get_pins mprj/u_uart_i2c_usb_spi/usb_rstn ]
+set_false_path -through [get_pins mprj/u_uart_i2c_usb_spi/uart_rstn[*] ]
+
+
 
 # add loads for output ports (pads)
 set min_cap 5

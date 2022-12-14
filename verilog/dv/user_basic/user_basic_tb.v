@@ -173,7 +173,7 @@ assign skew_config[27:24] =   (strap_skew == 2'b00) ?  CLK_SKEW1_RESET_VAL[27:24
                               (strap_skew == 2'b01) ?  CLK_SKEW1_RESET_VAL[27:24] + 2 :
                               (strap_skew == 2'b10) ?  CLK_SKEW1_RESET_VAL[27:24] + 4 : CLK_SKEW1_RESET_VAL[27:24]-4;
 
-assign skew_config[31:28] = 4'b0;
+assign skew_config[31:28] = CLK_SKEW1_RESET_VAL[31:28];
 
 //----------------------------------------------------------
 reg [3:0] cpu_clk_cfg,wbs_clk_cfg;
@@ -218,6 +218,24 @@ begin
    test_fail=0;
    fork
    begin
+       $display("##########################################################");
+       $display("Step-0,Monitor: Checking the chip signature :");
+       $display("###################################################");
+       test_id = 0;
+       test_step = 0;
+       // Remove Wb/PinMux Reset
+       wb_user_core_write(`ADDR_SPACE_WBHOST+`WBHOST_GLBL_CFG,'h1);
+
+       wb_user_core_read_check(`ADDR_SPACE_GLBL+`GLBL_CFG_SOFT_REG_0,read_data,CHIP_SIGNATURE);
+       wb_user_core_read_check(`ADDR_SPACE_GLBL+`GLBL_CFG_SOFT_REG_1,read_data,CHIP_RELEASE_DATE);
+       wb_user_core_read_check(`ADDR_SPACE_GLBL+`GLBL_CFG_SOFT_REG_2,read_data,CHIP_REVISION);
+       if(test_fail == 1) begin
+          $display("ERROR: Step-0,Monitor: Checking the chip signature - FAILED");
+       end else begin
+          $display("STATUS: Step-0,Monitor: Checking the chip signature - PASSED");
+          $display("##########################################################");
+       end
+
        $display("##########################################################");
        $display("Step-1, Checking the Strap Loading");
        test_id = 1;
@@ -510,25 +528,6 @@ begin
         $display("##########################################################");
 
           end
-       $display("##########################################################");
-       $display("Step-11,Monitor: Checking the chip signature :");
-       $display("###################################################");
-       test_id = 11;
-        test_step = 14;
-        // Remove Wb/PinMux Reset
-        wb_user_core_write(`ADDR_SPACE_WBHOST+`WBHOST_GLBL_CFG,'h1);
-
-         wb_user_core_read_check(`ADDR_SPACE_GLBL+`GLBL_CFG_SOFT_REG_0,read_data,CHIP_SIGNATURE);
-         wb_user_core_read_check(`ADDR_SPACE_GLBL+`GLBL_CFG_SOFT_REG_1,read_data,CHIP_RELEASE_DATE);
-         wb_user_core_read_check(`ADDR_SPACE_GLBL+`GLBL_CFG_SOFT_REG_2,read_data,CHIP_REVISION);
-         if(test_fail == 1) begin
-            $display("ERROR: Step-11,Monitor: Checking the chip signature - FAILED");
-         end else begin
-            $display("STATUS: Step-11,Monitor: Checking the chip signature - PASSED");
-
-         $display("##########################################################");
-
-          end
       end
       begin
          repeat (500000) @(posedge clock);
@@ -562,7 +561,7 @@ end
 //  UART Agent integration
 // --------------------------
 
-assign uart_txd   = io_out[7];
+assign uart_txd   = (io_oeb[7] == 1'b0) ? io_out[7] : 1'b0;
 //assign io_in[6]  = uart_rxd ; // Assigned at top-level
  
 uart_agent tb_master_uart(
@@ -668,7 +667,7 @@ task uartm_clock_monitor;
 input real exp_period;
 begin
    `ifdef GL
-   force clock_mon = u_top.u_wb_host._09635_.Q;
+   force clock_mon = u_top.u_wb_host._10379_.Q;
     `else
    force clock_mon = u_top.u_wb_host.u_uart2wb.u_core.line_clk_16x;
     `endif
@@ -678,7 +677,7 @@ end
 endtask
 
 
-wire dbg_clk_mon = io_out[37];
+wire dbg_clk_mon = (io_oeb[37] == 1'b0) ? io_out[37]: 1'b0;
 
 //assign dbg_clk_ref  =    (cfg_mon_sel == 4'b000) ? user_clock1    :
 //	                       (cfg_mon_sel == 4'b001) ? user_clock2    :

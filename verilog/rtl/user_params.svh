@@ -4,9 +4,9 @@
 // ASCI Representation of RISC = 32'h8273_8343
 parameter CHIP_SIGNATURE = 32'h8273_8343;
 // Software Reg-1, Release date: <DAY><MONTH><YEAR>
-parameter CHIP_RELEASE_DATE = 32'h2711_2022;
+parameter CHIP_RELEASE_DATE = 32'h1312_2022;
 // Software Reg-2: Poject Revison 5.1 = 0005200
-parameter CHIP_REVISION   = 32'h0006_0000;
+parameter CHIP_REVISION   = 32'h0006_4000;
 
 parameter CLK_SKEW1_RESET_VAL = 32'b0000_0000_0100_1101_1010_1010_1000_0011;
 parameter CLK_SKEW2_RESET_VAL = 32'b0000_0000_0100_0100_0100_0100_0011_1101;
@@ -149,6 +149,18 @@ system strap decoding
 `define STRAP_QSPI_INIT_BYPASS     30
 `define STRAP_SOFT_REBOOT_REQ      31
 
+//------------------------------------------------------
+// Pinumux/PeriPheral Register Map Decoding
 
+`define SEL_GLBL    4'b0000   // GLOBAL REGISTER
+`define SEL_GPIO    4'b0001   // GPIO REGISTER
+`define SEL_PWM     4'b0010   // PWM REGISTER
+`define SEL_TIMER   4'b0011   // TIMER REGISTER
+`define SEL_SEMA    4'b0100   // SEMAPHORE REGISTER
+`define SEL_WS      4'b0101   // WS281x  REGISTER
+`define SEL_PERI    1'b1      // Peripheral
+`define SEL_D2A     4'b1000   // Digital2Analog  REGISTER
+`define SEL_RTC     4'b1001   // RTC     REGISTER
+`define SEL_IR      4'b1010   // IR     REGISTER
 `endif // USER_PARMS
 

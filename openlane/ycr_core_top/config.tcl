@@ -77,7 +77,7 @@ set ::env(GND_PIN) [list {vssd1}]
 ## Floorplan
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 540 950 "
+set ::env(DIE_AREA) "0 0 500 925 "
 
 set ::env(PL_TARGET_DENSITY) 0.45
 set ::env(CELL_PAD) "8"
@@ -101,8 +101,8 @@ set ::env(PL_RESIZER_MAX_SLEW_MARGIN) {1.5}
 set ::env(GLB_RESIZER_MAX_CAP_MARGIN) {0.25}
 set ::env(PL_RESIZER_MAX_CAP_MARGIN) {0.25}
 
-set ::env(GLB_RESIZER_MAX_WIRE_LENGTH) {1000}
-set ::env(PL_RESIZER_MAX_WIRE_LENGTH) {1000}
+set ::env(GLB_RESIZER_MAX_WIRE_LENGTH) {500}
+set ::env(PL_RESIZER_MAX_WIRE_LENGTH) {500}
 
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(QUIT_ON_MAGIC_DRC) "1"

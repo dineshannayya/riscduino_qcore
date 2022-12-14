@@ -15,7 +15,9 @@
 `define ADDR_SPACE_TIMER   32'h3002_0180
 `define ADDR_SPACE_SEMA    32'h3002_0200
 `define ADDR_SPACE_WS281X  32'h3002_0280
-`define ADDR_SPACE_ANALOG  32'h3002_0300
+`define ADDR_SPACE_ANALOG  32'h3002_0400
+`define ADDR_SPACE_RTC     32'h3002_0480
+`define ADDR_SPACE_IR      32'h3002_0500
 `define ADDR_SPACE_WBHOST  32'h3008_0000
 
 //--------------------------------------------------
@@ -38,6 +40,7 @@
 `define GLBL_CFG_CLK_CTRL      8'h18  // reg_6  - RTC/USB CLK CTRL
 `define GLBL_CFG_PLL_CTRL1     8'h1C  // reg_7  - PLL Control-1
 `define GLBL_CFG_PLL_CTRL2     8'h20  // reg_8  - PLL Control-2
+`define GLBL_CFG_RANDOM_NO     8'h24  // reg_9  - Random Number
 `define GLBL_CFG_PAD_STRAP     8'h30  // Strap as seen in Pad
 `define GLBL_CFG_STRAP_STICKY  8'h34  // Sticky Strap used in next soft boot
 `define GLBL_CFG_SYSTEM_STRAP  8'h38  // Current System Strap
@@ -166,3 +169,22 @@
 `define UART_RDATA        8'h18  // Reg-6
 `define UART_TFIFO_STAT   8'h1C  // Reg-7
 `define UART_RFIFO_STAT   8'h20  // Reg-8
+
+//--------------------------------------------------------
+// RTC Register Map
+//--------------------------------------------------------
+`define  RTC_CMD          8'h0
+`define  RTC_TIME         8'h4
+`define  RTC_DATE         8'h8
+`define  RTC_ALRM1        8'hC
+`define  RTC_ALRM2        8'h10
+`define  RTC_CTRL         8'h14
+
+//--------------------------------------------------------
+// IR RECEIVER Register Map
+//--------------------------------------------------------
+`define IR_CFG_CMD          8'h00 
+`define IR_CFG_MULTIPLIER   8'h04 
+`define IR_CFG_DIVIDER      8'h08 
+`define IR_CFG_RX_DATA      8'h0C 
+`define IR_CFG_TX_DATA      8'h10 

@@ -76,6 +76,11 @@ set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(DESIGN_DIR)/../../verilog/gl/dg_pll.v \
 	$::env(DESIGN_DIR)/../../verilog/gl/dac_top.v \
 	$::env(PDK_ROOT)/$::env(PDK)/libs.ref/sky130_sram_macros/verilog/sky130_sram_2kbyte_1rw1r_32x512_8.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/bus_rep_south.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/bus_rep_north.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/bus_rep_east.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/bus_rep_west.v \
+        $::env(DESIGN_DIR)/../../verilog/gl/peri_top.v \
 	"
 
 set ::env(EXTRA_LEFS) "\
@@ -90,6 +95,11 @@ set ::env(EXTRA_LEFS) "\
 	$lef_root/dg_pll.lef \
 	$::env(PDK_ROOT)/$::env(PDK)/libs.ref/sky130_sram_macros/lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef \
 	$lef_root/dac_top.lef \
+	$lef_root/bus_rep_south.lef \
+	$lef_root/bus_rep_north.lef \
+	$lef_root/bus_rep_east.lef \
+	$lef_root/bus_rep_west.lef \
+	$lef_root/peri_top.lef \
 	"
 
 set ::env(EXTRA_GDS_FILES) "\
@@ -104,6 +114,11 @@ set ::env(EXTRA_GDS_FILES) "\
 	$gds_root/dg_pll.gds \
 	$gds_root/dac_top.gds \
 	$::env(PDK_ROOT)/$::env(PDK)/libs.ref/sky130_sram_macros/gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds \
+	$gds_root/bus_rep_south.gds \
+	$gds_root/bus_rep_north.gds \
+	$gds_root/bus_rep_east.gds \
+	$gds_root/bus_rep_west.gds \
+	$gds_root/peri_top.gds \
 	"
 
 set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
@@ -115,6 +130,10 @@ set ::env(RT_MAX_LAYER) {met5}
 
 ## Internal Macros
 ### Macro PDN Connections
+set ::env(FP_PDN_CHECK_NODES) 1
+set ::env(FP_PDN_IRDROP) "1"
+set ::env(RUN_IRDROP_REPORT) "1"
+####################
 
 set ::env(FP_PDN_ENABLE_MACROS_GRID) {1}
 set ::env(FP_PDN_ENABLE_GLOBAL_CONNECTIONS) "0"
@@ -127,8 +146,8 @@ set ::env(FP_PDN_VOFFSET) "5"
 set ::env(FP_PDN_VPITCH) "80"
 set ::env(FP_PDN_HOFFSET) "5"
 set ::env(FP_PDN_HPITCH) "80"
-set ::env(FP_PDN_HWIDTH) {6.2}
-set ::env(FP_PDN_VWIDTH) {6.2}
+set ::env(FP_PDN_HWIDTH) {5.2}
+set ::env(FP_PDN_VWIDTH) {5.2}
 set ::env(FP_PDN_HSPACING) {13.8}
 set ::env(FP_PDN_VSPACING) {13.8}
 
@@ -169,13 +188,18 @@ set ::env(FP_PDN_MACRO_HOOKS) " \
 	u_dcache_2kb                vccd1 vssd1 vccd1 vssd1,\
 	u_uart_i2c_usb_spi          vccd1 vssd1 vccd1 vssd1,\
 	u_wb_host                   vccd1 vssd1 vccd1 vssd1,\
-	u_riscv_top.i_core_top_0    vccd1 vssd1 vccd1 vssd1, \
-	u_riscv_top.i_core_top_1    vccd1 vssd1 vccd1 vssd1, \
-	u_riscv_top.i_core_top_2    vccd1 vssd1 vccd1 vssd1, \
-	u_riscv_top.i_core_top_3    vccd1 vssd1 vccd1 vssd1, \
+	u_riscv_top.i_core_top_0    vccd1 vssd1 vccd1 vssd1,\
+	u_riscv_top.i_core_top_1    vccd1 vssd1 vccd1 vssd1,\
+	u_riscv_top.i_core_top_2    vccd1 vssd1 vccd1 vssd1,\
+	u_riscv_top.i_core_top_3    vccd1 vssd1 vccd1 vssd1,\
 	u_riscv_top.u_connect       vccd1 vssd1 VPWR  VGND, \
-	u_riscv_top.u_intf          vccd1 vssd1 vccd1 vssd1, \
-	u_4x8bit_dac                vdda1 vssa1 vccd1 vssd1
+	u_riscv_top.u_intf          vccd1 vssd1 vccd1 vssd1,\
+	u_4x8bit_dac                vdda1 vssa1 vccd1 vssd1,\
+	u_rp_south                  vccd1 vssd1 vccd1 vssd1,\
+	u_rp_north                  vccd1 vssd1 vccd1 vssd1,\
+	u_rp_east                   vccd1 vssd1 vccd1 vssd1,\
+	u_rp_west                   vccd1 vssd1 vccd1 vssd1,\
+	u_peri                      vccd1 vssd1 vccd1 vssd1
       	"
 
 
@@ -197,4 +221,6 @@ set ::env(QUIT_ON_NEGATIVE_WNS) "0"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 
+## Temp Masked due to long Run Time
+set ::env(RUN_KLAYOUT_XOR) {0}
 
