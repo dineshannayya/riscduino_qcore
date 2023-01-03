@@ -1,6 +1,6 @@
 
     set ::env(USER_ROOT)    ".."
-    set ::env(CARAVEL_ROOT) "/home/dinesha/workarea/efabless/MPW-6/caravel"
+    set ::env(CARAVEL_ROOT) "/home/dinesha/workarea/efabless/MPW-7/caravel"
     set ::env(CARAVEL_PDK_ROOT)     "/opt/pdk_mpw6"
 
     read_liberty $::env(CARAVEL_PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib	
@@ -48,9 +48,12 @@
 	#set tregs [llength [all_registers]]
 	#puts "ycr_iconnect :: $tcell :: $tregs "
     lassign [get_statistic ycr4_iconnect] a b c
+    #Consolidated Count
     set c_total_cnt [expr {$c_total_cnt + $a }]
     set c_comb_cnt  [expr {$c_comb_cnt + $b }]
     set c_seq_cnt   [expr {$c_seq_cnt + $c }]
+
+    #Riscv Count
     set r_total_cnt [expr {$r_total_cnt + $a }]
     set r_comb_cnt  [expr {$r_comb_cnt + $b }]
     set r_seq_cnt   [expr {$r_seq_cnt + $c }]
@@ -61,9 +64,15 @@
 	#set tregs [llength [all_registers]]
 	#puts "ycr_intf :: $tcell :: $tregs "
     lassign [get_statistic ycr_intf] a b c
+    #Consolidated Count
     set c_total_cnt [expr {$c_total_cnt + $a }]
     set c_comb_cnt  [expr {$c_comb_cnt + $b }]
     set c_seq_cnt   [expr {$c_seq_cnt + $c }]
+
+    #Riscv Count
+    set r_total_cnt [expr {$r_total_cnt + $a }]
+    set r_comb_cnt  [expr {$r_comb_cnt + $b }]
+    set r_seq_cnt   [expr {$r_seq_cnt + $c }]
 
     read_verilog $::env(USER_ROOT)/verilog/gl/ycr_core_top.v
 	link_design ycr_core_top
@@ -71,13 +80,14 @@
 	#set tregs [llength [all_registers]]
 	#puts "ycr_intf :: $tcell :: $tregs "
     lassign [get_statistic ycr_core_top] a b c
-    #2 core in riscduino_dcore
+    #4 core in riscduino_qcore
     set c_total_cnt [expr {$c_total_cnt + ($a *4) }]
     set c_comb_cnt  [expr {$c_comb_cnt +  ($b *4) }]
     set c_seq_cnt   [expr {$c_seq_cnt +   ($c *4) }]
+
     set r_total_cnt [expr {$r_total_cnt + ($a *4) }]
     set r_comb_cnt  [expr {$r_comb_cnt +  ($b *4) }]
-    set r_seq_cnt   [expr {$r_seq_cnt +   ($c *2) }]
+    set r_seq_cnt   [expr {$r_seq_cnt +   ($c *4) }]
     puts "RISC :: $r_total_cnt ::  $r_comb_cnt ::  $r_seq_cnt"
     
     read_verilog $::env(USER_ROOT)/verilog/gl/uart_i2c_usb_spi_top.v
@@ -110,12 +120,62 @@
     set c_comb_cnt  [expr {$c_comb_cnt + $b }]
     set c_seq_cnt   [expr {$c_seq_cnt + $c }]
     
-    read_verilog $::env(USER_ROOT)/verilog/gl/pinmux.v
-	link_design pinmux
+    read_verilog $::env(USER_ROOT)/verilog/gl/pinmux_top.v
+	link_design pinmux_top
 	#set tcell [llength [get_cell -hier *]]
 	#set tregs [llength [all_registers]]
-	#puts "ycr_intf :: $tcell :: $tregs "
+	#puts "pinmux_top :: $tcell :: $tregs "
     lassign [get_statistic pinmux] a b c
+    set c_total_cnt [expr {$c_total_cnt + $a }]
+    set c_comb_cnt  [expr {$c_comb_cnt + $b }]
+    set c_seq_cnt   [expr {$c_seq_cnt + $c }]
+
+    read_verilog $::env(USER_ROOT)/verilog/gl/peri_top.v
+	link_design peri_top
+	#set tcell [llength [get_cell -hier *]]
+	#set tregs [llength [all_registers]]
+	#puts "peri_top :: $tcell :: $tregs "
+    lassign [get_statistic peri_top] a b c
+    set c_total_cnt [expr {$c_total_cnt + $a }]
+    set c_comb_cnt  [expr {$c_comb_cnt + $b }]
+    set c_seq_cnt   [expr {$c_seq_cnt + $c }]
+
+    read_verilog $::env(USER_ROOT)/verilog/gl/bus_rep_north.v
+	link_design bus_rep_north
+	#set tcell [llength [get_cell -hier *]]
+	#set tregs [llength [all_registers]]
+	#puts "bus_rep_east :: $tcell :: $tregs "
+    lassign [get_statistic bus_rep_north] a b c
+    set c_total_cnt [expr {$c_total_cnt + $a }]
+    set c_comb_cnt  [expr {$c_comb_cnt + $b }]
+    set c_seq_cnt   [expr {$c_seq_cnt + $c }]
+
+    read_verilog $::env(USER_ROOT)/verilog/gl/bus_rep_south.v
+	link_design bus_rep_south
+	#set tcell [llength [get_cell -hier *]]
+	#set tregs [llength [all_registers]]
+	#puts "bus_rep_south :: $tcell :: $tregs "
+    lassign [get_statistic bus_rep_south] a b c
+    set c_total_cnt [expr {$c_total_cnt + $a }]
+    set c_comb_cnt  [expr {$c_comb_cnt + $b }]
+    set c_seq_cnt   [expr {$c_seq_cnt + $c }]
+
+    read_verilog $::env(USER_ROOT)/verilog/gl/bus_rep_east.v
+	link_design bus_rep_east
+	#set tcell [llength [get_cell -hier *]]
+	#set tregs [llength [all_registers]]
+	#puts "bus_rep_east :: $tcell :: $tregs "
+    lassign [get_statistic bus_rep_east] a b c
+    set c_total_cnt [expr {$c_total_cnt + $a }]
+    set c_comb_cnt  [expr {$c_comb_cnt + $b }]
+    set c_seq_cnt   [expr {$c_seq_cnt + $c }]
+
+    read_verilog $::env(USER_ROOT)/verilog/gl/bus_rep_west.v
+	link_design bus_rep_west
+	#set tcell [llength [get_cell -hier *]]
+	#set tregs [llength [all_registers]]
+	#puts "bus_rep_west :: $tcell :: $tregs "
+    lassign [get_statistic bus_rep_west] a b c
     set c_total_cnt [expr {$c_total_cnt + $a }]
     set c_comb_cnt  [expr {$c_comb_cnt + $b }]
     set c_seq_cnt   [expr {$c_seq_cnt + $c }]
