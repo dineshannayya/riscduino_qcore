@@ -72,6 +72,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     * 3 x Timer (16 Bit), 1us/1ms/1second resolution
     * 2 x ws281x driver
     * 16 Hardware Semaphore
+    * RTC Core
     * Pin Compatbible to arduino uno
     * Wishbone compatible design
     * Written in System Verilog
@@ -104,6 +105,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Project Details</td>
     <td  align="center"> Github</td>
     <td  align="center"> Efabless</td>
+    <td  align="center"> Tapeout Link</td>
   </tr>
   <tr>
     <td  align="center"> MPW-2 </td> 
@@ -112,6 +114,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Single 32bit RISCV core without cache + SDRAM Controller + WB Interconnect</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/yifive">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/152">Link</a></td>
+    <td  align="center"> <a https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-002/slot-007">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-3 </td> 
@@ -120,6 +123,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Single 32bit RISCV core without cache + Onchip SRAM + WB Interconnect</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/385">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-003/slot-013">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-4 </td> 
@@ -128,14 +132,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM + WB Inter Connect</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/575">Link</a></td>
-  </tr>
-  <tr>
-    <td  align="center"> MPW-5 </td> 
-    <td  align="center"> 21-Mar-2022  </td>
-    <td  align="center"> Riscduino-SCORE (S0)</td>
-    <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
-    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
-    <td  align="center"> <a href="https://platform.efabless.com/projects/670">Link</a></td>
+    <td  align="center"> <a https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-004/slot-014">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
@@ -144,6 +141,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Dual 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/718">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-005/slot-013">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-5 </td> 
@@ -152,6 +150,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Quad 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/782">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-005/slot-014">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-6 </td> 
@@ -160,6 +159,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/1047">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-006/slot-006">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-6 </td> 
@@ -168,6 +168,7 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Dual 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/838">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-006/slot-004">Link</a></td>
   </tr>
   <tr>
     <td  align="center"> MPW-6 </td> 
@@ -176,6 +177,34 @@ Riscduino is a Quad 32 bit RISC V based SOC design pin compatible to arduino pla
     <td  align="center"> Quad 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
     <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Link</a></td>
     <td  align="center"> <a href="https://platform.efabless.com/projects/839">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-006/slot-005">Link</a></td>
+  </tr>
+  <tr>
+    <td  align="center"> MPW-7 </td> 
+    <td  align="center"> 12-Sept-2022  </td>
+    <td  align="center"> Riscduino-SCORE (S4)</td>
+    <td  align="center"> Single 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/1166">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-007/slot-008">Link</a></td>
+  </tr>
+  <tr>
+    <td  align="center"> MPW-7 </td> 
+    <td  align="center"> 12-Sept-2022  </td>
+    <td  align="center"> Riscduino-DCORE (D3)</td>
+    <td  align="center"> Dual 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_dcore">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/1167">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-007/slot-006">Link</a></td>
+  </tr>
+  <tr>
+    <td  align="center"> MPW-7 </td> 
+    <td  align="center"> 12-Sept-2022 </td>
+    <td  align="center"> Riscduino-QCORE (Q1)</td>
+    <td  align="center"> Quad 32bit RISCV core with cache + Onchip SRAM+ WB Cross Bar</td>
+    <td  align="center"> <a href="https://github.com/dineshannayya/riscduino_qcore">Link</a></td>
+    <td  align="center"> <a href="https://platform.efabless.com/projects/1168">Link</a></td>
+    <td  align="center"> <a href="https://foss-eda-tools.googlesource.com/third_party/shuttle/sky130/mpw-007/slot-007">Link</a></td>
   </tr>
 </table>
 
@@ -410,16 +439,16 @@ Following Design changes are done on the basic version of syntacore RISC core
     - flow automatically pull the required docker based on MPW version.
     - RTL to gds docker is hardcoded inside File: openlane/Makefile
 ```bash
-     OPENLANE_TAG = mpw6
+     OPENLANE_TAG = mpw7
      OPENLANE_IMAGE_NAME = riscduino/openlane:$(OPENLANE_TAG)
 ```
 ## Note-1.1: View the RTL to GDS Docker content
-    - for MPW-6 caravel pdk and openlane avaible inside riscduino/openlane:mpw6 docker 
+    - for MPW-7 caravel pdk and openlane avaible inside riscduino/openlane:mpw7 docker 
     - caravel, openlane and pdk envionment are automatically pointed to internal docker pointer
     - To view the docker contents
 ```bash
-    docker run -ti --rm riscduino/openlane:mpw6  bash
-    cd /opt/pdk_mpw6     -  pdk folder
+    docker run -ti --rm riscduino/openlane:mpw7  bash
+    cd /opt/pdk_mpw7     -  pdk folder
     cd /opt/caravel      -  caravel folder 
     cd /openlane         -  openlane folder
     env   - Show the internally defined env's
@@ -436,12 +465,12 @@ Following Design changes are done on the basic version of syntacore RISC core
 	    docker pull riscduino/dv_setup:mpw6
 
 ## Note-2.1: View the RTL Simulation Docker content
-    - for MPW-6 caravel and pdk avaible inside riscduino/dv_setup:mpw6 docker this is used for RTL to gds flows
+    - for MPW-7 caravel and pdk avaible inside riscduino/dv_setup:mpw7 docker this is used for RTL to gds flows
     - caravel and pdk envionment are automatically pointed to internal docker pointer
     - To view the docker contents
 ```bash
-    docker run -ti --rm riscduino/dv_setup:mpw6  bash
-    cd /opt/pdk_mpw6     -  pdk folder
+    docker run -ti --rm riscduino/dv_setup:mpw7  bash
+    cd /opt/pdk_mpw7     -  pdk folder
     cd /opt/caravel      -  caravel folder 
     env   - Show the internally defined env's
         CARAVEL_ROOT=/opt/caravel
@@ -453,30 +482,40 @@ Following Design changes are done on the basic version of syntacore RISC core
 The simulation package includes the following tests:
 
 ## Standalone Riscduino SOC Specific Test case 
-* **1.user_basic**          - Basic test case to validate strap and clocks
-* **2.user_uart**           - Standalone Risc with UART-0 Test
-* **3.user_uart1**          - Standalone Risc with UART-1 Test
-* **4.user_risc_boot**      - Standalone User Risc core boot
-* **4.risc_boot**           - Complete caravel User Risc core boot 
-* **5.user_qspi**           - Standalone Quad SPI test
-* **6.user_sspi**           - Standalone SSPI test
-* **7.user_i2c**            - Standalone I2C test
-* **8.user_usb**            - Standalone USB Host test
-* **9.user_gpio**           - Standalone GPIO Test
-* **10.user_aes**           - AES computation through Riscv core
-* **11.user_spi_isp**       - Device boot with SPI as ISP
-* **12.user_timer**         - Standalone timer Test
-* **13.user_uart_master**   - Standalone uart master test
-* **14.user_sram_exec**     - Riscv Boot with code running in SRAM
-* **15.user_cache_bypass**  - Riscv Boot without icache and dcache
-* **16.user_pwm**            -Standalone pwm Test
-* **17.user_sema**           -Standalone validation of hardware Semaphore function
-* **18.riscv_regress**       - Standalone riscv compliance and regression test suite
+* **1.user_basic**             - Basic test case to validate strap and clocks
+* **2.user_uart**              - Standalone Risc with UART-0 Test
+* **3.user_uart1**             - Standalone Risc with UART-1 Test
+* **4.user_risc_boot**         - Standalone User Risc core boot
+* **4.risc_boot**              - Complete caravel User Risc core boot 
+* **5.user_qspi**              - Standalone Quad SPI test
+* **6.user_sspi**              - Standalone SSPI test
+* **7.user_i2c**               - Standalone I2C test
+* **8.user_usb**               - Standalone USB Host test
+* **9.user_gpio**              - Standalone GPIO Test
+* **10.user_aes**              - AES computation through Riscv core
+* **11.user_spi_isp**          - Device boot with SPI as ISP
+* **12.user_timer**            - Standalone timer Test
+* **13.user_uart_master**      - Standalone uart master test
+* **14.user_sram_exec**        - Riscv Boot with code running in SRAM
+* **15.user_cache_bypass**     - Riscv Boot without icache and dcache
+* **16.user_pwm**               -Standalone pwm Test
+* **17.user_sema**              -Standalone validation of hardware Semaphore function
+* **18.riscv_regress**          -Standalone riscv compliance and regression test suite
+* **19.user_rtc**               -Standalone RTC core test
+* **20.user_aes_core**          -Standalone AES Core test
+* **21.user_fpu_core**          -Standalone FPU(SP) Core test
+* **22.user_rtc**               -Standalone RTC core test
+* **24.user_ir_tx**             -Standalone IR Transmitted Test
+* **25.user_ir_rx**             -Standalone IR Receiver Test
+* **26.user_random**            - User Random core test
+* **27.step_motor_controller**  - Standalone Stepper Motor Controller
 
 ## Caravel+RISCDUINO Integrated Specific Test case 
 * **1.wb_port**             - Complete caravel User Wishbone validation
-* **2.uart_master**         - complete caravel user uart master test
-* **3.risc_boot**           - Complete caravel User Risc core boot 
+* **2.uart_master_test1**   - complete caravel user uart master test with baud control from LA port
+* **3.uart_master_test2**   - complete caravel user uart master test based on auto baud detection
+* **4.risc_boot**           - Complete caravel User Risc core boot 
+* **5.caravel_hkspi**       - Caravel House Keeping SPI test case
 
 ## Arduino Based Test Case
 * **1.arduino_arrays**                - Validation of Array function
@@ -676,7 +715,7 @@ Riscduino Soc flow uses Openlane tool sets.
 We are looking for community help in following activity, interested user can ping me in efabless slack platform
 
 *  **Analog Design**           - ADC, DAC, PLL,
-*  **Digital Design**          - New IP Integration, Encription,DSP, Floating point functions
+*  **Digital Design**          - New IP Integration, Encription,DSP, DMA controller, 10Mb MAC, Floating point functions
 *  **Verification**            - Improving the Verification flow
 *  **Linux Porting**           - Build Root integration
 *  **Arudino Software Update** - Tool Customisation for Riscduino, Adding additional plug-in and Riscv compilation support
@@ -686,13 +725,18 @@ We are looking for community help in following activity, interested user can pin
 
 # Contacts
 
-Report an issue: <https://github.com/dineshannayya/riscduino_qcore/issues>
+Report an issue: <https://github.com/dineshannayya/riscduino/issues>
+Group Email: <https://groups.google.com/g/riscduino>
 
 # Documentation
-* **Syntacore Link** - https://github.com/syntacore/scr1
+* **Syntacore**      - https://github.com/syntacore/scr1
+* **IR-Receiver**   - https://github.com/JulienOury/ChristmasTreeController/
+* **Random Number** - https://github.com/JulienOury/ChristmasTreeController/
+* **Stepper Motor** - https://github.com/JulienOury/ChristmasTreeController/
 
 News on Riscduino
 ===============
 * **Riscduino Aim** - https://www.youtube.com/watch?v=lFVnicPhTI0
+* **Riscduino OpenRoad Article** - https://theopenroadproject.org/implementation-of-riscduino-core-using-a-hierarchical-design-flow/
 
 
